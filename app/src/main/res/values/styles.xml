@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="Headline_App_name">
+
+    </style>
+
+    <style name="myFontStyle">
         <item name="android:includeFontPadding">false</item>
         <item name="android:lineSpacingExtra">0dp</item>
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="myFontStyle.Headline">
         <item name="android:layout_marginTop">-1dp</item>
+        <item name="android:fontFamily">@font/avenir_roman</item>
+    </style>
+
+    <style name="myFontStyle.Regular">
+        <item name="android:fontFamily">@font/avenir_book</item>
     </style>
 
     <style name="ownButton" parent="Widget.Material3.Button">
@@ -20,11 +33,12 @@
         <item name="backgroundTint">@color/button_color</item>
         <item name="strokeColor">@color/button_stroke</item>
         <item name="strokeWidth">1dp</item>
-
         <item name="android:textColor">@color/white</item>
         <item name="rippleColor">@color/button_discord_ripple</item>
-
+        <item name="android:fontFamily">@font/avenir_book</item>
     </style>
+
+
 
     <dimen name="padding_8">8dp</dimen>
 </resources>

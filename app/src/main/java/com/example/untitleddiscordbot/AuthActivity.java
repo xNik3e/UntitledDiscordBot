@@ -5,14 +5,25 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewbinding.ViewBinding;
 
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.renderscript.ScriptGroup;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.example.untitleddiscordbot.Utils.AuthUtil;
 import com.example.untitleddiscordbot.databinding.CustomCarouselLayoutBinding;
+import com.google.android.material.button.MaterialButton;
+
+import net.openid.appauth.AuthState;
+import net.openid.appauth.AuthorizationRequest;
+import net.openid.appauth.AuthorizationService;
+import net.openid.appauth.ResponseTypeValues;
 
 import org.imaginativeworld.whynotimagecarousel.ImageCarousel;
 import org.imaginativeworld.whynotimagecarousel.listener.CarouselListener;
@@ -21,9 +32,11 @@ import org.imaginativeworld.whynotimagecarousel.model.CarouselItem;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.relex.circleindicator.CircleIndicator2;
+
 
 public class AuthActivity extends AppCompatActivity {
+
+    private MaterialButton loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +48,7 @@ public class AuthActivity extends AppCompatActivity {
 
 
         ImageCarousel imageCarousel = findViewById(R.id.carousel);
+        loginButton = findViewById(R.id.login_button);
         imageCarousel.registerLifecycle(getLifecycle());
 
         List<CarouselItem> dataList = new ArrayList<>();
@@ -78,5 +92,27 @@ public class AuthActivity extends AppCompatActivity {
         });
 
         imageCarousel.start();
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AuthorizationService authService = new AuthorizationService(AuthActivity.this);
+
+                //Create pending intent with additional flag
+                PendingIntent pendingIntentComplete = PendingIntent.getActivity(
+                        AuthActivity.this,
+                        0,
+                        new Intent(AuthActivity.this, MainActivity.class),
+                        0
+                );
+
+                authService.performAuthorizationRequest(
+                        AuthUtil.getAuthRequest(),
+                        pendingIntentComplete
+                );
+
+            }
+        });
+
     }
 }

@@ -56,11 +56,11 @@
                 android:id="@+id/featureName"
 
                 android:layout_marginTop="@dimen/dp_8"
-                style="@style/Headline_App_name"
+                style="@style/myFontStyle.Headline"
                 />
 
             <TextView
-                style="@style/Headline_App_name"
+                style="@style/myFontStyle.Regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/view1"
