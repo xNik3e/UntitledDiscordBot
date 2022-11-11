@@ -105,12 +105,16 @@ public class AuthUtil {
         return model;
     }
 
-    public static AuthState readAuthState(@NonNull Context context) throws JSONException {
+    public static AuthState readAuthState(@NonNull Context context) {
         SharedPreferences authPrefs = context.getSharedPreferences("auth", MODE_PRIVATE);
         String stateJson = authPrefs.getString("stateJson", null);
         if (stateJson != null) {
-            authState = AuthState.jsonDeserialize(stateJson);
-            return authState;
+            try{
+                authState = AuthState.jsonDeserialize(stateJson);
+                return authState;
+            }catch(JSONException e){
+                return null;
+            }
         } else {
             return null;
         }
