@@ -10,12 +10,13 @@ import android.renderscript.ScriptGroup;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.example.untitleddiscordbot.databinding.ItemCustomFixedSizeLayout4Binding;
+import com.example.untitleddiscordbot.databinding.CustomCarouselLayoutBinding;
 
 import org.imaginativeworld.whynotimagecarousel.ImageCarousel;
 import org.imaginativeworld.whynotimagecarousel.listener.CarouselListener;
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.relex.circleindicator.CircleIndicator2;
@@ -37,16 +38,32 @@ public class AuthActivity extends AppCompatActivity {
         indicator = findViewById(R.id.indicator);
         imageCarousel.setIndicator(indicator);
 
+        List<CarouselItem> dataList = new ArrayList<>();
+        dataList.add(new CarouselItem(
+                R.drawable.pawel
+        ));
+        dataList.add(new CarouselItem(
+                R.drawable.pawel
+        ));
+        dataList.add(new CarouselItem(
+                R.drawable.pawel
+        ));
+        dataList.add(new CarouselItem(
+                R.drawable.pawel
+        ));
+
+        imageCarousel.setData(dataList);
+
         imageCarousel.setCarouselListener(new CarouselListener() {
             @Nullable
             @Override
             public ViewBinding onCreateViewHolder(@NonNull LayoutInflater layoutInflater, @NonNull ViewGroup viewGroup) {
-                return ItemCustomFixedSizeLayout4Binding.inflate(layoutInflater, viewGroup, false);
+                return CustomCarouselLayoutBinding.inflate(layoutInflater, viewGroup, false);
             }
 
             @Override
             public void onBindViewHolder(@NonNull ViewBinding viewBinding, @NonNull CarouselItem carouselItem, int i) {
-                ItemCustomFixedSizeLayout4Binding binding = (ItemCustomFixedSizeLayout4Binding) viewBinding;
+                CustomCarouselLayoutBinding binding = (CustomCarouselLayoutBinding) viewBinding;
 
             }
 
@@ -60,5 +77,7 @@ public class AuthActivity extends AppCompatActivity {
 
             }
         });
+
+        imageCarousel.start();
     }
 }

@@ -39,6 +39,8 @@
         app:autoPlay="true"
         app:autoPlayDelay="10000"
         app:captionMargin="0dp"
+        app:showCaption="false"
+
 
         app:carouselType="SHOWCASE"
         app:layout_constraintBottom_toTopOf="@id/hg80"
