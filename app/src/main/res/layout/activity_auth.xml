@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_background_gradient"
+    tools:context=".AuthActivity">
+
+    <LinearLayout
+        android:id="@+id/title_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintStart_toEndOf="@id/vg05"
+        app:layout_constraintTop_toBottomOf="@id/hg05">
+
+        <TextView
+            style="@style/myFontStyle.Headline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_title"
+            android:textSize="@dimen/text_headline" />
+
+        <TextView
+            style="@style/myFontStyle.Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_extended_title"
+            android:textSize="@dimen/text_huge" />
+
+    </LinearLayout>
+
+
+    <org.imaginativeworld.whynotimagecarousel.ImageCarousel
+        android:id="@+id/carousel"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:autoPlay="true"
+        app:autoPlayDelay="10000"
+        app:captionMargin="0dp"
+        app:showCaption="false"
+
+
+        app:carouselType="SHOWCASE"
+        app:layout_constraintBottom_toTopOf="@id/login_button"
+        app:layout_constraintStart_toEndOf="@id/vg05"
+        app:layout_constraintEnd_toStartOf="@id/vg95"
+        app:layout_constraintTop_toBottomOf="@id/hg30"
+        android:layout_marginBottom="@dimen/dp_16"
+        app:scaleOnScroll="true"
+        app:showBottomShadow="false"
+        app:showIndicator="true"
+        app:showNavigationButtons="false"
+        app:showTopShadow="false"
+
+        />
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/buttonLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login_with_discord"
+        android:textAllCaps="false"
+        android:id="@+id/login_button"
+        android:textSize="@dimen/text_size_18_sp"
+        app:layout_constraintBottom_toTopOf="@id/hg95"
+        app:layout_constraintEnd_toStartOf="@id/vg95"
+        app:layout_constraintStart_toEndOf="@id/vg05" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/vg05"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/vg95"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/hg95"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.95" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/hg30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/hg80"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.85" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/hg05"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
