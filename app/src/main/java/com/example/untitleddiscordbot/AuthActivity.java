@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.renderscript.ScriptGroup;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.example.untitleddiscordbot.databinding.CustomCarouselLayoutBinding;
 
@@ -23,20 +25,17 @@ import me.relex.circleindicator.CircleIndicator2;
 
 public class AuthActivity extends AppCompatActivity {
 
-    private ImageCarousel imageCarousel;
-    private CircleIndicator2 indicator;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_auth);
 
-        imageCarousel = findViewById(R.id.carousel);
-        imageCarousel.registerLifecycle(getLifecycle());
 
-        indicator = findViewById(R.id.indicator);
-        imageCarousel.setIndicator(indicator);
+        ImageCarousel imageCarousel = findViewById(R.id.carousel);
+        imageCarousel.registerLifecycle(getLifecycle());
 
         List<CarouselItem> dataList = new ArrayList<>();
         dataList.add(new CarouselItem(

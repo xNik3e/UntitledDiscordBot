@@ -10,8 +10,9 @@
         android:layout_height="match_parent"
         android:elevation="@dimen/padding_8"
         app:cardBackgroundColor="@android:color/transparent"
-        android:layout_margin="8dp"
+        android:layout_marginTop="@dimen/dp_8"
         app:strokeWidth="0dp"
+        app:cardElevation="0dp"
         app:cardCornerRadius="8dp">
 
         <RelativeLayout
@@ -30,7 +31,7 @@
             <View
                 android:id="@+id/view1"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="190dp"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="0dp"
                 android:background="@drawable/gradient_top_bottom" />
@@ -53,7 +54,7 @@
                 android:textSize="@dimen/text_huge"
                 android:layout_marginEnd="@dimen/dp_16"
                 android:id="@+id/featureName"
-                android:layout_marginStart="@dimen/dp_16"
+
                 android:layout_marginTop="@dimen/dp_8"
                 style="@style/Headline_App_name"
                 />

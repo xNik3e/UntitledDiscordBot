@@ -10,4 +10,5 @@
     <dimen name="corner_radius_button_12">@dimen/dp_12</dimen>
     <dimen name="dp_8">8dp</dimen>
     <dimen name="dp_16">16dp</dimen>
+    <dimen name="text_size_18_sp">18sp</dimen>
 </resources>
