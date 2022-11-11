@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">UntitledDiscordBot</string>
+    <string name="app_title">UDB</string>
+    <string name="app_extended_title">Untitled Discord Bot</string>
 </resources>

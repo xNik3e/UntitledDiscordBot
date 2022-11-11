@@ -39,4 +39,12 @@ dependencies {
 
     //Lottie Gradle import
     implementation 'com.airbnb.android:lottie:5.2.0'
+
+    //AppAuth
+    implementation 'net.openid:appauth:0.11.1'
+    
+    // Circle Indicator (To fix the xml preview "Missing classes" error)
+    implementation 'me.relex:circleindicator:2.1.6'
+    //Carousel view
+    implementation 'org.imaginativeworld.whynotimagecarousel:whynotimagecarousel:2.1.0'
 }
