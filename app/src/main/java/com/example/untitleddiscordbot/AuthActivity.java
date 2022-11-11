@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.example.untitleddiscordbot.Models.AuthResponseModel;
 import com.example.untitleddiscordbot.Utils.AuthUtil;
 import com.example.untitleddiscordbot.databinding.CustomCarouselLayoutBinding;
 import com.google.android.material.button.MaterialButton;
@@ -127,9 +128,10 @@ public class AuthActivity extends AppCompatActivity {
                     new AuthorizationService.TokenResponseCallback() {
                         @Override
                         public void onTokenRequestCompleted(@Nullable TokenResponse response, @Nullable AuthorizationException ex) {
-                            System.out.println("RESPONSE DATA");
-                            System.out.println(response.jsonSerialize().toString());
                             AuthUtil.setAuthResponse(response, ex);
+                            AuthUtil.writeAuthState(AuthActivity.this);
+                            startActivity(new Intent(AuthActivity.this, MainActivity.class));
+                            finish();
                         }
                     }
             );
