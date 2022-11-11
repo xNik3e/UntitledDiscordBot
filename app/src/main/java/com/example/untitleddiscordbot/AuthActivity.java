@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.example.untitleddiscordbot.Models.AuthResponseModel;
 import com.example.untitleddiscordbot.Utils.AuthUtil;
@@ -119,22 +120,26 @@ public class AuthActivity extends AppCompatActivity {
         if(requestCode == RC_AUTH){
             AuthorizationResponse resp = AuthorizationResponse.fromIntent(data);
             AuthorizationException ex = AuthorizationException.fromIntent(data);
+            if(resp != null){
+                AuthUtil.setAuthResponse(resp, ex);
 
-            AuthUtil.setAuthResponse(resp, ex);
-
-            JSONObject json = resp.jsonSerialize();
-            authorizationService.performTokenRequest(
-                    resp.createTokenExchangeRequest(),
-                    new AuthorizationService.TokenResponseCallback() {
-                        @Override
-                        public void onTokenRequestCompleted(@Nullable TokenResponse response, @Nullable AuthorizationException ex) {
-                            AuthUtil.setAuthResponse(response, ex);
-                            AuthUtil.writeAuthState(AuthActivity.this);
-                            startActivity(new Intent(AuthActivity.this, MainActivity.class));
-                            finish();
+                JSONObject json = resp.jsonSerialize();
+                authorizationService.performTokenRequest(
+                        resp.createTokenExchangeRequest(),
+                        new AuthorizationService.TokenResponseCallback() {
+                            @Override
+                            public void onTokenRequestCompleted(@Nullable TokenResponse response, @Nullable AuthorizationException ex) {
+                                AuthUtil.setAuthResponse(response, ex);
+                                AuthUtil.writeAuthState(AuthActivity.this);
+                                startActivity(new Intent(AuthActivity.this, MainActivity.class));
+                                finish();
+                            }
                         }
-                    }
-            );
+                );
+            }else{
+                Toast.makeText(this, ex.errorDescription, Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
 }

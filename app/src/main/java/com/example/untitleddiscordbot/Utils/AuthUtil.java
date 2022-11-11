@@ -10,6 +10,7 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 
 import com.airbnb.lottie.animation.content.Content;
+import com.example.untitleddiscordbot.MainActivity;
 import com.example.untitleddiscordbot.Models.AuthResponseModel;
 
 import net.openid.appauth.AuthState;
@@ -99,8 +100,9 @@ public class AuthUtil {
             model.setExpiresAt(json.getLong("expires_at"));
             model.setScope(json.getString("scope"));
             model.setTokenType(json.getString("token_type"));
-        }catch(JSONException e){
+        }catch(Exception e){
             e.printStackTrace();
+            model = null;
         }
         return model;
     }
@@ -128,5 +130,11 @@ public class AuthUtil {
     }
 
 
-
+    public static void clearAuthState(Context context) {
+        SharedPreferences authPrefs = context.getSharedPreferences("auth", MODE_PRIVATE);
+        authPrefs.edit()
+                .remove("stateJson")
+                .apply();
+        authState = null;
+    }
 }

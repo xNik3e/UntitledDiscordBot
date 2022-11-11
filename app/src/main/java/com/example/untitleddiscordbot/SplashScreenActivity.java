@@ -20,7 +20,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         AuthState authState = AuthUtil.readAuthState(this);
         AuthResponseModel model = AuthUtil.createAuthResponseModel();
-        boolean hasExpired = model.getExpiresAt() < System.currentTimeMillis();
+        boolean hasExpired = model != null && model.getExpiresAt() < System.currentTimeMillis();
         if(authState == null || hasExpired){
             setContentView(R.layout.activity_splash_screen);
             final Handler handler = new Handler(Looper.getMainLooper());
