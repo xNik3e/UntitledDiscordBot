@@ -3,9 +3,12 @@ package com.example.untitleddiscordbot.Utils;
 import android.net.Uri;
 
 import net.openid.appauth.AuthState;
+import net.openid.appauth.AuthorizationException;
 import net.openid.appauth.AuthorizationRequest;
+import net.openid.appauth.AuthorizationResponse;
 import net.openid.appauth.AuthorizationServiceConfiguration;
 import net.openid.appauth.ResponseTypeValues;
+import net.openid.appauth.TokenResponse;
 
 public class AuthUtil {
     private static AuthorizationServiceConfiguration serviceConfig;
@@ -43,6 +46,16 @@ public class AuthUtil {
                     .build();
         }
         return authRequest;
+    }
+
+    public static void setAuthResponse(AuthorizationResponse res, AuthorizationException ex){
+        AuthState authState = getAuthState();
+        authState.update(res, ex);
+    }
+
+    public static void setAuthResponse(TokenResponse res, AuthorizationException ex){
+        AuthState authState = getAuthState();
+        authState.update(res, ex);
     }
 
 
