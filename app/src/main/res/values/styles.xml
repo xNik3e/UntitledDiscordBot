@@ -7,4 +7,24 @@
         <item name="android:layout_marginTop">-1dp</item>
     </style>
 
+    <style name="ownButton" parent="Widget.Material3.Button">
+        <item name="android:clickable">true</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:paddingLeft">@dimen/padding_24</item>
+        <item name="android:paddingTop">@dimen/padding_8</item>
+        <item name="android:paddingBottom">@dimen/padding_8</item>
+        <item name="android:paddingRight">@dimen/padding_24</item>
+    </style>
+
+    <style name="buttonLogin" parent="ownButton">
+        <item name="backgroundTint">@color/button_color</item>
+        <item name="strokeColor">@color/button_stroke</item>
+        <item name="strokeWidth">1dp</item>
+
+        <item name="android:textColor">@color/white</item>
+        <item name="rippleColor">@color/button_discord_ripple</item>
+
+    </style>
+
+    <dimen name="padding_8">8dp</dimen>
 </resources>

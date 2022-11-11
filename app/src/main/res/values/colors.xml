@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="surface_dark">#181A25</color>
     <color name="surface_bright_grey">#36393F</color>
+    <color name="discord_default">#7289DA</color>
+    <color name="discord_default_alpha">#807289DA</color>
 </resources>

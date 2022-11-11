@@ -14,6 +14,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        // place correct redirectScheme~
+        manifestPlaceholders = [appAuthRedirectScheme: 'com.example.untitleddiscordbot.comm']
     }
 
     buildTypes {
@@ -42,7 +44,8 @@ dependencies {
 
     //AppAuth
     implementation 'net.openid:appauth:0.11.1'
-    
+
+
     // Circle Indicator (To fix the xml preview "Missing classes" error)
     implementation 'me.relex:circleindicator:2.1.6'
     //Carousel view
