@@ -6,6 +6,10 @@ android {
     namespace 'com.example.untitleddiscordbot'
     compileSdk 32
 
+    viewBinding {
+        enabled true
+    }
+
     defaultConfig {
         applicationId "com.example.untitleddiscordbot"
         minSdk 25

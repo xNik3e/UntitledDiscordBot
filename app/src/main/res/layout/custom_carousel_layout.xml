@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="256dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="@dimen/padding_8"
+        app:cardBackgroundColor="@color/surface_dark"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="8dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="256dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="128dp"
+                android:layout_marginTop="@dimen/dp_16"
+                android:id="@+id/imageView"
+                tools:src="@drawable/pawel"
+                android:scaleType="centerCrop"
+                />
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="match_parent"
+                android:layout_height="128dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/gradient_top_bottom" />
+
+            <View
+                android:layout_width="match_parent"
+                android:id="@+id/view2"
+                android:layout_height="128dp"
+                android:layout_alignTop="@id/imageView"
+                android:background="@drawable/gradient_bottom_top"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Feature Name"
+                android:textAllCaps="true"
+                android:ellipsize="marquee"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:id="@+id/featureName"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_8"
+                style="@style/Headline_App_name"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/view1"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:textSize="@dimen/text_very_small"
+                tools:text="Lorem ipsum dolor sit amet, consecteturfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+                style="@style/Headline_App_name"
+                android:maxLines="8"
+                android:alpha="0.8"
+                android:layout_marginBottom="@dimen/dp_8"
+                android:ellipsize="marquee"
+                />
+
+
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

@@ -16,16 +16,16 @@
         app:layout_constraintTop_toBottomOf="@id/hg05">
 
         <TextView
+            style="@style/Headline_App_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/Headline_App_name"
             android:text="@string/app_title"
             android:textSize="@dimen/text_headline" />
 
         <TextView
+            style="@style/Headline_App_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/Headline_App_name"
             android:text="@string/app_extended_title"
             android:textSize="@dimen/text_huge" />
 
@@ -33,36 +33,43 @@
 
 
     <org.imaginativeworld.whynotimagecarousel.ImageCarousel
+        android:id="@+id/carousel"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/hg25"
-        app:layout_constraintBottom_toTopOf="@id/hg80"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-
-        app:showTopShadow="false"
-        app:showBottomShadow="false"
-        app:captionMargin="0dp"
         app:autoPlay="true"
         app:autoPlayDelay="10000"
-        app:showNavigationButtons="false"
-        app:showIndicator="true"
-        app:scaleOnScroll="true"
-        app:carouselType="SHOWCASE"
+        app:captionMargin="0dp"
 
-        android:id="@+id/carousel"
+        app:carouselType="SHOWCASE"
+        app:layout_constraintBottom_toTopOf="@id/hg80"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hg25"
+        app:scaleOnScroll="true"
+        app:showBottomShadow="false"
+        app:showIndicator="true"
+        app:showNavigationButtons="false"
+        app:showTopShadow="false"
 
         />
 
-    <com.google.android.material.button.MaterialButton
+    <me.relex.circleindicator.CircleIndicator2
+        android:id="@+id/indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/vg05"
-        app:layout_constraintEnd_toStartOf="@id/vg95"
-        app:layout_constraintBottom_toTopOf="@id/hg95"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/carousel" />
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/buttonLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/login_with_discord"
         android:textAllCaps="false"
-        style="@style/buttonLogin"/>
+        app:layout_constraintBottom_toTopOf="@id/hg95"
+        app:layout_constraintEnd_toStartOf="@id/vg95"
+        app:layout_constraintStart_toEndOf="@id/vg05" />
 
 
     <androidx.constraintlayout.widget.Guideline
