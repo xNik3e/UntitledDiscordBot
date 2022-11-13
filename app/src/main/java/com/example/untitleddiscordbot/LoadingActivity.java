@@ -85,4 +85,6 @@ public class LoadingActivity extends AppCompatActivity {
         isLoading = true;
         mainViewModel.fetchUserModel(userHash);
     }
+
+    //TODO ADD INTERNET CHECK
 }
