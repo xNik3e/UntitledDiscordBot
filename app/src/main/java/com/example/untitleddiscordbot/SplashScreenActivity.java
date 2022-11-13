@@ -17,7 +17,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        AuthUtil.clearAuthState(this);
         AuthState authState = AuthUtil.readAuthState(this);
         AuthResponseModel model = AuthUtil.createAuthResponseModel();
         boolean hasExpired = model != null && model.getExpiresAt() < System.currentTimeMillis();
