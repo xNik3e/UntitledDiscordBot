@@ -2,22 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/home"
+        android:id="@+id/homeFragment"
         android:icon="@drawable/ic_home"
         android:title="@string/home"
         app:exb_color="@color/active_color" />
     <item
-        android:id="@+id/setting"
+        android:id="@+id/settingsFragment"
         android:icon="@drawable/ic_settings"
         android:title="@string/settings"
         app:exb_color="@color/active_color" />
     <item
-        android:id="@+id/music"
+        android:id="@+id/musicFragment"
         android:icon="@drawable/ic_music"
         android:title="@string/music"
         app:exb_color="@color/active_color" />
     <item
-        android:id="@+id/commands"
+        android:id="@+id/commandsFragment"
         android:icon="@drawable/ic_commands"
         android:title="@string/commands"
         app:exb_color="@color/active_color" />

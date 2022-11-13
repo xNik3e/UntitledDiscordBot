@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/main_background_gradient"
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,6 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
+            android:layout_marginTop="5dp"
             android:background="@android:color/transparent"
             android:paddingStart="14dp"
             android:paddingEnd="14dp"
@@ -56,9 +58,9 @@
 
                 <FrameLayout
                     android:id="@+id/icon_server"
-                    android:visibility="gone"
                     android:layout_width="@dimen/control_image_size"
-                    android:layout_height="@dimen/control_image_size">
+                    android:layout_height="@dimen/control_image_size"
+                    android:visibility="gone">
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
@@ -97,12 +99,21 @@
 
                     </androidx.cardview.widget.CardView>
                 </FrameLayout>
-
-
             </LinearLayout>
 
         </com.google.android.material.appbar.MaterialToolbar>
 
+        <fragment
+            android:id="@+id/container"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:defaultNavHost="true"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:navGraph="@navigation/app_navigation_graph" />
 
         <TextView
             android:id="@+id/logoutButton"
@@ -115,18 +126,16 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <github.com.st235.lib_expandablebottombar.ExpandableBottomBar
+            android:id="@+id/bottom_navigation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:exb_backgroundCornerRadius="@dimen/control_icon_size"
-            app:exb_itemInactiveColor="@color/white"
-            app:exb_itemBackgroundOpacity="0.2"
-
             app:exb_backgroundColor="@color/surface_dark"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:exb_itemBackgroundOpacity="0.2"
+            app:exb_itemInactiveColor="@color/white"
             app:exb_items="@menu/bottom_menu"
-            />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
