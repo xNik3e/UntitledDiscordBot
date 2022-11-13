@@ -1,7 +1,9 @@
 package com.example.untitleddiscordbot.remote;
 
-import com.example.untitleddiscordbot.Models.UserGuildsModel.UserGuildModel;
+import com.example.untitleddiscordbot.Models.UserGuildsModel.UserGuildModelItem;
 import com.example.untitleddiscordbot.Models.UserModel.UserModel;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -13,6 +15,6 @@ public interface ApiService {
     Call<UserModel> getUser(@Header("Authorization") String auth);
 
     @GET("users/@me/guilds")
-    Call<UserGuildModel> getGuilds(@Header("Authorization") String auth);
+    Call<List<UserGuildModelItem>> getGuilds(@Header("Authorization") String auth);
 
 }
