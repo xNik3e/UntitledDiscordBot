@@ -12,4 +12,5 @@
     <color name="discord_default">#7289DA</color>
     <color name="discord_default_alpha">#807289DA</color>
     <color name="card_background">#A6323237</color>
+    <color name="active_color">#e53371</color>
 </resources>

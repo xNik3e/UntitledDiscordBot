@@ -1,19 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Logout!"
-        android:id="@+id/logoutButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="@android:color/transparent"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            app:contentInsetEnd="0dp"
+            app:contentInsetStart="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <FrameLayout
+                android:id="@+id/toolbar_icon_container"
+                android:layout_width="@dimen/control_image_size"
+                android:layout_height="@dimen/control_image_size"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/ic_menu"
+                    android:layout_width="@dimen/control_icon_size"
+                    android:layout_height="@dimen/control_icon_size"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_menu"
+                    app:tint="@color/white" />
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                style="@style/myFontStyle.Regular.FontPadding"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home"
+                android:textSize="@dimen/text_huge" />
+
+            <LinearLayout
+                android:id="@+id/toolbar_menu_items"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/control_image_size"
+                android:layout_gravity="end"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:id="@+id/icon_server"
+                    android:visibility="gone"
+                    android:layout_width="@dimen/control_image_size"
+                    android:layout_height="@dimen/control_image_size">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:cardCornerRadius="@dimen/control_icon_size">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            tools:src="@drawable/pawel" />
+
+                    </androidx.cardview.widget.CardView>
+                </FrameLayout>
+
+                <Space
+                    android:id="@+id/title_spacing"
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent" />
+
+                <FrameLayout
+                    android:id="@+id/icon_profile"
+                    android:layout_width="@dimen/control_image_size"
+                    android:layout_height="@dimen/control_image_size">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:cardCornerRadius="@dimen/control_icon_size">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            tools:src="@drawable/profile" />
+
+                    </androidx.cardview.widget.CardView>
+                </FrameLayout>
+
+
+            </LinearLayout>
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+
+        <TextView
+            android:id="@+id/logoutButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/logout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <github.com.st235.lib_expandablebottombar.ExpandableBottomBar
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:exb_backgroundCornerRadius="@dimen/control_icon_size"
+            app:exb_itemInactiveColor="@color/white"
+            app:exb_itemBackgroundOpacity="0.2"
+
+            app:exb_backgroundColor="@color/surface_dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:exb_items="@menu/bottom_menu"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
