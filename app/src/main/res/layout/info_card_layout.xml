@@ -10,11 +10,10 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_12"
         android:elevation="@dimen/padding_8"
         app:cardBackgroundColor="@color/surface_dark_grey"
         app:strokeWidth="0dp"
-
+        android:layout_marginBottom="@dimen/dp_8"
         app:cardCornerRadius="@dimen/dp_16">
 
         <LinearLayout

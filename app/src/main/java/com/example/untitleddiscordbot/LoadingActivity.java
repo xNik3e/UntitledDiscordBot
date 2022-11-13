@@ -17,6 +17,10 @@ import com.example.untitleddiscordbot.Utils.AuthUtil;
 import com.example.untitleddiscordbot.viewModels.MainViewModel;
 import com.example.untitleddiscordbot.viewModels.ViewModelFactory;
 
+import org.imaginativeworld.oopsnointernet.callbacks.ConnectionCallback;
+import org.imaginativeworld.oopsnointernet.dialogs.signal.DialogPropertiesSignal;
+import org.imaginativeworld.oopsnointernet.dialogs.signal.NoInternetDialogSignal;
+
 import java.util.List;
 
 public class LoadingActivity extends AppCompatActivity {
@@ -44,6 +48,36 @@ public class LoadingActivity extends AppCompatActivity {
                 (ViewModelProvider.Factory) new ViewModelFactory())
                 .get(MainViewModel.class);
 
+
+        NoInternetDialogSignal.Builder builder = new NoInternetDialogSignal.Builder(
+                this,
+                getLifecycle()
+        );
+
+        DialogPropertiesSignal propertiesSignal = builder.getDialogProperties();
+        propertiesSignal.setConnectionCallback(new ConnectionCallback() {
+            @Override
+            public void hasActiveConnection(boolean b) {
+                if(b)
+                    tryAgain();
+            }
+        });
+
+        propertiesSignal.setCancelable(false);
+        propertiesSignal.setNoInternetConnectionTitle("No Internet Connection");
+        propertiesSignal.setNoInternetConnectionMessage("Please check your internet connection and try again");
+        propertiesSignal.setShowInternetOnButtons(true);
+        propertiesSignal.setPleaseTurnOnText("Please turn on");
+        propertiesSignal.setWifiOnButtonText("Wi-Fi");
+        propertiesSignal.setMobileDataOnButtonText("Mobile Data");
+
+        propertiesSignal.setOnAirplaneModeTitle("Airplane mode"); // Optional
+        propertiesSignal.setOnAirplaneModeMessage("You have turned on the airplane mode."); // Optional
+        propertiesSignal.setPleaseTurnOffText("Please turn off"); // Optional
+        propertiesSignal.setAirplaneModeOffButtonText("Airplane mode"); // Optional
+        propertiesSignal.setShowAirplaneModeOffButtons(true); // Optional
+
+        builder.build();
 
         mainViewModel.getUserModel().observe(this, new Observer<UserModel>() {
             @Override
@@ -76,7 +110,7 @@ public class LoadingActivity extends AppCompatActivity {
             }
         });
 
-        tryAgain();
+
     }
 
     private void tryAgain(){
@@ -87,4 +121,6 @@ public class LoadingActivity extends AppCompatActivity {
     }
 
     //TODO ADD INTERNET CHECK
+
+
 }

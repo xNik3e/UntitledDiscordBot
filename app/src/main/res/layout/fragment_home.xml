@@ -23,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/choose_server"
+            android:id="@+id/button_choose"
             app:icon="@drawable/ic_expand_more" />
 
         <com.google.android.material.card.MaterialCardView

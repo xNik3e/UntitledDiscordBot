@@ -57,7 +57,18 @@
         <item name="android:paddingBottom">@dimen/dp_12</item>
         <item name="rippleColor">@color/button_white_ripple</item>
 
+    </style>
 
+    <style name="myBottomModalSheet" parent="@style/Widget.Material3.BottomSheet.Modal">
+        <item name="backgroundTint">@color/surface_dark</item>
+        <item name="shapeAppearance">@style/modalShapeAppearance</item>
+
+
+
+    </style>
+    <style name="modalShapeAppearance" parent="ShapeAppearance.Material3.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/dp_16</item>
 
     </style>
 
