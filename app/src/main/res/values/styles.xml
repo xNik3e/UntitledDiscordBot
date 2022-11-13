@@ -40,7 +40,25 @@
         <item name="android:fontFamily">@font/avenir_book</item>
     </style>
 
+    <style name="buttonChoose" parent="@style/Widget.Material3.Button.OutlinedButton">
+        <item name="android:clickable">true</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="iconGravity">end</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/avenir_book</item>
+        <item name="iconTint">@color/white</item>
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:maxLines">1</item>
+        <item name="iconSize">@dimen/dp_24</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="strokeColor">@color/white_stroke</item>
+        <item name="android:paddingTop">@dimen/dp_12</item>
+        <item name="android:paddingBottom">@dimen/dp_12</item>
+        <item name="rippleColor">@color/button_white_ripple</item>
 
 
-    <dimen name="padding_8">8dp</dimen>
+
+    </style>
+
 </resources>

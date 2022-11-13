@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(b);
         setContentView(R.layout.activity_main);
 
-        logout = findViewById(R.id.logoutButton);
+        //logout = findViewById(R.id.logoutButton);
         toolbarTitle = findViewById(R.id.toolbar_title);
         bottomBar = findViewById(R.id.bottom_navigation);
         serverContainer = findViewById(R.id.icon_server);
@@ -102,10 +102,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        logout.setOnClickListener(v -> {
-            AuthUtil.clearAuthState(this);
-            startActivity(new Intent(this, AuthActivity.class));
-        });
+//        logout.setOnClickListener(v -> {
+//            AuthUtil.clearAuthState(this);
+//            startActivity(new Intent(this, AuthActivity.class));
+//        });
 
     }
 
