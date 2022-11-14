@@ -16,4 +16,9 @@
     <dimen name="control_icon_size">24dp</dimen>
     <dimen name="padding_8">8dp</dimen>
     <dimen name="text_medium">16sp</dimen>
+    <dimen name="dp_4">4dp</dimen>
+    <dimen name="dp_6">6dp</dimen>
+    <dimen name="text_tiny">10sp</dimen>
+    <dimen name="dp_36">36dp</dimen>
+    <dimen name="dp_64">64dp</dimen>
 </resources>

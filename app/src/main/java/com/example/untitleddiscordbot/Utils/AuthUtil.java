@@ -107,6 +107,10 @@ public class AuthUtil {
         return model;
     }
 
+    public static String getAccessToken(){
+        return authState.getAccessToken();
+    }
+
     public static AuthState readAuthState(@NonNull Context context) {
         SharedPreferences authPrefs = context.getSharedPreferences("auth", MODE_PRIVATE);
         String stateJson = authPrefs.getString("stateJson", null);

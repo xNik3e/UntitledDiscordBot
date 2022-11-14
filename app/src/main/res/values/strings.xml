@@ -11,4 +11,13 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="choose_server">Choose server</string>
+    <string name="info_2">Make sure you have manage server permissions and that you are logged into the right account.</string>
+    <string name="info_1">To add this bot to your server, click \"choose server\" above this message then afterwards select it in the \"select server\" bottom shelf menu.</string>
+    <string name="news_and_updates"><![CDATA[News & Updates]]></string>
+    <string name="informations">Information</string>
+    <string name="role">Role:</string>
+    <string name="add_to_server">Click here to add UDB to your server</string>
+    <string name="already_added">Already added</string>
+    <string name="missing_permissions">Missing permissions</string>
+    <string name="nothing_to_see_here">Nothing to see here\nI\'ll do my best to keep you updated\n\nAfter my prolonged nap</string>
 </resources>

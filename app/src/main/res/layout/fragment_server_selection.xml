@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    tools:context=".fragments.BottomSheet.ServerSelectionFragment">
+
+    <FrameLayout
+        style="@style/myBottomModalSheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+       >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+                android:id="@+id/drag_handle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/title_label"
+                style="@style/myFontStyle.Headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/dp_16"
+                android:paddingBottom="@dimen/dp_16"
+                android:text="Your Servers"
+                android:textSize="@dimen/text_huge"
+                app:layout_constraintStart_toStartOf="@id/vg04"
+                app:layout_constraintTop_toBottomOf="@id/drag_handle" />
+
+            <ImageView
+                android:id="@+id/visibility_icon"
+                android:layout_width="@dimen/dp_36"
+                android:layout_height="@dimen/dp_36"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:src="@drawable/ic_invisible"
+                app:layout_constraintBottom_toBottomOf="@id/title_label"
+                app:layout_constraintEnd_toStartOf="@id/filter_icon"
+                app:layout_constraintTop_toTopOf="@id/title_label"
+                app:tint="@color/white" />
+
+            <ImageView
+                android:id="@+id/filter_icon"
+                android:layout_width="@dimen/dp_36"
+                android:layout_height="@dimen/dp_36"
+                android:src="@drawable/ic_filter"
+                app:layout_constraintBottom_toBottomOf="@id/title_label"
+                app:layout_constraintEnd_toStartOf="@id/vg96"
+                app:layout_constraintTop_toTopOf="@id/title_label"
+                app:tint="@color/white" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/servers_rv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:visibility="gone"
+                app:layout_constraintEnd_toStartOf="@id/vg96"
+                app:layout_constraintStart_toEndOf="@id/vg04"
+                app:layout_constraintTop_toBottomOf="@id/title_label"
+                tools:listitem="@layout/add_server_card_layout" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/empty_layout"
+                app:layout_constraintEnd_toStartOf="@id/vg96"
+                app:layout_constraintStart_toEndOf="@id/vg04"
+                app:layout_constraintTop_toBottomOf="@id/title_label">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="wrap_content"
+                    android:layout_height="256dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/empty_ghost" />
+
+                <TextView
+                    style="@style/myFontStyle.Headline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dp_64"
+                    android:lineSpacingExtra="@dimen/dp_4"
+                    android:text="Boooooo!\nSeems like you don't have any eligible servers yet.\nDon't get hunted, create one right now!"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/text_medium"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/vg04"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.04" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/vg96"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.96" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

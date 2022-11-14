@@ -7,22 +7,124 @@
     android:layout_marginStart="@dimen/dp_12"
     android:layout_marginTop="@dimen/dp_12"
     android:layout_marginEnd="@dimen/dp_12"
+
     android:background="@android:color/transparent"
     tools:context=".fragments.HomeFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_8"
         android:orientation="vertical">
 
         <com.google.android.material.button.MaterialButton
             style="@style/buttonChoose"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_8"
-            android:layout_marginEnd="@dimen/dp_8"
             android:text="@string/choose_server"
+            android:id="@+id/button_choose"
             app:icon="@drawable/ic_expand_more" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_12"
+            android:elevation="@dimen/padding_8"
+            app:cardBackgroundColor="@color/surface_dark_grey"
+            app:cardCornerRadius="@dimen/dp_16"
+            app:strokeWidth="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <TextView
+                    style="@style/myFontStyle.Regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/dp_24"
+                    android:paddingTop="@dimen/dp_16"
+                    android:paddingBottom="@dimen/dp_16"
+                    android:text="@string/informations"
+                    android:textSize="@dimen/text_medium"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/myFontStyle.Regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/dp_24"
+                    android:paddingTop="@dimen/dp_16"
+                    android:paddingRight="@dimen/dp_24"
+                    android:paddingBottom="@dimen/dp_16"
+                    android:text="@string/info_1"
+                    android:textSize="@dimen/text_very_small" />
+
+                <TextView
+                    style="@style/myFontStyle.Regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/dp_24"
+
+                    android:paddingRight="@dimen/dp_24"
+                    android:paddingBottom="@dimen/dp_16"
+                    android:text="@string/info_2"
+                    android:textSize="@dimen/text_very_small" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            style="@style/myFontStyle.Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/dp_16"
+            android:paddingBottom="@dimen/dp_16"
+            android:text="@string/news_and_updates"
+            android:textSize="@dimen/text_huge" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:itemCount="10"
+            android:scrollbars="none"
+            android:fadingEdge="vertical"
+            android:id="@+id/news_rv"
+            android:fadingEdgeLength="@dimen/dp_16"
+            tools:listitem="@layout/info_card_layout"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:orientation="vertical">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="match_parent"
+                android:layout_height="128dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dp_16"
+                app:lottie_loop="true"
+                app:lottie_autoPlay="true"
+                app:lottie_rawRes="@raw/cat_sleeping"/>
+
+            <TextView
+                style="@style/myFontStyle.Headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="@dimen/dp_4"
+                android:text="@string/nothing_to_see_here"
+                android:textAlignment="center"
+                android:textSize="@dimen/text_large"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
 
 
     </LinearLayout>
