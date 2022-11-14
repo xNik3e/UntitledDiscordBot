@@ -11,8 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.untitleddiscordbot.Models.UserGuildsModel.UserGuildModelItem;
+import com.example.untitleddiscordbot.Models.UserModel.UserModel;
 import com.example.untitleddiscordbot.R;
+import com.example.untitleddiscordbot.fragments.BottomSheet.ServerSelectionFragment;
+import com.example.untitleddiscordbot.viewModels.MainViewModel;
 import com.google.android.material.button.MaterialButton;
+
+import java.util.List;
 
 
 public class HomeFragment extends Fragment {
@@ -21,9 +27,14 @@ public class HomeFragment extends Fragment {
     private MaterialButton chooseServer;
     private RecyclerView newsRV;
 
+
+    private UserModel userModel;
+    private List<UserGuildModelItem> userGuildModel;
+
     public HomeFragment() {
         // Required empty public constructor
     }
+
 
 
     @Override
@@ -39,6 +50,15 @@ public class HomeFragment extends Fragment {
 
         chooseServer = view.findViewById(R.id.button_choose);
         newsRV = view.findViewById(R.id.news_rv);
+
+
+        chooseServer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ServerSelectionFragment serverSelectionFragment = new ServerSelectionFragment();
+                serverSelectionFragment.show(getChildFragmentManager(), "ServerSelectionFragment");
+            }
+        });
 
 
     }

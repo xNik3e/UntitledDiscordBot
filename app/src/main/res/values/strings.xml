@@ -19,4 +19,5 @@
     <string name="add_to_server">Click here to add UDB to your server</string>
     <string name="already_added">Already added</string>
     <string name="missing_permissions">Missing permissions</string>
+    <string name="nothing_to_see_here">Nothing to see here\nI\'ll do my best to keep you updated\n\nAfter my prolonged nap</string>
 </resources>

@@ -5,6 +5,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
@@ -24,6 +26,8 @@ import com.example.untitleddiscordbot.fragments.CommandsFragment;
 import com.example.untitleddiscordbot.fragments.HomeFragment;
 import com.example.untitleddiscordbot.fragments.MusicFragment;
 import com.example.untitleddiscordbot.fragments.SettingsFragment;
+import com.example.untitleddiscordbot.viewModels.MainViewModel;
+import com.example.untitleddiscordbot.viewModels.ViewModelFactory;
 
 import net.openid.appauth.AuthorizationException;
 import net.openid.appauth.AuthorizationResponse;
@@ -47,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private ExpandableBottomBar bottomBar;
     private HomeFragment homeFragment;
 
+    private MainViewModel viewModel;
 
     private SettingsFragment settingsFragment;
     private MusicFragment musicFragment;
@@ -56,6 +61,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle b) {
         super.onCreate(b);
         setContentView(R.layout.activity_main);
+
+        viewModel = new ViewModelProvider((ViewModelStoreOwner) this,
+                (ViewModelProvider.Factory) new ViewModelFactory())
+                .get(MainViewModel.class);
 
         //logout = findViewById(R.id.logoutButton);
         toolbarTitle = findViewById(R.id.toolbar_title);
@@ -70,6 +79,9 @@ public class MainActivity extends AppCompatActivity {
         settingsFragment = new SettingsFragment();
         musicFragment = new MusicFragment();
         commandsFragment = new CommandsFragment();
+
+
+        System.out.println(AuthUtil.getAuthState().jsonSerializeString());
 
         NavController navController = Navigation.findNavController(this, R.id.container);
 

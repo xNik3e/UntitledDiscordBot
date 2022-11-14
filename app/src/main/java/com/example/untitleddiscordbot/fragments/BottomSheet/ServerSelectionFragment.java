@@ -5,10 +5,13 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.example.untitleddiscordbot.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -16,6 +19,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public class ServerSelectionFragment extends BottomSheetDialogFragment {
 
+    private ImageView visibility, filter;
+    private RecyclerView serverRV;
+    private LinearLayout emptyLayout;
 
     public ServerSelectionFragment() {
         // Required empty public constructor

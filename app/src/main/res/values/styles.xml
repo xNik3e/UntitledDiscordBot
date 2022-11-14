@@ -59,11 +59,11 @@
 
     </style>
 
-    <style name="myBottomModalSheet" parent="@style/Widget.Material3.BottomSheet.Modal">
-        <item name="backgroundTint">@color/surface_dark</item>
+    <style name="myBottomModalSheet" parent="@style/Widget.Material3.BottomSheet">
+
+        <item name="android:background">@drawable/modal_drawable</item>
+
         <item name="shapeAppearance">@style/modalShapeAppearance</item>
-
-
 
     </style>
     <style name="modalShapeAppearance" parent="ShapeAppearance.Material3.LargeComponent">

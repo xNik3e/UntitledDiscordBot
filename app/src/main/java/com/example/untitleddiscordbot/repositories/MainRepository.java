@@ -43,9 +43,9 @@ public class MainRepository {
             public void onResponse(Call<UserModel> call, Response<UserModel> response) {
                 if(response.isSuccessful()){
                     UserModel userModel = response.body();
-                    mutableUserModel.postValue(userModel);
+                    mutableUserModel.setValue(userModel);
                 }else{
-                    mutableUserModel.postValue(null);
+                    mutableUserModel.setValue(null);
                 }
             }
 
@@ -65,9 +65,9 @@ public class MainRepository {
             public void onResponse(Call<List<UserGuildModelItem>> call, Response<List<UserGuildModelItem>> response) {
                 if(response.isSuccessful()){
                     List<UserGuildModelItem> userGuildModelItems = response.body();
-                    mutableUserGuildModel.postValue(userGuildModelItems);
+                    mutableUserGuildModel.setValue(userGuildModelItems);
                 }else{
-                    mutableUserGuildModel.postValue(null);
+                    mutableUserGuildModel.setValue(null);
                 }
             }
 

@@ -1,6 +1,7 @@
 package com.example.untitleddiscordbot.viewModels;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.untitleddiscordbot.Models.UserGuildsModel.UserGuildModelItem;
@@ -18,7 +19,7 @@ public class MainViewModel extends ViewModel {
         this.mainRepository = mainRepository;
 
         userModel = mainRepository.getUserModel();
-        userGuildModel = mainRepository.getUserGuildModel();
+        userGuildModel =  mainRepository.getUserGuildModel();
     }
 
 
@@ -28,6 +29,14 @@ public class MainViewModel extends ViewModel {
 
     public LiveData<UserModel> getUserModel() {
         return userModel;
+    }
+
+    public UserModel getStoredUserModel(){
+        return userModel.getValue();
+    }
+
+    public List<UserGuildModelItem> getStoredUserGuildModel(){
+        return userGuildModel.getValue();
     }
 
 
