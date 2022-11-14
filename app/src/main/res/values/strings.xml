@@ -15,4 +15,8 @@
     <string name="info_1">To add this bot to your server, click \"choose server\" above this message then afterwards select it in the \"select server\" bottom shelf menu.</string>
     <string name="news_and_updates"><![CDATA[News & Updates]]></string>
     <string name="informations">Information</string>
+    <string name="role">Role:</string>
+    <string name="add_to_server">Click here to add UDB to your server</string>
+    <string name="already_added">Already added</string>
+    <string name="missing_permissions">Missing permissions</string>
 </resources>

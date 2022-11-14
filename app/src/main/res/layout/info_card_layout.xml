@@ -81,16 +81,6 @@
                     />
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:id="@+id/update_info"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/dp_16"
-                android:paddingBottom="@dimen/dp_16"
-                android:text="@string/info_1"
-                style="@style/myFontStyle.Regular"
-                android:textSize="@dimen/text_very_small"/>
-
 
         </LinearLayout>
 
@@ -98,4 +88,14 @@
 
 
     </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/update_info"
+        style="@style/myFontStyle.Regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/dp_16"
+        android:paddingBottom="@dimen/dp_16"
+        android:text="@string/info_1"
+        android:textSize="@dimen/text_very_small" />
 </LinearLayout>
