@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.example.untitleddiscordbot.Models.UserGuildsModel.UserGuildModelItem;
 import com.example.untitleddiscordbot.R;
 import com.example.untitleddiscordbot.Utils.ServerStatus;
+import com.example.untitleddiscordbot.interfaces.ServerSelectionInterface;
 
 import java.util.List;
 
@@ -22,10 +23,14 @@ public class ServerSelectionAdapter extends RecyclerView.Adapter<ServerSelection
 
     private List<UserGuildModelItem> guilds;
     private Context ctx;
+    private ServerSelectionInterface anInterface;
 
-    public ServerSelectionAdapter(List<UserGuildModelItem> guilds, Context ctx) {
+    public ServerSelectionAdapter(List<UserGuildModelItem> guilds,
+                                  Context ctx,
+                                  ServerSelectionInterface anInterface) {
         this.guilds = guilds;
         this.ctx = ctx;
+        this.anInterface = anInterface;
     }
 
     @NonNull

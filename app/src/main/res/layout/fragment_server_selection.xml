@@ -8,10 +8,10 @@
     tools:context=".fragments.BottomSheet.ServerSelectionFragment">
 
     <FrameLayout
+        android:id="@+id/bottom_sheet"
         style="@style/myBottomModalSheet"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-       >
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -38,7 +38,6 @@
                 app:layout_constraintTop_toBottomOf="@id/drag_handle" />
 
 
-
             <ImageView
                 android:id="@+id/filter_icon"
                 android:layout_width="@dimen/dp_36"
@@ -49,22 +48,40 @@
                 app:layout_constraintTop_toTopOf="@id/title_label"
                 app:tint="@color/white" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/servers_rv"
+            <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_16"
-                android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@id/vg96"
                 app:layout_constraintStart_toEndOf="@id/vg04"
-                app:layout_constraintTop_toBottomOf="@id/title_label"
-                tools:listitem="@layout/add_server_card_layout" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constrainedHeight="true"
+                app:layout_constraintTop_toBottomOf="@id/title_label">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/servers_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:fadingEdgeLength="@dimen/dp_24"
+                    android:nestedScrollingEnabled="true"
+                    android:paddingBottom="@dimen/dp_32"
+                    android:requiresFadingEdge="vertical"
+                    android:scrollbars="none"
+                    android:visibility="visible"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    tools:itemCount="5"
+                    tools:listitem="@layout/add_server_card_layout" />
+
+            </RelativeLayout>
+
 
             <LinearLayout
+                android:id="@+id/empty_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:id="@+id/empty_layout"
+                android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@id/vg96"
                 app:layout_constraintStart_toEndOf="@id/vg04"
                 app:layout_constraintTop_toBottomOf="@id/title_label">
@@ -80,14 +97,13 @@
                     style="@style/myFontStyle.Headline"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginBottom="@dimen/dp_64"
                     android:lineSpacingExtra="@dimen/dp_4"
                     android:text="Boooooo!\nSeems like you don't have any eligible servers yet.\nDon't get hunted, create one right now!"
                     android:textAlignment="center"
-                    android:textSize="@dimen/text_medium"
-                    android:layout_gravity="center"/>
+                    android:textSize="@dimen/text_medium" />
             </LinearLayout>
-
 
 
             <androidx.constraintlayout.widget.Guideline
@@ -103,6 +119,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.96" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

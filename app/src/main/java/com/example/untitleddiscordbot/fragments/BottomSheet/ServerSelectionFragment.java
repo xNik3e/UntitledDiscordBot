@@ -1,5 +1,6 @@
 package com.example.untitleddiscordbot.fragments.BottomSheet;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import android.widget.LinearLayout;
 
 import com.example.untitleddiscordbot.Models.UserGuildsModel.UserGuildModelItem;
 import com.example.untitleddiscordbot.R;
+import com.example.untitleddiscordbot.adapters.ServerSelectionAdapter;
 import com.example.untitleddiscordbot.interfaces.ServerSelectionInterface;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
@@ -23,11 +25,15 @@ import java.util.List;
 
 public class ServerSelectionFragment extends BottomSheetDialogFragment {
 
+
+    private Context ctx;
     private ImageView filter;
     private RecyclerView serverRV;
     private List<UserGuildModelItem> guilds;
     private LinearLayout emptyLayout;
     private ServerSelectionInterface anInterface;
+
+    private ServerSelectionAdapter adapter;
 
     public ServerSelectionFragment() {
         // Required empty public constructor
@@ -40,6 +46,12 @@ public class ServerSelectionFragment extends BottomSheetDialogFragment {
 
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.ctx = context;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -50,5 +62,18 @@ public class ServerSelectionFragment extends BottomSheetDialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        filter = view.findViewById(R.id.filter_icon);
+        serverRV = view.findViewById(R.id.servers_rv);
+        emptyLayout = view.findViewById(R.id.empty_layout);
+        adapter = new ServerSelectionAdapter(guilds, ctx, anInterface);
+        if(!guilds.isEmpty()){
+            emptyLayout.setVisibility(View.GONE);
+            serverRV.setVisibility(View.VISIBLE);
+            serverRV.setAdapter(adapter);
+        }else{
+            emptyLayout.setVisibility(View.VISIBLE);
+            serverRV.setVisibility(View.GONE);
+        }
     }
 }
