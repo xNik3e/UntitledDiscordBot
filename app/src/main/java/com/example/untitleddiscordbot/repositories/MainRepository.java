@@ -136,4 +136,9 @@ public class MainRepository {
     public LiveData<List<UserGuildModelItem>> getUserGuildModel() {
         return mutableUserGuildModel;
     }
+
+    public void clearAllData() {
+        mutableUserModel.setValue(null);
+        mutableUserGuildModel.setValue(null);
+    }
 }

@@ -20,4 +20,6 @@
     <string name="already_added">Already added </string>
     <string name="missing_permissions">Missing permissions</string>
     <string name="nothing_to_see_here">Nothing to see here\nI\'ll do my best to keep you updated\n\nAfter my prolonged nap</string>
+    <string name="logged_in_as">Logged in as</string>
+    <string name="log_out">Log Out</string>
 </resources>

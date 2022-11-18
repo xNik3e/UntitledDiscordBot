@@ -58,4 +58,8 @@ public class MainViewModel extends ViewModel {
         mainRepository.getUpdatedGuilds(ids);
     }
 
+    public void clearAllData() {
+        mainRepository.clearAllData();
+        isUserGuildsUpdated.setValue(false);
+    }
 }
