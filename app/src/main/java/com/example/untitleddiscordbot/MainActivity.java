@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
         commandsFragment = new CommandsFragment();
 
 
-        System.out.println(AuthUtil.getAuthState().jsonSerializeString());
 
         NavController navController = Navigation.findNavController(this, R.id.container);
 

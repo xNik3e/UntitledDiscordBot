@@ -7,11 +7,19 @@ public enum ServerStatus {
     NOT_ADDED(R.drawable.ic_warning, R.color.check_yellow),
     ERROR(R.drawable.ic_error, R.color.check_red);
 
-    int iconResourceId;
-    int colorResourceId;
+    final int iconResourceId;
+    final int colorResourceId;
 
     ServerStatus(int ic_check, int check_color) {
         this.iconResourceId = ic_check;
         this.colorResourceId = check_color;
+    }
+
+    public int getIconResourceId() {
+        return iconResourceId;
+    }
+
+    public int getColorResourceId() {
+        return colorResourceId;
     }
 }
