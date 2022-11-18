@@ -26,6 +26,16 @@ public class UserGuildModelItem{
 	@SerializedName("permissions_new")
 	private String permissionsNew;
 
+	private boolean isBotAdded = false;
+
+	public boolean isBotAdded() {
+		return isBotAdded;
+	}
+
+	public void setBotAdded(boolean botAdded) {
+		isBotAdded = botAdded;
+	}
+
 	public void setOwner(boolean owner){
 		this.owner = owner;
 	}

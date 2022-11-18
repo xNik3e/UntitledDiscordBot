@@ -1,6 +1,7 @@
 package com.example.untitleddiscordbot;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -30,6 +31,9 @@ public class LoadingActivity extends AppCompatActivity {
     private boolean isLoading = true;
     private MainViewModel mainViewModel;
     private String userHash;
+
+    private LiveData<Boolean> isUserGuildsUpdated;
+    private boolean isUserGuildsUpdatedValue = false;
 
 
     @Override
@@ -79,6 +83,13 @@ public class LoadingActivity extends AppCompatActivity {
 
         builder.build();
 
+        mainViewModel.isUserGuildsUpdated().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                isUserGuildsUpdatedValue = aBoolean;
+            }
+        });
+
         mainViewModel.getUserModel().observe(this, new Observer<UserModel>() {
             @Override
             public void onChanged(UserModel userModel) {
@@ -93,7 +104,7 @@ public class LoadingActivity extends AppCompatActivity {
         mainViewModel.getUserGuildModel().observe(this, new Observer<List<UserGuildModelItem>>() {
             @Override
             public void onChanged(List<UserGuildModelItem> userGuildModel) {
-                if(userGuildModel != null){
+                if(userGuildModel != null && isUserGuildsUpdatedValue){
                     infoView.setText("Loading Complete");
                     progressBarHorizontal.setProgress(100);
                     infoDetail.setVisibility(TextView.GONE);
@@ -106,6 +117,8 @@ public class LoadingActivity extends AppCompatActivity {
                             finish();
                         }
                     },1000);
+                }else if(userGuildModel != null){
+                    mainViewModel.updateUserGuilds();
                 }
             }
         });

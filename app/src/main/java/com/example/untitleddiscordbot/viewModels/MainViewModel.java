@@ -9,12 +9,13 @@ import com.example.untitleddiscordbot.Models.UserModel.UserModel;
 import com.example.untitleddiscordbot.repositories.MainRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MainViewModel extends ViewModel {
     private MainRepository mainRepository;
     private final LiveData<UserModel> userModel;
     private final LiveData<List<UserGuildModelItem>> userGuildModel;
-
+    private MutableLiveData<Boolean> isUserGuildsUpdated = new MutableLiveData<>(false);
     public MainViewModel(MainRepository mainRepository) {
         this.mainRepository = mainRepository;
 
@@ -39,6 +40,9 @@ public class MainViewModel extends ViewModel {
         return userGuildModel.getValue();
     }
 
+    public LiveData<Boolean> isUserGuildsUpdated(){
+        return isUserGuildsUpdated;
+    }
 
     public void fetchUserModel(String auth) {
         mainRepository.fetchUserModel(auth);
@@ -46,6 +50,12 @@ public class MainViewModel extends ViewModel {
 
     public void fetchUserGuilds(String auth) {
         mainRepository.fetchUserGuilds(auth);
+    }
+
+    public void updateUserGuilds(){
+        isUserGuildsUpdated.setValue(true);
+        List<String> ids = userGuildModel.getValue().stream().map(UserGuildModelItem::getId).collect(Collectors.toList());
+        mainRepository.getUpdatedGuilds(ids);
     }
 
 }

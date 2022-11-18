@@ -9,7 +9,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 
-public interface ApiService {
+public interface DiscordApiService {
 
     @GET("users/@me")
     Call<UserModel> getUser(@Header("Authorization") String auth);

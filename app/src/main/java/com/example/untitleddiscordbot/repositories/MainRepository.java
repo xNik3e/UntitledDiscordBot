@@ -3,32 +3,46 @@ package com.example.untitleddiscordbot.repositories;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.untitleddiscordbot.Models.DefaultResponse;
 import com.example.untitleddiscordbot.Models.UserGuildsModel.UserGuildModelItem;
 import com.example.untitleddiscordbot.Models.UserModel.UserModel;
-import com.example.untitleddiscordbot.remote.ApiService;
+import com.example.untitleddiscordbot.Utils.PermissionUtil;
+import com.example.untitleddiscordbot.remote.DiscordApiService;
+import com.example.untitleddiscordbot.remote.MyApiService;
+import com.google.gson.Gson;
 
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainRepository {
     private static MainRepository instance;
-    private final ApiService apiService;
+    private final DiscordApiService discordApiService;
+    private final MyApiService myApiService;
     private final MutableLiveData<UserModel> mutableUserModel;
     private final MutableLiveData<List<UserGuildModelItem>> mutableUserGuildModel;
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
 
-    public static MainRepository getInstance(ApiService apiService){
+    public static MainRepository getInstance(DiscordApiService discordApiService, MyApiService myApiService){
         if(instance == null){
-            instance = new MainRepository(apiService);
+            instance = new MainRepository(discordApiService, myApiService);
         }
         return instance;
     }
 
-    public MainRepository(ApiService apiService) {
-        this.apiService = apiService;
+    public MainRepository(DiscordApiService discordApiService, MyApiService myApiService) {
+        this.discordApiService = discordApiService;
+        this.myApiService = myApiService;
         mutableUserModel = new MutableLiveData<>(null);
         mutableUserGuildModel = new MutableLiveData<>(null);
     }
@@ -37,7 +51,7 @@ public class MainRepository {
 
     public LiveData<UserModel> fetchUserModel(String auth) {
         String header = "Bearer " + auth;
-        Call<UserModel> call = apiService.getUser(header);
+        Call<UserModel> call = discordApiService.getUser(header);
         call.enqueue(new Callback<UserModel>() {
             @Override
             public void onResponse(Call<UserModel> call, Response<UserModel> response) {
@@ -59,13 +73,19 @@ public class MainRepository {
 
     public LiveData<List<UserGuildModelItem>> fetchUserGuilds(String auth){
         String header = "Bearer " + auth;
-        Call<List<UserGuildModelItem>> call = apiService.getGuilds(header);
+        Call<List<UserGuildModelItem>> call = discordApiService.getGuilds(header);
         call.enqueue(new Callback<List<UserGuildModelItem>>() {
             @Override
             public void onResponse(Call<List<UserGuildModelItem>> call, Response<List<UserGuildModelItem>> response) {
                 if(response.isSuccessful()){
                     List<UserGuildModelItem> userGuildModelItems = response.body();
-                    mutableUserGuildModel.setValue(userGuildModelItems);
+                    List<UserGuildModelItem> filteredResults = new ArrayList<>();
+                    if(userGuildModelItems != null) {
+                        filteredResults = userGuildModelItems.stream().filter(
+                                PermissionUtil::canManageServer
+                        ).collect(Collectors.toList());
+                    }
+                    mutableUserGuildModel.setValue(filteredResults);
                 }else{
                     mutableUserGuildModel.setValue(null);
                 }
@@ -77,6 +97,35 @@ public class MainRepository {
             }
         });
         return mutableUserGuildModel;
+    }
+
+    public void getUpdatedGuilds(List<String> ids){
+//        String bodyJSON = new Gson().toJson(ids);
+//        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), bodyJSON);
+        Call<DefaultResponse<List<String>>> call = myApiService.getGuildsByIds(ids);
+        call.enqueue(new Callback<DefaultResponse<List<String>>>() {
+            @Override
+            public void onResponse(Call<DefaultResponse<List<String>>> call, Response<DefaultResponse<List<String>>> response) {
+                List<String> guilds = response.body().getData();
+//                List<UserGuildModelItem> updatedGuilds = mutableUserGuildModel.getValue().stream().filter(item ->{
+//                    return guilds.contains(item.getId());
+//                }).collect(Collectors.toList());
+
+                List<UserGuildModelItem> updatedGuilds = mutableUserGuildModel.getValue().stream().map(item -> {
+                    if(guilds.contains(item.getId())){
+                        item.setBotAdded(true);
+                    }
+                    return item;
+                }).collect(Collectors.toList());
+                mutableUserGuildModel.postValue(updatedGuilds);
+            }
+
+            @Override
+            public void onFailure(Call<DefaultResponse<List<String>>> call, Throwable t) {
+
+            }
+        });
+
     }
 
 
