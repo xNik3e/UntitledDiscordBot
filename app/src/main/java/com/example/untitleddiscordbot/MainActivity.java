@@ -11,16 +11,24 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 
+import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.Space;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.untitleddiscordbot.Models.AuthResponseModel;
+import com.example.untitleddiscordbot.Models.UserModel.UserModel;
 import com.example.untitleddiscordbot.Utils.AuthUtil;
 import com.example.untitleddiscordbot.fragments.CommandsFragment;
 import com.example.untitleddiscordbot.fragments.HomeFragment;
@@ -47,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout serverContainer, menuContainer;
     private ImageView profilePicture, serverPicture;
     private Space space;
+    private View darkenView;
 
     private ExpandableBottomBar bottomBar;
     private HomeFragment homeFragment;
@@ -74,13 +83,14 @@ public class MainActivity extends AppCompatActivity {
         profilePicture = findViewById(R.id.profile_picture);
         serverPicture = findViewById(R.id.server_picture);
         space = findViewById(R.id.spacing);
+        darkenView = findViewById(R.id.darken_view);
 
         homeFragment = new HomeFragment();
         settingsFragment = new SettingsFragment();
         musicFragment = new MusicFragment();
         commandsFragment = new CommandsFragment();
 
-
+        UserModel userModel = viewModel.getStoredUserModel();
 
         NavController navController = Navigation.findNavController(this, R.id.container);
 
@@ -113,22 +123,90 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        logout.setOnClickListener(v -> {
-//            AuthUtil.clearAuthState(this);
-//            startActivity(new Intent(this, AuthActivity.class));
-//        });
+
+        if (userModel.getAvatar() != null) {
+            String url = "https://cdn.discordapp.com/avatars/" + userModel.getId() + "/" + userModel.getAvatar() + ".png";
+            Glide.with(this).load(url).placeholder(R.drawable.discord_placeholder).into(profilePicture);
+        } else {
+            Glide.with(this).load(R.drawable.discord_placeholder).into(profilePicture);
+        }
+
+        profilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu(userModel);
+            }
+        });
 
     }
 
 
-
     @Override
     public void onBackPressed() {
-        if(bottomBar.getMenu().getSelectedItem().getId() != R.id.homeFragment) {
+        if (bottomBar.getMenu().getSelectedItem().getId() != R.id.homeFragment) {
             bottomBar.getMenu().select(R.id.homeFragment);
         } else {
             //kill app
             finishAndRemoveTask();
         }
+    }
+
+    private void showPopupMenu(UserModel user) {
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = layoutInflater.inflate(R.layout.popupmenu_custom_layout_logout, null);
+        TextView userName = popupView.findViewById(R.id.username);
+        TextView userTag = popupView.findViewById(R.id.usertag);
+        TextView logout = popupView.findViewById(R.id.logoutButton);
+
+        userName.setText(user.getUsername());
+        String tag = "#" + user.getDiscriminator();
+        userTag.setText(tag);
+
+        logout.setOnClickListener(v -> {
+            AuthUtil.clearAuthState(this);
+            viewModel.clearAllData();
+            startActivity(new Intent(this, AuthActivity.class));
+            finish();
+        });
+
+        PopupWindow popupWindow = new PopupWindow(popupView,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        popupWindow.showAsDropDown(profilePicture, 0, 24);
+
+        darkenView.setVisibility(View.VISIBLE);
+        ValueAnimator valueAnimator = ValueAnimator.ofInt(0, 100);
+        valueAnimator.setDuration(500);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                darkenView.setAlpha((int) animation.getAnimatedValue() / 100f);
+            }
+        });
+        valueAnimator.start();
+
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                popupWindow.dismiss();
+                ValueAnimator valueAnimator = ValueAnimator.ofInt(100, 0);
+                valueAnimator.setDuration(500);
+                valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        darkenView.setAlpha((int) animation.getAnimatedValue() / 100f);
+                        if(animation.getAnimatedValue().equals(0)){
+                            darkenView.setVisibility(View.GONE);
+                        }
+                    }
+                });
+                valueAnimator.start();
+            }
+        });
+
     }
 }
