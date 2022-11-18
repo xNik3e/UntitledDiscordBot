@@ -13,18 +13,29 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.example.untitleddiscordbot.Models.UserGuildsModel.UserGuildModelItem;
 import com.example.untitleddiscordbot.R;
+import com.example.untitleddiscordbot.interfaces.ServerSelectionInterface;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
+import java.util.List;
 
 
 public class ServerSelectionFragment extends BottomSheetDialogFragment {
 
-    private ImageView visibility, filter;
+    private ImageView filter;
     private RecyclerView serverRV;
+    private List<UserGuildModelItem> guilds;
     private LinearLayout emptyLayout;
+    private ServerSelectionInterface anInterface;
 
     public ServerSelectionFragment() {
         // Required empty public constructor
+    }
+
+    public ServerSelectionFragment(List<UserGuildModelItem> guilds, ServerSelectionInterface selectionInterface) {
+        this.guilds = guilds;
+        this.anInterface = selectionInterface;
     }
 
 
