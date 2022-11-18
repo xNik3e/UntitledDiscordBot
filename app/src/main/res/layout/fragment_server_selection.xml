@@ -65,6 +65,7 @@
                     android:fadingEdgeLength="@dimen/dp_24"
                     android:nestedScrollingEnabled="true"
                     android:paddingBottom="@dimen/dp_32"
+                    android:layoutAnimation="@anim/layout_animation"
                     android:requiresFadingEdge="vertical"
                     android:scrollbars="none"
                     android:visibility="visible"

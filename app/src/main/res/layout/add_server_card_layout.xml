@@ -52,8 +52,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="marquee"
-                    android:maxEms="12"
+                    android:scrollHorizontally="true"
+                    android:maxEms="14"
                     android:maxLines="1"
+                    android:marqueeRepeatLimit="marquee_forever"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_vertical"
                     android:layout_toEndOf="@id/card_container"
@@ -123,12 +125,13 @@
                     style="@style/myFontStyle.Regular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:includeFontPadding="true"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:text="@string/already_added"
                     android:textSize="@dimen/text_medium"
                     android:textStyle="bold|italic"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <TextView
                     style="@style/myFontStyle.Regular"

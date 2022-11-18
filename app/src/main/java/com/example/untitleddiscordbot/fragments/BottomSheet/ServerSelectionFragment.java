@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -20,6 +22,8 @@ import com.example.untitleddiscordbot.adapters.ServerSelectionAdapter;
 import com.example.untitleddiscordbot.interfaces.ServerSelectionInterface;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -32,6 +36,7 @@ public class ServerSelectionFragment extends BottomSheetDialogFragment {
     private List<UserGuildModelItem> guilds;
     private LinearLayout emptyLayout;
     private ServerSelectionInterface anInterface;
+    private boolean isSorted = true;
 
     private ServerSelectionAdapter adapter;
 
@@ -66,6 +71,11 @@ public class ServerSelectionFragment extends BottomSheetDialogFragment {
         filter = view.findViewById(R.id.filter_icon);
         serverRV = view.findViewById(R.id.servers_rv);
         emptyLayout = view.findViewById(R.id.empty_layout);
+
+        //sort guilds based on isBot and name
+        sortElements();
+
+
         adapter = new ServerSelectionAdapter(guilds, ctx, anInterface);
         if(!guilds.isEmpty()){
             emptyLayout.setVisibility(View.GONE);
@@ -74,6 +84,40 @@ public class ServerSelectionFragment extends BottomSheetDialogFragment {
         }else{
             emptyLayout.setVisibility(View.VISIBLE);
             serverRV.setVisibility(View.GONE);
+        }
+
+        filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sortElements();
+                adapter.notifyItemRangeChanged(0, guilds.size());
+            }
+        });
+    }
+
+
+    public void sortElements(){
+        isSorted = !isSorted;
+        if(isSorted){
+            Collections.sort(guilds, (o1, o2) -> {
+                if(o1.isBotAdded() && !o2.isBotAdded()){
+                    return 1;
+                }else if(!o1.isBotAdded() && o2.isBotAdded()){
+                    return -1;}
+                else{
+                    return o1.getName().compareTo(o2.getName());
+                }
+            });
+        }else{
+            Collections.sort(guilds, (o1, o2) -> {
+                if(o1.isBotAdded() && !o2.isBotAdded()){
+                    return -1;
+                }else if(!o1.isBotAdded() && o2.isBotAdded()){
+                    return 1;}
+                else{
+                    return o1.getName().compareTo(o2.getName());
+                }
+            });
         }
     }
 }
