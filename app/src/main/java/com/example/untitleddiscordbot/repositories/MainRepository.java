@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.untitleddiscordbot.Models.DefaultResponse;
+import com.example.untitleddiscordbot.Models.DetailedGuild.DetailedGuildItem;
 import com.example.untitleddiscordbot.Models.UserGuildsModel.UserGuildModelItem;
 import com.example.untitleddiscordbot.Models.UserModel.UserModel;
 import com.example.untitleddiscordbot.Utils.PermissionUtil;
@@ -14,7 +15,9 @@ import com.google.gson.Gson;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
@@ -28,9 +31,11 @@ public class MainRepository {
     private static MainRepository instance;
     private final DiscordApiService discordApiService;
     private final MyApiService myApiService;
+
     private final MutableLiveData<UserModel> mutableUserModel;
     private final MutableLiveData<List<UserGuildModelItem>> mutableUserGuildModel;
     private final MutableLiveData<UserGuildModelItem> selectedServer;
+    
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
 
@@ -128,6 +133,23 @@ public class MainRepository {
             }
         });
 
+    }
+
+    public void getDetailedGuild(String id){
+        Map<String, Object> body = new HashMap<>();
+        body.put("id", id);
+        Call<DetailedGuildItem> call = myApiService.getDetailedGuild(body);
+        call.enqueue(new Callback<DetailedGuildItem>() {
+            @Override
+            public void onResponse(Call<DetailedGuildItem> call, Response<DetailedGuildItem> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<DetailedGuildItem> call, Throwable t) {
+
+            }
+        });
     }
 
 
