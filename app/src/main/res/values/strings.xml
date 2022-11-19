@@ -30,4 +30,7 @@
     <string name="none_selected">None selected</string>
     <string name="ignore_users_with_one_of_these_roles">Ignore users with one of these roles</string>
     <string name="role_ignored">Users with an ignored role won\'t be able to use commands, even if they have a required role.</string>
+    <string name="global_server_info">Global Server Info</string>
+    <string name="an_unexpected_error_occurred">An unexpected error occurred</string>
+    <string name="auto_retry_in">Auto retry in:</string>
 </resources>

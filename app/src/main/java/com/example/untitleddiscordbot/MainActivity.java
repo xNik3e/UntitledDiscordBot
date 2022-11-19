@@ -18,18 +18,22 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.Space;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.untitleddiscordbot.Models.AuthResponseModel;
+import com.example.untitleddiscordbot.Models.DetailedGuild.DetailedGuildItem;
 import com.example.untitleddiscordbot.Models.UserGuildsModel.UserGuildModelItem;
 import com.example.untitleddiscordbot.Models.UserModel.UserModel;
 import com.example.untitleddiscordbot.Utils.AuthUtil;
@@ -39,6 +43,7 @@ import com.example.untitleddiscordbot.fragments.MusicFragment;
 import com.example.untitleddiscordbot.fragments.SettingsFragment;
 import com.example.untitleddiscordbot.viewModels.MainViewModel;
 import com.example.untitleddiscordbot.viewModels.ViewModelFactory;
+import com.google.android.material.button.MaterialButton;
 
 import net.openid.appauth.AuthorizationException;
 import net.openid.appauth.AuthorizationResponse;
@@ -58,7 +63,12 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout serverContainer, menuContainer;
     private ImageView profilePicture, serverPicture;
     private Space space;
+
     private View darkenView;
+    private LinearLayout loadingLayout, errorContainer;
+    private ProgressBar loadingBar;
+    private TextView retryText;
+    private MaterialButton retryButton, exitAppButton;
 
     private ExpandableBottomBar bottomBar;
 
@@ -70,6 +80,10 @@ public class MainActivity extends AppCompatActivity {
     private SettingsFragment settingsFragment;
     private MusicFragment musicFragment;
     private CommandsFragment commandsFragment;
+
+    private CountDownTimer timer;
+
+    private static boolean isLoading = false;
 
     @Override
     protected void onCreate(Bundle b) {
@@ -88,7 +102,22 @@ public class MainActivity extends AppCompatActivity {
         profilePicture = findViewById(R.id.profile_picture);
         serverPicture = findViewById(R.id.server_picture);
         space = findViewById(R.id.spacing);
+
         darkenView = findViewById(R.id.darken_view);
+        loadingLayout = findViewById(R.id.loading_container);
+        errorContainer = findViewById(R.id.error_container);
+        loadingBar = findViewById(R.id.loading);
+        retryText = findViewById(R.id.retry_text);
+        retryButton = findViewById(R.id.button_retry);
+        exitAppButton = findViewById(R.id.button_exit);
+
+        darkenView.setVisibility(View.GONE);
+        darkenView.setAlpha(0f);
+        loadingLayout.setVisibility(View.GONE);
+        loadingLayout.setAlpha(0f);
+        errorContainer.setVisibility(View.GONE);
+        errorContainer.setAlpha(0f);
+
 
         homeFragment = new HomeFragment();
         settingsFragment = new SettingsFragment();
@@ -177,6 +206,104 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        viewModel.getDetailedGuild().observe(this, new Observer<DetailedGuildItem>() {
+            @Override
+            public void onChanged(DetailedGuildItem detailedGuildItem) {
+                if(detailedGuildItem != null){
+                    if(detailedGuildItem.getId() == null){
+                        //set loading
+                        isLoading = true;
+                        setLoading();
+                    }else if(detailedGuildItem.getId().equals("error")){
+                        //loading error - UPDATE UI
+                        setError();
+                    }else{
+                        //loaded update UI
+                        setLoaded();
+                    }
+                }
+            }
+        });
+
+    }
+
+    private void setError() {
+        isLoading = false;
+        loadingLayout.setVisibility(View.VISIBLE);
+        darkenView.setVisibility(View.VISIBLE);
+        loadingLayout.setAlpha(1f);
+        darkenView.setAlpha(1f);
+        errorContainer.setVisibility(View.VISIBLE);
+        errorContainer.setAlpha(0f);
+
+        errorContainer.animate().alpha(1f).setDuration(200).start();
+        retryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isLoading = true;
+                timer.cancel();
+                errorContainer.animate().alpha(0f).setDuration(200).start();
+                viewModel.fetchDetailedGuild(selectedServer.getId());
+            }
+        });
+
+        exitAppButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finishAffinity();
+            }
+        });
+
+
+        timer = new CountDownTimer(10000, 1000){
+            @Override
+            public void onTick(long millisUntilFinished) {
+                String value = (int) (millisUntilFinished / 1000) + "";
+                retryText.setText(value);
+            }
+
+            @Override
+            public void onFinish() {
+                if(!isLoading){
+                    isLoading = true;
+                    errorContainer.animate().alpha(0f).setDuration(200).start();
+                    viewModel.fetchDetailedGuild(selectedServer.getId());
+                }
+            }
+        }.start();
+    }
+
+    private void setLoading() {
+        loadingLayout.setVisibility(View.VISIBLE);
+        loadingLayout.setAlpha(0f);
+        darkenView.setVisibility(View.VISIBLE);
+        darkenView.setAlpha(0f);
+        errorContainer.setVisibility(View.GONE);
+        loadingLayout.setFocusable(true);
+        loadingLayout.setClickable(false);
+
+        loadingLayout.animate().alpha(1f).setDuration(400).start();
+        darkenView.animate().alpha(1f).setDuration(400).start();
+
+    }
+
+    private void setLoaded(){
+        isLoading = false;
+        ValueAnimator animator = ValueAnimator.ofInt(100, 0);
+        animator.setDuration(400);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int value = (int) animation.getAnimatedValue();
+                loadingLayout.setAlpha(value/100f);
+                darkenView.setAlpha(value/100f);
+                if(value == 0){
+                    loadingLayout.setVisibility(View.GONE);
+                    darkenView.setVisibility(View.GONE);
+                }
+            }
+        });
+        animator.start();
     }
 
     private void updateServerPicture(UserGuildModelItem item) {

@@ -128,6 +128,21 @@ public class DetailedGuildItem {
 	@SerializedName("splash")
 	private String splash;
 
+	@SerializedName("approximate_member_count")
+	private int approximateMemberCount;
+
+	@SerializedName("approximate_presence_count")
+	private int approximatePresenceCount;
+
+	public DetailedGuildItem() {
+	}
+
+	public static DetailedGuildItem createError(){
+		DetailedGuildItem error = new DetailedGuildItem();
+		error.setId("error");
+		return error;
+	}
+
 	public int getMaxStageVideoChannelUsers(){
 		return maxStageVideoChannelUsers;
 	}
@@ -290,5 +305,185 @@ public class DetailedGuildItem {
 
 	public String getSplash(){
 		return splash;
+	}
+
+	public void setMaxStageVideoChannelUsers(int maxStageVideoChannelUsers) {
+		this.maxStageVideoChannelUsers = maxStageVideoChannelUsers;
+	}
+
+	public void setPreferredLocale(String preferredLocale) {
+		this.preferredLocale = preferredLocale;
+	}
+
+	public void setEmbedChannelId(String embedChannelId) {
+		this.embedChannelId = embedChannelId;
+	}
+
+	public void setDefaultMessageNotifications(int defaultMessageNotifications) {
+		this.defaultMessageNotifications = defaultMessageNotifications;
+	}
+
+	public void setOwnerId(String ownerId) {
+		this.ownerId = ownerId;
+	}
+
+	public void setWidgetChannelId(String widgetChannelId) {
+		this.widgetChannelId = widgetChannelId;
+	}
+
+	public void setRoles(List<RolesItem> roles) {
+		this.roles = roles;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+
+	public void setDescription(Object description) {
+		this.description = description;
+	}
+
+	public void setSystemChannelId(String systemChannelId) {
+		this.systemChannelId = systemChannelId;
+	}
+
+	public void setRulesChannelId(Object rulesChannelId) {
+		this.rulesChannelId = rulesChannelId;
+	}
+
+	public void setAfkTimeout(int afkTimeout) {
+		this.afkTimeout = afkTimeout;
+	}
+
+	public void setFeatures(List<String> features) {
+		this.features = features;
+	}
+
+	public void setAfkChannelId(Object afkChannelId) {
+		this.afkChannelId = afkChannelId;
+	}
+
+	public void setMaxMembers(int maxMembers) {
+		this.maxMembers = maxMembers;
+	}
+
+	public void setStickers(List<Object> stickers) {
+		this.stickers = stickers;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setHubType(Object hubType) {
+		this.hubType = hubType;
+	}
+
+	public void setWidgetEnabled(boolean widgetEnabled) {
+		this.widgetEnabled = widgetEnabled;
+	}
+
+	public void setMaxVideoChannelUsers(int maxVideoChannelUsers) {
+		this.maxVideoChannelUsers = maxVideoChannelUsers;
+	}
+
+	public void setNsfwLevel(int nsfwLevel) {
+		this.nsfwLevel = nsfwLevel;
+	}
+
+	public void setSafetyAlertsChannelId(Object safetyAlertsChannelId) {
+		this.safetyAlertsChannelId = safetyAlertsChannelId;
+	}
+
+	public void setEmojis(List<EmojisItem> emojis) {
+		this.emojis = emojis;
+	}
+
+	public void setNsfw(boolean nsfw) {
+		this.nsfw = nsfw;
+	}
+
+	public void setVanityUrlCode(Object vanityUrlCode) {
+		this.vanityUrlCode = vanityUrlCode;
+	}
+
+	public void setMaxPresences(Object maxPresences) {
+		this.maxPresences = maxPresences;
+	}
+
+	public void setSystemChannelFlags(int systemChannelFlags) {
+		this.systemChannelFlags = systemChannelFlags;
+	}
+
+	public void setPremiumProgressBarEnabled(boolean premiumProgressBarEnabled) {
+		this.premiumProgressBarEnabled = premiumProgressBarEnabled;
+	}
+
+	public void setBanner(String banner) {
+		this.banner = banner;
+	}
+
+	public void setPremiumSubscriptionCount(int premiumSubscriptionCount) {
+		this.premiumSubscriptionCount = premiumSubscriptionCount;
+	}
+
+	public void setPublicUpdatesChannelId(Object publicUpdatesChannelId) {
+		this.publicUpdatesChannelId = publicUpdatesChannelId;
+	}
+
+	public void setApplicationId(Object applicationId) {
+		this.applicationId = applicationId;
+	}
+
+	public void setEmbedEnabled(boolean embedEnabled) {
+		this.embedEnabled = embedEnabled;
+	}
+
+	public void setVerificationLevel(int verificationLevel) {
+		this.verificationLevel = verificationLevel;
+	}
+
+	public void setDiscoverySplash(Object discoverySplash) {
+		this.discoverySplash = discoverySplash;
+	}
+
+	public void setExplicitContentFilter(int explicitContentFilter) {
+		this.explicitContentFilter = explicitContentFilter;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setMfaLevel(int mfaLevel) {
+		this.mfaLevel = mfaLevel;
+	}
+
+	public void setPremiumTier(int premiumTier) {
+		this.premiumTier = premiumTier;
+	}
+
+	public void setRegion(String region) {
+		this.region = region;
+	}
+
+	public void setSplash(String splash) {
+		this.splash = splash;
+	}
+
+	public int getApproximateMemberCount() {
+		return approximateMemberCount;
+	}
+
+	public void setApproximateMemberCount(int approximateMemberCount) {
+		this.approximateMemberCount = approximateMemberCount;
+	}
+
+	public int getApproximatePresenceCount() {
+		return approximatePresenceCount;
+	}
+
+	public void setApproximatePresenceCount(int approximatePresenceCount) {
+		this.approximatePresenceCount = approximatePresenceCount;
 	}
 }

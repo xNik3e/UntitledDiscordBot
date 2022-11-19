@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.untitleddiscordbot.Models.DetailedGuild.DetailedGuildItem;
 import com.example.untitleddiscordbot.Models.UserGuildsModel.UserGuildModelItem;
 import com.example.untitleddiscordbot.Models.UserModel.UserModel;
 import com.example.untitleddiscordbot.repositories.MainRepository;
@@ -18,6 +19,7 @@ public class MainViewModel extends ViewModel {
     private MutableLiveData<Boolean> isUserGuildsUpdated = new MutableLiveData<>(false);
 
     private LiveData<UserGuildModelItem> selectedServer;
+    private final LiveData<DetailedGuildItem> detailedGuildItemModel;
 
     public MainViewModel(MainRepository mainRepository) {
         this.mainRepository = mainRepository;
@@ -25,6 +27,7 @@ public class MainViewModel extends ViewModel {
         userModel = mainRepository.getUserModel();
         userGuildModel =  mainRepository.getUserGuildModel();
         selectedServer = mainRepository.getSelectedServer();
+        detailedGuildItemModel = mainRepository.getDetailedGuildModel();
     }
 
 
@@ -78,4 +81,13 @@ public class MainViewModel extends ViewModel {
     public UserGuildModelItem getSelectedServer(){
         return selectedServer.getValue();
     }
+
+    public LiveData<DetailedGuildItem> getDetailedGuild(){
+        return detailedGuildItemModel;
+    }
+
+    public void fetchDetailedGuild(String guildId){
+        mainRepository.getDetailedGuild(guildId);
+    }
+
 }

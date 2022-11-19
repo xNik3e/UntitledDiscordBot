@@ -58,6 +58,8 @@
 
     </style>
 
+
+
     <style name="myBottomModalSheet" parent="@style/Widget.Material3.BottomSheet">
 
         <item name="android:background">@drawable/modal_drawable</item>

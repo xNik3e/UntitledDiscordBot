@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,148 +7,235 @@
     android:background="@drawable/main_background_gradient"
     tools:context=".MainActivity">
 
+
     <View
         android:id="@+id/darken_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
+        android:alpha="1"
+        android:background="@color/transparent_dark"
         android:elevation="20dp"
-        android:alpha="0"
-        android:background="@color/transparent_dark"/>
+        android:visibility="visible" />
 
-
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="@dimen/dp_12"
-        android:background="@android:color/transparent"
-        app:contentInsetEnd="0dp"
-        app:contentInsetStart="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="@dimen/dp_12"
+            android:background="@android:color/transparent"
+            app:contentInsetEnd="0dp"
+            app:contentInsetStart="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <FrameLayout
-                android:id="@+id/toolbar_icon_container"
-                android:layout_width="@dimen/control_container_size"
-                android:layout_height="@dimen/control_container_size"
-                android:layout_centerVertical="true"
-                android:visibility="visible">
-
-                <ImageView
-                    android:id="@+id/ic_menu"
-                    android:layout_width="@dimen/control_icon_size"
-                    android:layout_height="@dimen/control_icon_size"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_menu"
-                    app:tint="@color/white" />
-
-            </FrameLayout>
-
-            <Space
-                android:id="@+id/spacing"
-                android:layout_width="@dimen/dp_12"
-                android:layout_height="match_parent"
-                android:layout_toEndOf="@id/toolbar_icon_container"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/toolbar_title"
-                style="@style/myFontStyle.Regular.FontPadding"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/spacing"
-                android:text="@string/home"
-                android:textSize="@dimen/text_huge" />
+                android:layout_height="match_parent">
 
-        </RelativeLayout>
+                <FrameLayout
+                    android:id="@+id/toolbar_icon_container"
+                    android:layout_width="@dimen/control_container_size"
+                    android:layout_height="@dimen/control_container_size"
+                    android:layout_centerVertical="true"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:id="@+id/ic_menu"
+                        android:layout_width="@dimen/control_icon_size"
+                        android:layout_height="@dimen/control_icon_size"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_menu"
+                        app:tint="@color/white" />
+
+                </FrameLayout>
+
+                <Space
+                    android:id="@+id/spacing"
+                    android:layout_width="@dimen/dp_12"
+                    android:layout_height="match_parent"
+                    android:layout_toEndOf="@id/toolbar_icon_container"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    style="@style/myFontStyle.Regular.FontPadding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/spacing"
+                    android:text="@string/home"
+                    android:textSize="@dimen/text_huge" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/toolbar_menu_items"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/control_image_size"
+                android:layout_gravity="end"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:id="@+id/icon_server"
+                    android:layout_width="@dimen/control_image_size"
+                    android:layout_height="@dimen/control_image_size"
+                    android:visibility="visible">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:cardCornerRadius="@dimen/control_icon_size">
+
+                        <ImageView
+                            android:id="@+id/server_picture"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/pawel" />
+
+                    </androidx.cardview.widget.CardView>
+                </FrameLayout>
+
+                <Space
+                    android:id="@+id/title_spacing"
+                    android:layout_width="14dp"
+                    android:layout_height="match_parent"
+                    android:visibility="visible" />
+
+                <FrameLayout
+                    android:id="@+id/icon_profile"
+                    android:layout_width="@dimen/control_image_size"
+                    android:layout_height="@dimen/control_image_size">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:cardCornerRadius="@dimen/control_icon_size">
+
+                        <ImageView
+                            android:id="@+id/profile_picture"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/profile" />
+
+                    </androidx.cardview.widget.CardView>
+                </FrameLayout>
+            </LinearLayout>
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <fragment
+            android:id="@+id/container"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:defaultNavHost="true"
+            app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:navGraph="@navigation/app_navigation_graph" />
+
+
+        <github.com.st235.lib_expandablebottombar.ExpandableBottomBar
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:exb_backgroundColor="@color/surface_dark"
+            app:exb_itemBackgroundOpacity="0.2"
+            app:exb_itemInactiveColor="@color/white"
+            app:exb_item_vertical_margin="@dimen/dp_16"
+            app:exb_items="@menu/bottom_menu"
+
+            app:exb_transitionDuration="250"
+            app:layout_behavior="github.com.st235.lib_expandablebottombar.behavior.ExpandableBottomBarScrollableBehavior"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/loading_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="21dp"
+        android:gravity="center"
+        android:visibility="visible"
+        android:orientation="vertical">
+
+
+        <ProgressBar
+            android:id="@+id/loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:indeterminateDrawable="@drawable/progress_bar_color" />
 
         <LinearLayout
-            android:id="@+id/toolbar_menu_items"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/control_image_size"
-            android:layout_gravity="end"
-            android:orientation="horizontal">
+            android:id="@+id/error_container"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <FrameLayout
-                android:id="@+id/icon_server"
-                android:layout_width="@dimen/control_image_size"
-                android:layout_height="@dimen/control_image_size"
-                android:visibility="visible">
+            <TextView
+                android:id="@+id/text_error"
+                style="@style/myFontStyle.Headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:text="@string/an_unexpected_error_occurred"
+                android:textSize="@dimen/text_large" />
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:cardCornerRadius="@dimen/control_icon_size">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_retry"
+                style="@style/buttonChoose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:text="Retry" />
 
-                    <ImageView
-                        android:id="@+id/server_picture"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/pawel" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_exit"
+                style="@style/buttonChoose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:text="Exit App"
+                android:textStyle="bold"
+                app:strokeColor="@color/active_color" />
 
-                </androidx.cardview.widget.CardView>
-            </FrameLayout>
+            <TextView
+                style="@style/myFontStyle.Regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_24"
+                android:text="@string/auto_retry_in"
+                android:textSize="@dimen/text_tiny" />
 
-            <Space
-                android:id="@+id/title_spacing"
-                android:layout_width="14dp"
-                android:layout_height="match_parent"
-                android:visibility="visible" />
+            <TextView
+                style="@style/myFontStyle.Headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_4"
+                android:text="4"
+                android:textColor="@color/active_color"
+                android:textStyle="bold"
+                android:id="@+id/retry_text"
+                android:textSize="@dimen/text_tiny" />
 
-            <FrameLayout
-                android:id="@+id/icon_profile"
-                android:layout_width="@dimen/control_image_size"
-                android:layout_height="@dimen/control_image_size">
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:cardCornerRadius="@dimen/control_icon_size">
-
-                    <ImageView
-                        android:id="@+id/profile_picture"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/profile" />
-
-                </androidx.cardview.widget.CardView>
-            </FrameLayout>
         </LinearLayout>
 
-    </com.google.android.material.appbar.MaterialToolbar>
-
-    <fragment
-        android:id="@+id/container"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:navGraph="@navigation/app_navigation_graph" />
 
 
-    <github.com.st235.lib_expandablebottombar.ExpandableBottomBar
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:exb_backgroundColor="@color/surface_dark"
-        app:exb_itemBackgroundOpacity="0.2"
-        app:exb_itemInactiveColor="@color/white"
-        app:exb_item_vertical_margin="@dimen/dp_16"
-        app:exb_items="@menu/bottom_menu"
+    </LinearLayout>
 
-        app:exb_transitionDuration="250"
-        app:layout_behavior="github.com.st235.lib_expandablebottombar.behavior.ExpandableBottomBarScrollableBehavior"
-        app:layout_constraintBottom_toBottomOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</RelativeLayout>
