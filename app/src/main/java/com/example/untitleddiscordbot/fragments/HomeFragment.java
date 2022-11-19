@@ -1,5 +1,6 @@
 package com.example.untitleddiscordbot.fragments;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.example.untitleddiscordbot.MainActivity;
 import com.example.untitleddiscordbot.Models.UserGuildsModel.UserGuildModelItem;
@@ -37,10 +40,15 @@ public class HomeFragment extends Fragment {
     private RecyclerView newsRV;
     private MainViewModel viewModel;
 
+    private LinearLayout emptyLayout, serverLayout;
+
     private Context ctx;
     private UserModel userModel;
     private List<UserGuildModelItem> userGuildModel;
     private ServerSelectionInterface anInterface;
+    private static UserGuildModelItem selectedServer;
+
+    private static boolean isUIUpdated = false;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -70,6 +78,24 @@ public class HomeFragment extends Fragment {
 
         chooseServer = view.findViewById(R.id.button_choose);
         newsRV = view.findViewById(R.id.news_rv);
+        emptyLayout = view.findViewById(R.id.empty_layout);
+        serverLayout = view.findViewById(R.id.server_layout);
+
+        if (!isUIUpdated){
+            serverLayout.setVisibility(View.GONE);
+            serverLayout.setAlpha(0);
+            emptyLayout.setVisibility(View.VISIBLE);
+            emptyLayout.setAlpha(1);
+        }else{
+            String serverName = selectedServer.getName();
+            chooseServer.setText(serverName);
+            serverLayout.setVisibility(View.VISIBLE);
+            serverLayout.setAlpha(1);
+            emptyLayout.setVisibility(View.GONE);
+            emptyLayout.setAlpha(0);
+        }
+
+
 
         anInterface = new ServerSelectionInterface() {
             @Override
@@ -83,7 +109,9 @@ public class HomeFragment extends Fragment {
                         customTabsIntent.intent.setData(Uri.parse(url));
                         ((MainActivity) ctx).startActivityForResult(customTabsIntent.intent, 645);
                     }else{
-                        ((MainActivity) ctx).startActivityForResult(null, 546);
+                        //dismiss ServerSelectionFragment
+                        ServerSelectionFragment f = (ServerSelectionFragment) getChildFragmentManager().findFragmentByTag("ServerSelectionFragment");
+                        f.dismissNow();
                     }
             }
         };
@@ -99,5 +127,41 @@ public class HomeFragment extends Fragment {
         });
 
 
+        viewModel.getSelectedServerLiveData().observe(getViewLifecycleOwner(), new Observer<UserGuildModelItem>() {
+            @Override
+            public void onChanged(UserGuildModelItem item) {
+                if(item != null){
+                    selectedServer = item;
+                    chooseServer.setText(selectedServer.getName());
+                    if(!isUIUpdated)
+                        updateUI();
+                }
+
+            }
+        });
+
+    }
+
+    public void updateUI(){
+        //update UI
+        serverLayout.setVisibility(View.VISIBLE);
+        serverLayout.setAlpha(0);
+        ValueAnimator animator = ValueAnimator.ofInt(0, 100);
+        animator.setDuration(500);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                serverLayout.setAlpha((int) animation.getAnimatedValue() / 100f);
+                emptyLayout.setAlpha(1 - (int) animation.getAnimatedValue() / 100f);
+                if ((int) animation.getAnimatedValue() == 100) {
+                    emptyLayout.setVisibility(View.GONE);
+                    isUIUpdated = true;
+                }
+            }
+        });
+        animator.start();
+
+        //update button text
+        chooseServer.setText(selectedServer.getName());
     }
 }

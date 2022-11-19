@@ -170,7 +170,8 @@ public class MainActivity extends AppCompatActivity {
                     //Is selected and is bot added
                     if(item.isBotAdded()){
                         //select server
-                        updateServerPicture();
+                        selectedServer = item;
+                        updateServerPicture(item);
                     }else{
                         viewModel.setSelectedServer(null);
                     }
@@ -180,9 +181,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void updateServerPicture() {
-        if(selectedServer.getIcon() != null){
-            String url = "https://cdn.discordapp.com/icons/" + selectedServer.getId() + "/" + selectedServer.getIcon() + ".png";
+    private void updateServerPicture(UserGuildModelItem item) {
+        if(item.getIcon() != null){
+            String url = "https://cdn.discordapp.com/icons/" + item.getId() + "/" + item.getIcon() + ".png";
             Glide.with(this).load(url).placeholder(R.drawable.discord_placeholder).into(serverPicture);
         }else
             Glide.with(this).load(R.drawable.discord_placeholder).into(serverPicture);
@@ -269,7 +270,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }else if(requestCode == 546){
             //load server data
-
+            System.out.println("TEST");
         }
     }
 }

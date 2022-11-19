@@ -74,15 +74,8 @@ public class ServerSelectionFragment extends BottomSheetDialogFragment {
 
         //sort guilds based on isBot and name
         sortElements();
-        DismissListener dismissListener = new DismissListener() {
-            @Override
-            public void onDismiss() {
-                dismiss();
-            }
-        };
 
-
-        adapter = new ServerSelectionAdapter(guilds, ctx, anInterface, dismissListener);
+        adapter = new ServerSelectionAdapter(guilds, ctx, anInterface);
         if(!guilds.isEmpty()){
             emptyLayout.setVisibility(View.GONE);
             serverRV.setVisibility(View.VISIBLE);
@@ -127,7 +120,5 @@ public class ServerSelectionFragment extends BottomSheetDialogFragment {
         }
     }
 
-    public interface DismissListener{
-        void onDismiss();
-    }
+
 }

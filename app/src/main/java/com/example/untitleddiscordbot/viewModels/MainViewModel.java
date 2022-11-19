@@ -64,6 +64,7 @@ public class MainViewModel extends ViewModel {
     public void clearAllData() {
         mainRepository.clearAllData();
         isUserGuildsUpdated.setValue(false);
+        selectedServer.setValue(null);
     }
 
     public void setSelectedServer(UserGuildModelItem userGuildModelItem){

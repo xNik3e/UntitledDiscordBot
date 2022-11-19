@@ -26,16 +26,15 @@ public class ServerSelectionAdapter extends RecyclerView.Adapter<ServerSelection
     private List<UserGuildModelItem> guilds;
     private Context ctx;
     private ServerSelectionInterface anInterface;
-    private ServerSelectionFragment.DismissListener dismissListener;
+
 
     public ServerSelectionAdapter(List<UserGuildModelItem> guilds,
                                   Context ctx,
-                                  ServerSelectionInterface anInterface,
-                                  ServerSelectionFragment.DismissListener dismissListener) {
+                                  ServerSelectionInterface anInterface) {
         this.guilds = guilds;
         this.ctx = ctx;
         this.anInterface = anInterface;
-        this.dismissListener = dismissListener;
+
     }
 
     @NonNull
@@ -110,7 +109,7 @@ public class ServerSelectionAdapter extends RecyclerView.Adapter<ServerSelection
 
             itemView.setOnClickListener(v -> {
                 anInterface.selectServer(guilds.get(getAdapterPosition()));
-                dismissListener.onDismiss();
+
             });
         }
     }
