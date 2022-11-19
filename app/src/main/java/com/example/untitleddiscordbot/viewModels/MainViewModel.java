@@ -17,13 +17,14 @@ public class MainViewModel extends ViewModel {
     private final LiveData<List<UserGuildModelItem>> userGuildModel;
     private MutableLiveData<Boolean> isUserGuildsUpdated = new MutableLiveData<>(false);
 
-    private MutableLiveData<UserGuildModelItem> selectedServer = new MutableLiveData<>(null);
+    private LiveData<UserGuildModelItem> selectedServer;
 
     public MainViewModel(MainRepository mainRepository) {
         this.mainRepository = mainRepository;
 
         userModel = mainRepository.getUserModel();
         userGuildModel =  mainRepository.getUserGuildModel();
+        selectedServer = mainRepository.getSelectedServer();
     }
 
 
@@ -64,11 +65,10 @@ public class MainViewModel extends ViewModel {
     public void clearAllData() {
         mainRepository.clearAllData();
         isUserGuildsUpdated.setValue(false);
-        selectedServer.setValue(null);
     }
 
     public void setSelectedServer(UserGuildModelItem userGuildModelItem){
-        selectedServer.setValue(userGuildModelItem);
+        mainRepository.setSelectedServer(userGuildModelItem);
     }
 
     public LiveData<UserGuildModelItem> getSelectedServerLiveData(){

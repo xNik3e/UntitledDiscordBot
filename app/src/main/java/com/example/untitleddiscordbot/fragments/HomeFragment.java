@@ -46,8 +46,8 @@ public class HomeFragment extends Fragment {
     private UserModel userModel;
     private List<UserGuildModelItem> userGuildModel;
     private ServerSelectionInterface anInterface;
-    private static UserGuildModelItem selectedServer;
 
+    private static UserGuildModelItem selectedServer;
     private static boolean isUIUpdated = false;
 
     public HomeFragment() {
@@ -107,6 +107,10 @@ public class HomeFragment extends Fragment {
                         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
                         CustomTabsIntent customTabsIntent = builder.build();
                         customTabsIntent.intent.setData(Uri.parse(url));
+
+                        selectedServer = null;
+                        isUIUpdated = false;
+
                         ((MainActivity) ctx).startActivityForResult(customTabsIntent.intent, 645);
                     }else{
                         //dismiss ServerSelectionFragment
@@ -130,7 +134,7 @@ public class HomeFragment extends Fragment {
         viewModel.getSelectedServerLiveData().observe(getViewLifecycleOwner(), new Observer<UserGuildModelItem>() {
             @Override
             public void onChanged(UserGuildModelItem item) {
-                if(item != null){
+                if(item != null && item.isBotAdded()){
                     selectedServer = item;
                     chooseServer.setText(selectedServer.getName());
                     if(!isUIUpdated)

@@ -34,6 +34,7 @@ public class LoadingActivity extends AppCompatActivity {
 
     private LiveData<Boolean> isUserGuildsUpdated;
     private boolean isUserGuildsUpdatedValue = false;
+    private UserGuildModelItem selectedServer = null;
 
 
     @Override
@@ -83,6 +84,15 @@ public class LoadingActivity extends AppCompatActivity {
 
         builder.build();
 
+        mainViewModel.getSelectedServerLiveData().observe(this, new Observer<UserGuildModelItem>() {
+            @Override
+            public void onChanged(UserGuildModelItem item) {
+                if(item != null){
+                    selectedServer = item;
+                }
+            }
+        });
+
         mainViewModel.isUserGuildsUpdated().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
@@ -105,6 +115,18 @@ public class LoadingActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<UserGuildModelItem> userGuildModel) {
                 if(userGuildModel != null && isUserGuildsUpdatedValue){
+                    if(selectedServer != null){
+                        boolean isServerFound = userGuildModel.stream().anyMatch(guild ->{
+                            if(guild.getId().equals(selectedServer.getId())){
+                                return guild.isBotAdded();
+                            }
+                            return false;
+                        });
+                        if(isServerFound){
+                            selectedServer.setBotAdded(true);
+                            mainViewModel.setSelectedServer(selectedServer);
+                        }
+                    }
                     infoView.setText("Loading Complete");
                     progressBarHorizontal.setProgress(100);
                     infoDetail.setVisibility(TextView.GONE);

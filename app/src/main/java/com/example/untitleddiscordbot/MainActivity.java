@@ -172,8 +172,6 @@ public class MainActivity extends AppCompatActivity {
                         //select server
                         selectedServer = item;
                         updateServerPicture(item);
-                    }else{
-                        viewModel.setSelectedServer(null);
                     }
                 }
             }
