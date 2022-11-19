@@ -1,10 +1,13 @@
 package com.example.untitleddiscordbot.fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -70,8 +73,18 @@ public class HomeFragment extends Fragment {
 
         anInterface = new ServerSelectionInterface() {
             @Override
-            public void selectServer(int position) {
-
+            public void selectServer(UserGuildModelItem item) {
+                    viewModel.setSelectedServer(item);
+                    if(!item.isBotAdded()){
+                        //open Custom Tab with the invite link and get on activity result
+                        String url = "https://discord.com/api/oauth2/authorize?client_id=689502885159108692&permissions=8&scope=bot";
+                        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                        CustomTabsIntent customTabsIntent = builder.build();
+                        customTabsIntent.intent.setData(Uri.parse(url));
+                        ((MainActivity) ctx).startActivityForResult(customTabsIntent.intent, 645);
+                    }else{
+                        ((MainActivity) ctx).startActivityForResult(null, 546);
+                    }
             }
         };
 

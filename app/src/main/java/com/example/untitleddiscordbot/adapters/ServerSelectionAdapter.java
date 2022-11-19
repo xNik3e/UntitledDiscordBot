@@ -15,6 +15,8 @@ import com.bumptech.glide.Glide;
 import com.example.untitleddiscordbot.Models.UserGuildsModel.UserGuildModelItem;
 import com.example.untitleddiscordbot.R;
 import com.example.untitleddiscordbot.Utils.ServerStatus;
+import com.example.untitleddiscordbot.fragments.BottomSheet.ServerSelectionFragment;
+import com.example.untitleddiscordbot.fragments.HomeFragment;
 import com.example.untitleddiscordbot.interfaces.ServerSelectionInterface;
 
 import java.util.List;
@@ -24,13 +26,16 @@ public class ServerSelectionAdapter extends RecyclerView.Adapter<ServerSelection
     private List<UserGuildModelItem> guilds;
     private Context ctx;
     private ServerSelectionInterface anInterface;
+    private ServerSelectionFragment.DismissListener dismissListener;
 
     public ServerSelectionAdapter(List<UserGuildModelItem> guilds,
                                   Context ctx,
-                                  ServerSelectionInterface anInterface) {
+                                  ServerSelectionInterface anInterface,
+                                  ServerSelectionFragment.DismissListener dismissListener) {
         this.guilds = guilds;
         this.ctx = ctx;
         this.anInterface = anInterface;
+        this.dismissListener = dismissListener;
     }
 
     @NonNull
@@ -102,6 +107,11 @@ public class ServerSelectionAdapter extends RecyclerView.Adapter<ServerSelection
             role = itemView.findViewById(R.id.role);
             already_in_server = itemView.findViewById(R.id.already_in_server);
             add_to_server = itemView.findViewById(R.id.add_to_server);
+
+            itemView.setOnClickListener(v -> {
+                anInterface.selectServer(guilds.get(getAdapterPosition()));
+                dismissListener.onDismiss();
+            });
         }
     }
 }
