@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/role_chip"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/add_button_transparent"
+    android:backgroundTint="@color/active_color"
+    android:orientation="vertical"
+    android:layout_margin="@dimen/dp_4"
+    android:padding="@dimen/dp_8">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="TEST"
+        android:textColor="@color/active_color"
+        android:textAllCaps="false"
+        android:textSize="@dimen/text_tiny"
+        android:id="@+id/role_chip_name"/>
+
+
+</LinearLayout>

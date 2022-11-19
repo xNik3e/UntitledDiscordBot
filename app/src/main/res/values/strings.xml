@@ -24,4 +24,10 @@
     <string name="log_out">Log Out</string>
     <string name="not_available">This feature is not yet available.\n\n Gimme some sleep</string>
     <string name="server_prefix">Server prefix:</string>
+    <string name="role_info">Role info</string>
+    <string name="require_one_of_roles_info">Require one of these roles</string>
+    <string name="require_one_of_roles_value">Users without one of these roles won\'t be able to use commands.</string>
+    <string name="none_selected">None selected</string>
+    <string name="ignore_users_with_one_of_these_roles">Ignore users with one of these roles</string>
+    <string name="role_ignored">Users with an ignored role won\'t be able to use commands, even if they have a required role.</string>
 </resources>
