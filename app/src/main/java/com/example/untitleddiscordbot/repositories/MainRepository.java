@@ -35,7 +35,8 @@ public class MainRepository {
     private final MutableLiveData<UserModel> mutableUserModel;
     private final MutableLiveData<List<UserGuildModelItem>> mutableUserGuildModel;
     private final MutableLiveData<UserGuildModelItem> selectedServer;
-    
+    private final MutableLiveData<DetailedGuildItem> mutableDetailedGuildItemModel;
+
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
 
@@ -52,6 +53,7 @@ public class MainRepository {
         mutableUserModel = new MutableLiveData<>(null);
         mutableUserGuildModel = new MutableLiveData<>(null);
         selectedServer = new MutableLiveData<>(null);
+        mutableDetailedGuildItemModel = new MutableLiveData<>(null);
     }
 
 
@@ -135,23 +137,30 @@ public class MainRepository {
 
     }
 
-    public void getDetailedGuild(String id){
+    public LiveData<DetailedGuildItem> getDetailedGuild(String id){
         Map<String, Object> body = new HashMap<>();
         body.put("id", id);
-        Call<DetailedGuildItem> call = myApiService.getDetailedGuild(body);
-        call.enqueue(new Callback<DetailedGuildItem>() {
+        Call<DefaultResponse<DetailedGuildItem>> call = myApiService.getDetailedGuild(body);
+        call.enqueue(new Callback<DefaultResponse<DetailedGuildItem>>() {
             @Override
-            public void onResponse(Call<DetailedGuildItem> call, Response<DetailedGuildItem> response) {
-
+            public void onResponse(Call<DefaultResponse<DetailedGuildItem>> call, Response<DefaultResponse<DetailedGuildItem>> response) {
+                if(response.isSuccessful()){
+                    DetailedGuildItem detailedGuildItem = response.body().getData();
+                    mutableDetailedGuildItemModel.postValue(detailedGuildItem);
+                }
             }
 
             @Override
-            public void onFailure(Call<DetailedGuildItem> call, Throwable t) {
-
+            public void onFailure(Call<DefaultResponse<DetailedGuildItem>> call, Throwable t) {
+                mutableDetailedGuildItemModel.setValue(new DetailedGuildItem());
             }
         });
+        return mutableDetailedGuildItemModel;
     }
 
+    public LiveData<DetailedGuildItem> getDetailedGuildModel(){
+        return mutableDetailedGuildItemModel;
+    }
 
     public LiveData<UserModel> getUserModel() {
         return mutableUserModel;
@@ -168,6 +177,7 @@ public class MainRepository {
     public void clearAllData() {
         mutableUserModel.setValue(null);
         mutableUserGuildModel.setValue(null);
+        mutableDetailedGuildItemModel.setValue(null);
     }
 
     public void setSelectedServer(UserGuildModelItem userGuildModelItem) {

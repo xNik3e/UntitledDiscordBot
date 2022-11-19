@@ -21,4 +21,5 @@
     <color name="grayish_white">#A3A3A3</color>
     <color name="surface_darkest_grey">#18191C</color>
     <color name="transparent_dark">#CC000000</color>
+    <color name="white_stroke_transparent_25">#40EDF2F4</color>
 </resources>

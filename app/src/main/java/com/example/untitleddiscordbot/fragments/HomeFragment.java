@@ -15,11 +15,15 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
 import com.example.untitleddiscordbot.MainActivity;
 import com.example.untitleddiscordbot.Models.UserGuildsModel.UserGuildModelItem;
 import com.example.untitleddiscordbot.Models.UserModel.UserModel;
@@ -46,6 +50,8 @@ public class HomeFragment extends Fragment {
     private UserModel userModel;
     private List<UserGuildModelItem> userGuildModel;
     private ServerSelectionInterface anInterface;
+    private FrameLayout serverIconFrame;
+    private ImageView serverIcon;
 
     private static UserGuildModelItem selectedServer;
     private static boolean isUIUpdated = false;
@@ -80,15 +86,29 @@ public class HomeFragment extends Fragment {
         newsRV = view.findViewById(R.id.news_rv);
         emptyLayout = view.findViewById(R.id.empty_layout);
         serverLayout = view.findViewById(R.id.server_layout);
+        serverIconFrame = view.findViewById(R.id.server_icon_frame);
+        serverIcon = view.findViewById(R.id.server_icon);
+
+
 
         if (!isUIUpdated){
             serverLayout.setVisibility(View.GONE);
             serverLayout.setAlpha(0);
             emptyLayout.setVisibility(View.VISIBLE);
             emptyLayout.setAlpha(1);
+            serverIconFrame.setVisibility(View.GONE);
         }else{
             String serverName = selectedServer.getName();
             chooseServer.setText(serverName);
+            chooseServer.setPadding(chooseServer.getPaddingLeft() + (int )TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()),
+                    chooseServer.getPaddingTop(),
+                    chooseServer.getPaddingRight(),
+                    chooseServer.getPaddingBottom());
+
+            serverIconFrame.setVisibility(View.VISIBLE);
+            updateServerPicture(selectedServer.getIcon(), selectedServer.getId());
+
             serverLayout.setVisibility(View.VISIBLE);
             serverLayout.setAlpha(1);
             emptyLayout.setVisibility(View.GONE);
@@ -137,6 +157,7 @@ public class HomeFragment extends Fragment {
                 if(item != null && item.isBotAdded()){
                     selectedServer = item;
                     chooseServer.setText(selectedServer.getName());
+                    updateServerPicture(selectedServer.getIcon(), selectedServer.getId());
                     if(!isUIUpdated)
                         updateUI();
                 }
@@ -167,5 +188,23 @@ public class HomeFragment extends Fragment {
 
         //update button text
         chooseServer.setText(selectedServer.getName());
+        chooseServer.setPadding(chooseServer.getPaddingLeft() + (int )TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()),
+                chooseServer.getPaddingTop(),
+                chooseServer.getPaddingRight(),
+                chooseServer.getPaddingBottom());
+
+        serverIconFrame.setVisibility(View.VISIBLE);
+        updateServerPicture(selectedServer.getIcon(), selectedServer.getId());
+
+    }
+
+
+    private void updateServerPicture(String icon, String id) {
+        if(icon != null){
+            String url = "https://cdn.discordapp.com/icons/" + id + "/" + icon + ".png";
+            Glide.with(this).load(url).placeholder(R.drawable.discord_placeholder).into(serverIcon);
+        }else
+            Glide.with(this).load(R.drawable.discord_placeholder).into(serverIcon);
+
     }
 }
