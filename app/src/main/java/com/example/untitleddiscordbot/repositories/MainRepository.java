@@ -30,6 +30,7 @@ public class MainRepository {
     private final MyApiService myApiService;
     private final MutableLiveData<UserModel> mutableUserModel;
     private final MutableLiveData<List<UserGuildModelItem>> mutableUserGuildModel;
+    private final MutableLiveData<UserGuildModelItem> selectedServer;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
 
@@ -45,6 +46,7 @@ public class MainRepository {
         this.myApiService = myApiService;
         mutableUserModel = new MutableLiveData<>(null);
         mutableUserGuildModel = new MutableLiveData<>(null);
+        selectedServer = new MutableLiveData<>(null);
     }
 
 
@@ -137,8 +139,16 @@ public class MainRepository {
         return mutableUserGuildModel;
     }
 
+    public LiveData<UserGuildModelItem> getSelectedServer() {
+        return selectedServer;
+    }
+
     public void clearAllData() {
         mutableUserModel.setValue(null);
         mutableUserGuildModel.setValue(null);
+    }
+
+    public void setSelectedServer(UserGuildModelItem userGuildModelItem) {
+        selectedServer.setValue(userGuildModelItem);
     }
 }

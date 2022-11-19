@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.NavController;
@@ -25,9 +26,11 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.Space;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.untitleddiscordbot.Models.AuthResponseModel;
+import com.example.untitleddiscordbot.Models.UserGuildsModel.UserGuildModelItem;
 import com.example.untitleddiscordbot.Models.UserModel.UserModel;
 import com.example.untitleddiscordbot.Utils.AuthUtil;
 import com.example.untitleddiscordbot.fragments.CommandsFragment;
@@ -51,17 +54,19 @@ import kotlin.jvm.functions.Function3;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView logout, toolbarTitle;
+    private TextView toolbarTitle;
     private FrameLayout serverContainer, menuContainer;
     private ImageView profilePicture, serverPicture;
     private Space space;
     private View darkenView;
 
     private ExpandableBottomBar bottomBar;
-    private HomeFragment homeFragment;
+
+    private UserGuildModelItem selectedServer;
 
     private MainViewModel viewModel;
 
+    private HomeFragment homeFragment;
     private SettingsFragment settingsFragment;
     private MusicFragment musicFragment;
     private CommandsFragment commandsFragment;
@@ -91,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         commandsFragment = new CommandsFragment();
 
         UserModel userModel = viewModel.getStoredUserModel();
+        selectedServer = viewModel.getSelectedServer();
 
         NavController navController = Navigation.findNavController(this, R.id.container);
 
@@ -105,20 +111,39 @@ public class MainActivity extends AppCompatActivity {
                     menuContainer.setVisibility(View.GONE);
                     serverContainer.setVisibility(View.GONE);
                 } else if (navDestination.getId() == R.id.settingsFragment) {
-                    toolbarTitle.setText("Settings");
-                    menuContainer.setVisibility(View.VISIBLE);
-                    serverContainer.setVisibility(View.VISIBLE);
-                    space.setVisibility(View.GONE);
+                    if (selectedServer != null) {
+                        toolbarTitle.setText("Settings");
+                        menuContainer.setVisibility(View.VISIBLE);
+                        serverContainer.setVisibility(View.VISIBLE);
+                        space.setVisibility(View.GONE);
+
+                    }else{
+                        Toast.makeText(MainActivity.this, "You haven't selected a server!", Toast.LENGTH_SHORT).show();
+                        navController.navigate(R.id.homeFragment);
+                    }
+
                 } else if (navDestination.getId() == R.id.musicFragment) {
-                    toolbarTitle.setText("Music");
-                    menuContainer.setVisibility(View.GONE);
-                    serverContainer.setVisibility(View.VISIBLE);
-                    space.setVisibility(View.VISIBLE);
+                    if(selectedServer != null){
+                        toolbarTitle.setText("Music");
+                        menuContainer.setVisibility(View.GONE);
+                        serverContainer.setVisibility(View.VISIBLE);
+                        space.setVisibility(View.VISIBLE);
+
+                    }else{
+                        Toast.makeText(MainActivity.this, "You haven't selected a server!", Toast.LENGTH_SHORT).show();
+                        navController.navigate(R.id.homeFragment);
+                    }
                 } else if (navDestination.getId() == R.id.commandsFragment) {
-                    toolbarTitle.setText("Commands");
-                    menuContainer.setVisibility(View.GONE);
-                    serverContainer.setVisibility(View.VISIBLE);
-                    space.setVisibility(View.VISIBLE);
+                    if(selectedServer != null){
+                        toolbarTitle.setText("Commands");
+                        menuContainer.setVisibility(View.GONE);
+                        serverContainer.setVisibility(View.VISIBLE);
+                        space.setVisibility(View.VISIBLE);
+
+                    }else{
+                        Toast.makeText(MainActivity.this, "You haven't selected a server!", Toast.LENGTH_SHORT).show();
+                        navController.navigate(R.id.homeFragment);
+                    }
                 }
             }
         });
@@ -137,6 +162,29 @@ public class MainActivity extends AppCompatActivity {
                 showPopupMenu(userModel);
             }
         });
+
+        viewModel.getSelectedServerLiveData().observe(this, new Observer<UserGuildModelItem>() {
+            @Override
+            public void onChanged(UserGuildModelItem item) {
+                if(item != null){
+                    //Is selected and is bot added
+                    if(item.isBotAdded()){
+                        //select server
+                        selectedServer = item;
+                        updateServerPicture(item);
+                    }
+                }
+            }
+        });
+
+    }
+
+    private void updateServerPicture(UserGuildModelItem item) {
+        if(item.getIcon() != null){
+            String url = "https://cdn.discordapp.com/icons/" + item.getId() + "/" + item.getIcon() + ".png";
+            Glide.with(this).load(url).placeholder(R.drawable.discord_placeholder).into(serverPicture);
+        }else
+            Glide.with(this).load(R.drawable.discord_placeholder).into(serverPicture);
 
     }
 
@@ -208,5 +256,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 645){
+            Toast.makeText(this, "Retrieving servers data", Toast.LENGTH_SHORT).show();
+            viewModel.clearAllData();
+            startActivity(new Intent(this, LoadingActivity.class));
+            finish();
+        }else if(requestCode == 546){
+            //load server data
+            System.out.println("TEST");
+        }
     }
 }

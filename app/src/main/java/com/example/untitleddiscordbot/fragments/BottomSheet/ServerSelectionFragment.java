@@ -75,7 +75,6 @@ public class ServerSelectionFragment extends BottomSheetDialogFragment {
         //sort guilds based on isBot and name
         sortElements();
 
-
         adapter = new ServerSelectionAdapter(guilds, ctx, anInterface);
         if(!guilds.isEmpty()){
             emptyLayout.setVisibility(View.GONE);
@@ -120,4 +119,6 @@ public class ServerSelectionFragment extends BottomSheetDialogFragment {
             });
         }
     }
+
+
 }
