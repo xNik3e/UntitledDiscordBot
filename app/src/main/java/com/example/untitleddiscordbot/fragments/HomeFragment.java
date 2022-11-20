@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.untitleddiscordbot.MainActivity;
+import com.example.untitleddiscordbot.Models.AllModel.AllDataModel;
 import com.example.untitleddiscordbot.Models.DetailedGuild.DetailedGuildItem;
 import com.example.untitleddiscordbot.Models.UserGuildsModel.UserGuildModelItem;
 import com.example.untitleddiscordbot.Models.UserModel.UserModel;
@@ -71,6 +72,8 @@ public class HomeFragment extends Fragment {
 
     private static UserGuildModelItem selectedServer;
     private static DetailedGuildItem detailedGuildItemModel;
+
+    private static AllDataModel allDataModel;
 
     private static boolean isUIUpdated = false;
 
@@ -123,7 +126,14 @@ public class HomeFragment extends Fragment {
         requiredRolesRV = roleInfo.findViewById(R.id.rv_roles_require);
         ignoredRolesRV = roleInfo.findViewById(R.id.rv_roles_ignore);
 
-
+        viewModel.getAllDataModel().observe(getViewLifecycleOwner(), new Observer<AllDataModel>() {
+            @Override
+            public void onChanged(AllDataModel dataModel) {
+                if(dataModel != null){
+                    allDataModel = dataModel;
+                }
+            }
+        });
 
         if (!isUIUpdated){
             serverLayout.setVisibility(View.GONE);
@@ -193,7 +203,8 @@ public class HomeFragment extends Fragment {
                     chooseServer.setText(selectedServer.getName());
                     updateServerPicture(selectedServer.getIcon(), selectedServer.getId());
 
-                    loadDetailedGuild();
+                    if(detailedGuildItemModel == null ||  !detailedGuildItemModel.getId().equals(selectedServer.getId()))
+                        loadDetailedGuild();
                 }
 
             }
@@ -221,7 +232,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void updateUIDetails(){
-        int level = detailedGuildItemModel.getPremiumTier();
+        int level = 3;
         int members = detailedGuildItemModel.getApproximateMemberCount();
         ValueAnimator valueAnimator = ValueAnimator.ofInt(0, 0);
         switch(level){
