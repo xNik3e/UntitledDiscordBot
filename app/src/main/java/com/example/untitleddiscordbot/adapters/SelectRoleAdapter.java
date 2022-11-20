@@ -15,35 +15,37 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.untitleddiscordbot.Models.DetailedGuild.RolesItem;
 import com.example.untitleddiscordbot.R;
 import com.example.untitleddiscordbot.interfaces.OnRoleChipClickInterface;
+import com.example.untitleddiscordbot.interfaces.OnRoleSelectedInterface;
 
 import java.util.List;
 
-public class IncludedRoleAdapter extends RecyclerView.Adapter<IncludedRoleAdapter.ViewHolder> {
+public class SelectRoleAdapter extends RecyclerView.Adapter<SelectRoleAdapter.ViewHolder> {
 
     private Context ctx;
     private List<RolesItem> roles;
-    private OnRoleChipClickInterface onRoleChipClickInterface;
+    private OnRoleSelectedInterface onRoleSelectedInterface;
 
-    public IncludedRoleAdapter(Context ctx, List<RolesItem> roles, OnRoleChipClickInterface onRoleChipClickInterface) {
+    public SelectRoleAdapter(Context ctx, List<RolesItem> roles, OnRoleSelectedInterface onRoleSelectedInterface) {
         this.ctx = ctx;
         this.roles = roles;
-        this.onRoleChipClickInterface = onRoleChipClickInterface;
+        this.onRoleSelectedInterface = onRoleSelectedInterface;
     }
 
     @NonNull
     @Override
-    public IncludedRoleAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(ctx).inflate(R.layout.recycler_view_selected_role_chip, parent, false);
+    public SelectRoleAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(ctx).inflate(R.layout.recycler_view_select_role, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull IncludedRoleAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SelectRoleAdapter.ViewHolder holder, int position) {
         RolesItem item = roles.get(position);
         holder.roleName.setText(item.getName());
         String hexColor = String.format("#%06X", (0xFFFFFF & item.getColor()));
         //holder.roleName.setTextColor(Color.parseColor(hexColor));
         holder.roleChip.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(hexColor)));
+
     }
 
     @Override
@@ -52,20 +54,18 @@ public class IncludedRoleAdapter extends RecyclerView.Adapter<IncludedRoleAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
         LinearLayout roleChip;
         TextView roleName;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             roleChip = itemView.findViewById(R.id.role_chip);
             roleName = itemView.findViewById(R.id.role_chip_name);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onRoleChipClickInterface.onRoleChipClick(roles.get(getAdapterPosition()),
+                    onRoleSelectedInterface.onRoleSelected(roles.get(getAdapterPosition()),
                             getAdapterPosition());
                 }
             });

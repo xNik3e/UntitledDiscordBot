@@ -46,6 +46,7 @@
                 android:layoutAnimation="@anim/layout_animation"
                 android:maxHeight="@dimen/dp_48"
                 android:scrollbars="none"
+                android:orientation="vertical"
                 android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@id/vg96"
                 app:layout_constraintStart_toEndOf="@id/vg04"
