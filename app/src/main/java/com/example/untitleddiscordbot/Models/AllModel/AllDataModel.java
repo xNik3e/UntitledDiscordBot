@@ -7,7 +7,10 @@ import com.example.untitleddiscordbot.Models.DetailedGuild.RolesItem;
 import com.example.untitleddiscordbot.Models.DetailedMembers.DetailedMemberItem;
 import com.example.untitleddiscordbot.Models.SettingsModel;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AllDataModel {
     private DetailedGuildItem guild;
@@ -29,6 +32,64 @@ public class AllDataModel {
         this.emojis = guild.getEmojis();
 
         this.settings = SettingsModel.getSettingsModel(guild.getId());
+
+        prettify();
+    }
+
+    private void prettify(){
+        //prettify members
+        members.sort((o1, o2) -> {
+            return o1.getUser().getUsername().compareTo(o2.getUser().getUsername());
+        });
+        //prettify channels
+        List<DetailedChannelItem> categories = channels.stream().filter(x -> x.getType() == 4).collect(Collectors.toList());
+        categories.sort((o1, o2) -> {
+            return o1.getPosition() - o2.getPosition();
+        });
+
+        List<DetailedChannelItem> newChannels = new ArrayList<>();
+
+        for (DetailedChannelItem category: categories) {
+            List<DetailedChannelItem> temp = channels.stream().filter(x -> {
+                if(x.getParentId() == null){
+                    return false;
+                }
+                return x.getParentId().equals(category.getId());
+            }).sorted((o1, o2) -> {
+                return o1.getPosition() - o2.getPosition();
+            }).sorted((o1, o2) -> {
+                return o1.getType() - o2.getType();
+            }).collect(Collectors.toList());
+            newChannels.add(category);
+            newChannels.addAll(temp);
+            temp.clear();
+        }
+
+        setChannels(newChannels);
+
+        //prettify roles
+        roles.sort((o1, o2) -> {
+            return o1.getPosition() - o2.getPosition();
+        });
+
+        //prettify emojis
+        emojis.sort((o1, o2) -> {
+            return o1.getName().compareTo(o2.getName());
+        });
+
+    }
+
+    @Deprecated
+    public void printChannelHierarchy(){
+        StringBuilder sb = new StringBuilder();
+        for (DetailedChannelItem channel: channels) {
+            if(channel.getType() == 4){
+                sb.append(channel.getName()).append("\n");
+            }else{
+                sb.append("----->").append(channel.getName()).append("\n");
+            }
+        }
+        System.out.println(sb.toString());
     }
 
     public DetailedGuildItem getGuild() {

@@ -163,8 +163,8 @@ public class MainRepository {
                     /*TODO: Also get settings and check if is available*/
 
                     AllDataModel allDataModel = new AllDataModel(detailedGuildItem, channels, members);
-                    mutableDetailedGuildItemModel.setValue(detailedGuildItem);
                     mutableAllDataModel.setValue(allDataModel);
+                    mutableDetailedGuildItemModel.postValue(detailedGuildItem);
                     //testing
                     //mutableDetailedGuildItemModel.setValue(DetailedGuildItem.createError());
                 }

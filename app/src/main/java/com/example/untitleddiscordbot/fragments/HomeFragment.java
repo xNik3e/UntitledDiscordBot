@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide;
 import com.example.untitleddiscordbot.MainActivity;
 import com.example.untitleddiscordbot.Models.AllModel.AllDataModel;
 import com.example.untitleddiscordbot.Models.DetailedGuild.DetailedGuildItem;
+import com.example.untitleddiscordbot.Models.SettingsModel;
 import com.example.untitleddiscordbot.Models.UserGuildsModel.UserGuildModelItem;
 import com.example.untitleddiscordbot.Models.UserModel.UserModel;
 import com.example.untitleddiscordbot.R;
@@ -36,7 +37,10 @@ import com.example.untitleddiscordbot.fragments.BottomSheet.ServerSelectionFragm
 import com.example.untitleddiscordbot.interfaces.ServerSelectionInterface;
 import com.example.untitleddiscordbot.viewModels.MainViewModel;
 import com.example.untitleddiscordbot.viewModels.ViewModelFactory;
+import com.google.android.flexbox.AlignItems;
+import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 
@@ -115,12 +119,15 @@ public class HomeFragment extends Fragment {
         serverInfo = view.findViewById(R.id.server_info_layout);
         roleInfo = view.findViewById(R.id.server_roles_layout);
 
-        //find views for included views
+        //find views for included views//
+
+        //global info
         serverProgress = serverInfo.findViewById(R.id.server_level);
         serverLevel = serverInfo.findViewById(R.id.server_level_text);
         prefixValue = serverInfo.findViewById(R.id.prefix_value);
         membersValue = serverInfo.findViewById(R.id.members_value);
 
+        //role info
         requiredNone = roleInfo.findViewById(R.id.empty_require);
         ignoredNone = roleInfo.findViewById(R.id.empty_ignore);
         requiredRolesRV = roleInfo.findViewById(R.id.rv_roles_require);
@@ -232,7 +239,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void updateUIDetails(){
-        int level = 3;
+        int level = detailedGuildItemModel.getPremiumTier();
         int members = detailedGuildItemModel.getApproximateMemberCount();
         ValueAnimator valueAnimator = ValueAnimator.ofInt(0, 0);
         switch(level){
@@ -276,7 +283,38 @@ public class HomeFragment extends Fragment {
         membersAnimator.start();
         valueAnimator.start();
 
+        if(allDataModel != null){
+            SettingsModel settings = allDataModel.getSettings();
+            prefixValue.setText(settings.getPrefix());
 
+
+            layoutManager = new FlexboxLayoutManager(ctx);
+            layoutManager.setFlexDirection(FlexDirection.COLUMN);
+            layoutManager.setJustifyContent(JustifyContent.SPACE_EVENLY);
+            layoutManager.setAlignItems(AlignItems.FLEX_START);
+
+            //setup the RV
+            if(settings.getRequiredRoleIds().isEmpty()){
+                requiredNone.setVisibility(View.VISIBLE);
+                requiredRolesRV.setVisibility(View.GONE);
+            }else{
+                //setup the RV
+                requiredRolesRV.setLayoutManager(layoutManager);
+                requiredNone.setVisibility(View.GONE);
+                requiredRolesRV.setVisibility(View.VISIBLE);
+            }
+
+            if(settings.getIgnoredRoleIds().isEmpty()){
+                ignoredNone.setVisibility(View.VISIBLE);
+                ignoredRolesRV.setVisibility(View.GONE);
+            }else{
+                //setup the RV
+                ignoredRolesRV.setLayoutManager(layoutManager);
+                ignoredNone.setVisibility(View.GONE);
+                ignoredRolesRV.setVisibility(View.VISIBLE);
+            }
+
+        }
 
     }
 
