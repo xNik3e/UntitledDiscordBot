@@ -33,6 +33,7 @@ import com.example.untitleddiscordbot.Models.SettingsModel;
 import com.example.untitleddiscordbot.Models.UserGuildsModel.UserGuildModelItem;
 import com.example.untitleddiscordbot.Models.UserModel.UserModel;
 import com.example.untitleddiscordbot.R;
+import com.example.untitleddiscordbot.adapters.TransparentRoleInfoAdapter;
 import com.example.untitleddiscordbot.fragments.BottomSheet.ServerSelectionFragment;
 import com.example.untitleddiscordbot.interfaces.ServerSelectionInterface;
 import com.example.untitleddiscordbot.viewModels.MainViewModel;
@@ -64,7 +65,7 @@ public class HomeFragment extends Fragment {
     //included role info
     private TextView requiredNone, ignoredNone;
     private RecyclerView requiredRolesRV, ignoredRolesRV;
-    private FlexboxLayoutManager layoutManager;
+    private FlexboxLayoutManager layoutManagerRequired, layoutManagerIgnored;
 
 
     private Context ctx;
@@ -288,20 +289,23 @@ public class HomeFragment extends Fragment {
             prefixValue.setText(settings.getPrefix());
 
 
-            layoutManager = new FlexboxLayoutManager(ctx);
-            layoutManager.setFlexDirection(FlexDirection.COLUMN);
-            layoutManager.setJustifyContent(JustifyContent.SPACE_EVENLY);
-            layoutManager.setAlignItems(AlignItems.FLEX_START);
-
             //setup the RV
             if(settings.getRequiredRoleIds().isEmpty()){
                 requiredNone.setVisibility(View.VISIBLE);
                 requiredRolesRV.setVisibility(View.GONE);
             }else{
                 //setup the RV
-                requiredRolesRV.setLayoutManager(layoutManager);
+                layoutManagerRequired = new FlexboxLayoutManager(ctx);
+                layoutManagerRequired.setFlexDirection(FlexDirection.ROW);
+                layoutManagerRequired.setJustifyContent(JustifyContent.SPACE_EVENLY);
+                layoutManagerRequired.setAlignItems(AlignItems.FLEX_START);
+
+                requiredRolesRV.setLayoutManager(layoutManagerRequired);
                 requiredNone.setVisibility(View.GONE);
                 requiredRolesRV.setVisibility(View.VISIBLE);
+                TransparentRoleInfoAdapter adapter1 = new TransparentRoleInfoAdapter(ctx,
+                        settings.getRequiredRoleIds());
+                requiredRolesRV.setAdapter(adapter1);
             }
 
             if(settings.getIgnoredRoleIds().isEmpty()){
@@ -309,9 +313,16 @@ public class HomeFragment extends Fragment {
                 ignoredRolesRV.setVisibility(View.GONE);
             }else{
                 //setup the RV
-                ignoredRolesRV.setLayoutManager(layoutManager);
+                layoutManagerIgnored = new FlexboxLayoutManager(ctx);
+                layoutManagerIgnored.setFlexDirection(FlexDirection.ROW);
+                layoutManagerIgnored.setJustifyContent(JustifyContent.SPACE_EVENLY);
+                layoutManagerIgnored.setAlignItems(AlignItems.FLEX_START);
+                ignoredRolesRV.setLayoutManager(layoutManagerIgnored);
                 ignoredNone.setVisibility(View.GONE);
                 ignoredRolesRV.setVisibility(View.VISIBLE);
+                TransparentRoleInfoAdapter adapter2 = new TransparentRoleInfoAdapter(ctx,
+                        settings.getIgnoredRoleIds());
+                ignoredRolesRV.setAdapter(adapter2);
             }
 
         }

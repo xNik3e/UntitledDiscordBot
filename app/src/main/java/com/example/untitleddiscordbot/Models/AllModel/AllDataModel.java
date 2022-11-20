@@ -8,11 +8,13 @@ import com.example.untitleddiscordbot.Models.DetailedMembers.DetailedMemberItem;
 import com.example.untitleddiscordbot.Models.SettingsModel;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class AllDataModel {
+
+    private static AllDataModel instance;
+
     private DetailedGuildItem guild;
     private List<DetailedMemberItem> members;
     private List<DetailedChannelItem> channels;
@@ -23,7 +25,23 @@ public class AllDataModel {
     private SettingsModel settings;
 
 
-    public AllDataModel(DetailedGuildItem guild,  List<DetailedChannelItem> channels, List<DetailedMemberItem> members) {
+    public static AllDataModel createInstance(DetailedGuildItem guild, List<DetailedChannelItem> channels, List<DetailedMemberItem> members) {
+        if (instance == null) {
+            instance = new AllDataModel(guild, channels, members);
+        }
+        return instance;
+    }
+
+    public static AllDataModel getInstance(){
+        return instance;
+    }
+    public static void resetInstance(){
+        instance = null;
+
+    }
+
+
+    private AllDataModel(DetailedGuildItem guild,  List<DetailedChannelItem> channels, List<DetailedMemberItem> members) {
         this.guild = guild;
         this.members = members;
         this.channels = channels;
@@ -31,7 +49,10 @@ public class AllDataModel {
         this.roles = guild.getRoles();
         this.emojis = guild.getEmojis();
 
-        this.settings = SettingsModel.getSettingsModel(guild.getId());
+        //DEPLOYMENT
+        //this.settings = SettingsModel.getSettingsModel(guild.getId());
+        //DEVELOPMENT
+        this.settings = SettingsModel.getDummySettingsModel(guild.getId(), roles);
 
         prettify();
     }
@@ -90,6 +111,18 @@ public class AllDataModel {
             }
         }
         System.out.println(sb.toString());
+    }
+
+    public List<RolesItem> getRolesByIds(List<String> roleIds){
+        List<RolesItem> temp = new ArrayList<>();
+        for(String id: roleIds){
+            RolesItem item = roles.stream().filter(x -> x.getId().equals(id)).findFirst().get();
+            temp.add(item);
+        }
+        temp.sort((o1, o2) -> {
+            return o1.getPosition() - o2.getPosition();
+        });
+        return temp;
     }
 
     public DetailedGuildItem getGuild() {

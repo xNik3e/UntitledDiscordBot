@@ -3,16 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.SettingsFragment">
+    tools:context=".fragments.setting_fragments.CoreSettingsFragment">
 
-    <fragment
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/container"
-        app:navGraph="@navigation/settings_navigation_graph"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        />
-
+        android:gravity="center"
+        android:text="CORE SETTINGS" />
 
 </FrameLayout>

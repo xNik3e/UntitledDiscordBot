@@ -1,5 +1,6 @@
 package com.example.untitleddiscordbot.Models;
 
+import com.example.untitleddiscordbot.Models.DetailedGuild.RolesItem;
 import com.example.untitleddiscordbot.Models.Permissions.ChannelPermissionsModel;
 
 import java.util.ArrayList;
@@ -22,8 +23,59 @@ public class SettingsModel {
 
 
     public static SettingsModel getSettingsModel(String guildId){
+        //DEPLOYMENT
         return createDefaultSettings(guildId);
     }
+
+    public static SettingsModel getDummySettingsModel(String guildId, List<RolesItem> roles){
+        return createDummySettings(guildId, roles);
+    }
+
+    private static SettingsModel createDummySettings(String guildId, List<RolesItem> roles){
+        SettingsModel settingsModel = new SettingsModel();
+        settingsModel.setGuildId(guildId);
+        settingsModel.setPrefix("*");
+
+        int roleSize = roles.size();
+        int randomRequireRoleSize = (int) ((Math.random() * roleSize/3));
+        int randomIgnoreRoleSize = (int) ((Math.random() * roleSize/3));
+
+
+        List<String> requiredDummyRoleId = new ArrayList<>();
+        for(int i = 0; i < randomRequireRoleSize; i++){
+            int randomIndex = (int) ((Math.random() * roleSize));
+            if(requiredDummyRoleId.contains(roles.get(randomIndex).getId()))
+                i--;
+            else
+                requiredDummyRoleId.add(roles.get(randomIndex).getId());
+        }
+        settingsModel.setRequiredRoleIds(requiredDummyRoleId);
+
+        List<String> ignoredDummyRoleId = new ArrayList<>();
+        for(int i = 0; i < randomIgnoreRoleSize; i++){
+            int randomIndex = (int) ((Math.random() * roleSize));
+            if(ignoredDummyRoleId.contains(roles.get(randomIndex).getId()))
+                i--;
+            else
+                ignoredDummyRoleId.add(roles.get(randomIndex).getId());
+        }
+        settingsModel.setIgnoredRoleIds(ignoredDummyRoleId);
+
+
+        settingsModel.setAutoDeleteTrigger(0);
+        settingsModel.setAutoDeleteResponse(0);
+        settingsModel.setAutoDeleteTriggerEnabled(false);
+        settingsModel.setAutoDeleteResponseEnabled(false);
+
+        settingsModel.setChannelPermissions(new ArrayList<>());
+        settingsModel.setDefaultChannelId("0");
+        settingsModel.setDefaultChannelEnabled(false);
+
+
+
+        return settingsModel;
+    }
+
 
     private static SettingsModel createDefaultSettings(String guildId){
         SettingsModel settingsModel = new SettingsModel();

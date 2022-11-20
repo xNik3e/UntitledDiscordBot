@@ -17,8 +17,6 @@ import com.example.untitleddiscordbot.remote.MyApiService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +25,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -147,6 +144,7 @@ public class MainRepository {
 
     public void getDetailedGuild(String id){
         mutableDetailedGuildItemModel.setValue(new DetailedGuildItem());
+        AllDataModel.resetInstance();
         Map<String, Object> body = new HashMap<>();
         body.put("guildId", id);
         Call<DefaultResponse<List<String>>> call = myApiService.getDetailedGuild(body);
@@ -162,7 +160,7 @@ public class MainRepository {
 
                     /*TODO: Also get settings and check if is available*/
 
-                    AllDataModel allDataModel = new AllDataModel(detailedGuildItem, channels, members);
+                    AllDataModel allDataModel = AllDataModel.createInstance(detailedGuildItem, channels, members);
                     mutableAllDataModel.setValue(allDataModel);
                     mutableDetailedGuildItemModel.postValue(detailedGuildItem);
                     //testing
