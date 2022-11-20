@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settings_navigation_graph"
+    app:startDestination="@id/coreSettingsFragment">
+
+    <fragment
+        android:id="@+id/coreSettingsFragment"
+        android:name="com.example.untitleddiscordbot.fragments.setting_fragments.CoreSettingsFragment"
+        android:label="fragment_core_settings"
+        tools:layout="@layout/fragment_core_settings" />
+    <fragment
+        android:id="@+id/channelPermissionFragment"
+        android:name="com.example.untitleddiscordbot.fragments.setting_fragments.ChannelPermissionFragment"
+        android:label="fragment_channel_permission"
+        tools:layout="@layout/fragment_channel_permission" />
+    <fragment
+        android:id="@+id/bulkRolesFragment"
+        android:name="com.example.untitleddiscordbot.fragments.setting_fragments.BulkRolesFragment"
+        android:label="fragment_bulk_roles"
+        tools:layout="@layout/fragment_bulk_roles" />
+</navigation>

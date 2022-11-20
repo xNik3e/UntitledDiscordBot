@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Headline_App_name">
-
-    </style>
 
     <style name="myFontStyle">
         <item name="android:includeFontPadding">false</item>
@@ -18,6 +15,10 @@
 
     <style name="myFontStyle.Regular">
         <item name="android:fontFamily">@font/avenir_book</item>
+    </style>
+
+    <style name="myFontStyle.Regular.FontPadding">
+        <item name="android:includeFontPadding">true</item>
     </style>
 
     <style name="ownButton" parent="Widget.Material3.Button">
@@ -38,7 +39,42 @@
         <item name="android:fontFamily">@font/avenir_book</item>
     </style>
 
+    <style name="buttonChoose" parent="@style/Widget.Material3.Button.OutlinedButton">
+        <item name="android:clickable">true</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="iconGravity">end</item>
+        <item name="android:layout_height">@dimen/dp_56</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/avenir_book</item>
+        <item name="iconTint">@color/white</item>
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:maxLines">1</item>
+        <item name="iconSize">@dimen/dp_24</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="strokeColor">@color/white_stroke</item>
+        <item name="android:paddingStart">@dimen/dp_24</item>
+        <item name="rippleColor">@color/button_white_ripple</item>
+
+    </style>
 
 
-    <dimen name="padding_8">8dp</dimen>
+
+    <style name="myBottomModalSheet" parent="@style/Widget.Material3.BottomSheet">
+
+        <item name="android:background">@drawable/modal_drawable</item>
+
+        <item name="shapeAppearance">@style/modalShapeAppearance</item>
+
+    </style>
+
+    <style name="modalShapeAppearance" parent="ShapeAppearance.Material3.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/dp_16</item>
+
+    </style>
+
+
+
+
 </resources>

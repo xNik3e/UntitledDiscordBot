@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/dp_6"
+    android:layout_marginEnd="@dimen/dp_6"
+    android:background="@drawable/small_card"
+    android:backgroundTint="@color/surface_darkest_grey"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:padding="@dimen/dp_6"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/myFontStyle.Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/dp_6"
+            android:paddingTop="@dimen/dp_6"
+            android:paddingEnd="@dimen/dp_6"
+            android:paddingBottom="2dp"
+            android:text="@string/logged_in_as"
+            android:textColor="@color/grayish_white"
+            android:textSize="@dimen/text_very_small" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/username"
+                style="@style/myFontStyle.Regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/dp_6"
+                android:paddingBottom="@dimen/dp_6"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_14_sp"
+                tools:text="nikus" />
+
+            <TextView
+                android:id="@+id/usertag"
+                style="@style/myFontStyle.Regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/dp_6"
+                android:textColor="@color/grayish_white"
+                android:textSize="@dimen/text_size_14_sp"
+                tools:text="#sdtf" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/logoutButton"
+        android:padding="@dimen/dp_6"
+        style="@style/myFontStyle.Regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/dp_16"
+        android:paddingStart="@dimen/dp_12"
+        android:paddingEnd="@dimen/dp_6"
+        android:text="@string/log_out"
+        android:textColor="@color/check_red"
+        android:textSize="@dimen/text_medium"
+        android:textStyle="bold" />
+
+</LinearLayout>

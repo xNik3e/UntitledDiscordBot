@@ -131,7 +131,7 @@ public class AuthActivity extends AppCompatActivity {
                             public void onTokenRequestCompleted(@Nullable TokenResponse response, @Nullable AuthorizationException ex) {
                                 AuthUtil.setAuthResponse(response, ex);
                                 AuthUtil.writeAuthState(AuthActivity.this);
-                                startActivity(new Intent(AuthActivity.this, MainActivity.class));
+                                startActivity(new Intent(AuthActivity.this, LoadingActivity.class));
                                 finish();
                             }
                         }
