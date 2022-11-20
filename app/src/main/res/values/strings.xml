@@ -33,4 +33,15 @@
     <string name="global_server_info">Global Server Info</string>
     <string name="an_unexpected_error_occurred">An unexpected error occurred</string>
     <string name="auto_retry_in">Auto retry in:</string>
+    <string name="command_prefix">Command Prefix</string>
+    <string name="note_prefix">Note: Changing the prefix does not change the flag usage in commands. They will still begin with “<font color='@color/red'>-</font>”</string>
+    <string name="prefix">Input your prefix</string>
+    <string name="example_command_usage">Example command usage:</string>
+    <string name="rolemenu_create_name_nodm">-rolemenu create &lt;name&gt; -nodm</string>
+    <string name="core_settings">Core settings</string>
+    <string name="change_selection">Change selection</string>
+    <string name="auto_delete_settings">Auto-delete settings</string>
+    <string name="auto_delete_trigger_after_seconds">Auto delete trigger after</string>
+    <string name="auto_delete_response_after_seconds">Auto delete response after</string>
+    <string name="trigger_info">Sets whether trigger/response should be deleted after certain period of time</string>
 </resources>

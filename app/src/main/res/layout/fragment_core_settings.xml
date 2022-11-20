@@ -3,13 +3,62 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginStart="@dimen/dp_20"
+    android:layout_marginTop="@dimen/dp_12"
+    android:layout_marginEnd="@dimen/dp_20"
+    android:background="@android:color/transparent"
     tools:context=".fragments.setting_fragments.CoreSettingsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="CORE SETTINGS" />
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        android:scrollbars="none">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/myFontStyle.Regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/dp_16"
+                android:paddingBottom="@dimen/dp_16"
+                android:text="@string/core_settings"
+                android:textSize="@dimen/text_huge" />
+
+            <include
+                android:id="@+id/prefix_view"
+                layout="@layout/layout_command_prefix"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_16" />
+
+            <include
+                android:id="@+id/require_role_layout"
+                layout="@layout/layout_require_role_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_16" />
+
+            <include
+                android:id="@+id/ignore_role_layout"
+                layout="@layout/layout_ignore_role_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_16" />
+            <include
+                android:id="@+id/autodelete_layout"
+                layout="@layout/layout_autodelete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_16" />
+
+
+
+
+        </LinearLayout>
+    </ScrollView>
 </FrameLayout>

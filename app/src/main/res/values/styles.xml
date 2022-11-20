@@ -55,15 +55,12 @@
         <item name="strokeColor">@color/white_stroke</item>
         <item name="android:paddingStart">@dimen/dp_24</item>
         <item name="rippleColor">@color/button_white_ripple</item>
-
     </style>
 
 
 
     <style name="myBottomModalSheet" parent="@style/Widget.Material3.BottomSheet">
-
         <item name="android:background">@drawable/modal_drawable</item>
-
         <item name="shapeAppearance">@style/modalShapeAppearance</item>
 
     </style>
@@ -71,6 +68,29 @@
     <style name="modalShapeAppearance" parent="ShapeAppearance.Material3.LargeComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">@dimen/dp_16</item>
+    </style>
+
+    <style name="inputLayer" parent="Widget.Material3.TextInputLayout.OutlinedBox.Dense">
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="hintTextColor">@color/white_stroke</item>
+        <item name="android:textColorHint">@color/grayish_white</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/corner_radius_button_12</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/corner_radius_button_12</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/corner_radius_button_12</item>
+        <item name="boxCornerRadiusTopStart">@dimen/corner_radius_button_12</item>
+        <item name="endIconTint">@color/white</item>
+        <item name="boxStrokeColor">@color/text_input_stroke_color</item>
+        <item name="errorIconDrawable">@null</item>
+    </style>
+
+    <style name="mySwitch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+        <item name="thumbIcon">@drawable/switch_icon</item>
+        <item name="thumbTint">@color/thumb_tint_color</item>
+        <item name="trackTint">@color/track_tint_color</item>
+        <item name="thumbIconTint">@color/white</item>
+
+
+
 
     </style>
 
