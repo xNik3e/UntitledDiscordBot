@@ -44,4 +44,6 @@
     <string name="auto_delete_trigger_after_seconds">Auto delete trigger after</string>
     <string name="auto_delete_response_after_seconds">Auto delete response after</string>
     <string name="trigger_info">Sets whether trigger/response should be deleted after certain period of time</string>
+    <string name="choose_roles">Choose roles</string>
+    <string name="nothing_found_search">Nothing found\nChange search query</string>
 </resources>
