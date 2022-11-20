@@ -16,5 +16,5 @@ public interface MyApiService {
     Call<DefaultResponse<List<String>>> getGuildsByIds(@Body List<String> ids);
 
     @POST("getDetailedGuild")
-    Call<DefaultResponse<DetailedGuildItem>> getDetailedGuild(@Body Map<String, Object> body);
+    Call<DefaultResponse<List<String>>> getDetailedGuild(@Body Map<String, Object> body);
 }

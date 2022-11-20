@@ -38,7 +38,7 @@
             android:max="100"
             android:min="0"
             android:paddingBottom="@dimen/dp_8"
-            android:progress="33"
+            android:progress="0"
             app:indicatorColor="@color/active_color"
             app:trackColor="@color/white_stroke_transparent_25"
             app:trackCornerRadius="@dimen/dp_12"
@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/dp_16"
-            android:text="Level 1 Server"
+            tools:text="Level 1 Server"
             android:textSize="@dimen/text_very_small"
             android:textStyle="bold" />
 

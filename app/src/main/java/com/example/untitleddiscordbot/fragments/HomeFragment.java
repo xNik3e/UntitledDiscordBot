@@ -19,20 +19,31 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.untitleddiscordbot.MainActivity;
+import com.example.untitleddiscordbot.Models.AllModel.AllDataModel;
+import com.example.untitleddiscordbot.Models.DetailedGuild.DetailedGuildItem;
+import com.example.untitleddiscordbot.Models.SettingsModel;
 import com.example.untitleddiscordbot.Models.UserGuildsModel.UserGuildModelItem;
 import com.example.untitleddiscordbot.Models.UserModel.UserModel;
 import com.example.untitleddiscordbot.R;
+import com.example.untitleddiscordbot.adapters.TransparentRoleInfoAdapter;
 import com.example.untitleddiscordbot.fragments.BottomSheet.ServerSelectionFragment;
 import com.example.untitleddiscordbot.interfaces.ServerSelectionInterface;
 import com.example.untitleddiscordbot.viewModels.MainViewModel;
 import com.example.untitleddiscordbot.viewModels.ViewModelFactory;
+import com.google.android.flexbox.AlignItems;
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 import java.util.List;
 
@@ -45,6 +56,17 @@ public class HomeFragment extends Fragment {
     private MainViewModel viewModel;
 
     private LinearLayout emptyLayout, serverLayout;
+    private View serverInfo, roleInfo;
+
+    //included server info
+    private LinearProgressIndicator serverProgress;
+    private TextView serverLevel, prefixValue, membersValue;
+
+    //included role info
+    private TextView requiredNone, ignoredNone;
+    private RecyclerView requiredRolesRV, ignoredRolesRV;
+    private FlexboxLayoutManager layoutManagerRequired, layoutManagerIgnored;
+
 
     private Context ctx;
     private UserModel userModel;
@@ -54,6 +76,10 @@ public class HomeFragment extends Fragment {
     private ImageView serverIcon;
 
     private static UserGuildModelItem selectedServer;
+    private static DetailedGuildItem detailedGuildItemModel;
+
+    private static AllDataModel allDataModel;
+
     private static boolean isUIUpdated = false;
 
     public HomeFragment() {
@@ -89,7 +115,33 @@ public class HomeFragment extends Fragment {
         serverIconFrame = view.findViewById(R.id.server_icon_frame);
         serverIcon = view.findViewById(R.id.server_icon);
 
+        //included views
 
+        serverInfo = view.findViewById(R.id.server_info_layout);
+        roleInfo = view.findViewById(R.id.server_roles_layout);
+
+        //find views for included views//
+
+        //global info
+        serverProgress = serverInfo.findViewById(R.id.server_level);
+        serverLevel = serverInfo.findViewById(R.id.server_level_text);
+        prefixValue = serverInfo.findViewById(R.id.prefix_value);
+        membersValue = serverInfo.findViewById(R.id.members_value);
+
+        //role info
+        requiredNone = roleInfo.findViewById(R.id.empty_require);
+        ignoredNone = roleInfo.findViewById(R.id.empty_ignore);
+        requiredRolesRV = roleInfo.findViewById(R.id.rv_roles_require);
+        ignoredRolesRV = roleInfo.findViewById(R.id.rv_roles_ignore);
+
+        viewModel.getAllDataModel().observe(getViewLifecycleOwner(), new Observer<AllDataModel>() {
+            @Override
+            public void onChanged(AllDataModel dataModel) {
+                if(dataModel != null){
+                    allDataModel = dataModel;
+                }
+            }
+        });
 
         if (!isUIUpdated){
             serverLayout.setVisibility(View.GONE);
@@ -158,12 +210,122 @@ public class HomeFragment extends Fragment {
                     selectedServer = item;
                     chooseServer.setText(selectedServer.getName());
                     updateServerPicture(selectedServer.getIcon(), selectedServer.getId());
-                    if(!isUIUpdated)
-                        updateUI();
+
+                    if(detailedGuildItemModel == null ||  !detailedGuildItemModel.getId().equals(selectedServer.getId()))
+                        loadDetailedGuild();
                 }
 
             }
         });
+
+        viewModel.getDetailedGuild().observe(getViewLifecycleOwner(), new Observer<DetailedGuildItem>() {
+            @Override
+            public void onChanged(DetailedGuildItem detailedGuildItem) {
+                if(detailedGuildItem != null){
+                    if(detailedGuildItem.getId() != null && !detailedGuildItem.getId().equals("error")){
+                        if(!isUIUpdated)
+                            updateUI();
+
+                        detailedGuildItemModel = detailedGuildItem;
+                        updateUIDetails();
+                    }
+                }
+            }
+        });
+
+    }
+
+    private void loadDetailedGuild() {
+        viewModel.fetchDetailedGuild(selectedServer.getId());
+    }
+
+    public void updateUIDetails(){
+        int level = detailedGuildItemModel.getPremiumTier();
+        int members = detailedGuildItemModel.getApproximateMemberCount();
+        ValueAnimator valueAnimator = ValueAnimator.ofInt(0, 0);
+        switch(level){
+            case 0:
+                serverProgress.setProgress(0);
+                serverLevel.setText("Level 0");
+                break;
+            case 1:
+                serverProgress.setProgress(33);
+                valueAnimator = ValueAnimator.ofInt(0, 33);
+                serverLevel.setText("Level 1");
+                break;
+            case 2:
+                serverProgress.setProgress(66);
+                valueAnimator = ValueAnimator.ofInt(0, 66);
+                serverLevel.setText("Level 2");
+                break;
+            case 3:
+                serverProgress.setProgress(100);
+                valueAnimator = ValueAnimator.ofInt(0, 100);
+                serverLevel.setText("Level 3");
+                break;
+        }
+        valueAnimator.setDuration(2500);
+        valueAnimator.setInterpolator(new DecelerateInterpolator());
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                serverProgress.setProgress((Integer) animation.getAnimatedValue());
+            }
+        });
+        ValueAnimator membersAnimator = ValueAnimator.ofInt(0, members);
+        membersAnimator.setDuration(2500);
+        membersAnimator.setInterpolator(new DecelerateInterpolator());
+        membersAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                membersValue.setText(String.valueOf(animation.getAnimatedValue()));
+            }
+        });
+        membersAnimator.start();
+        valueAnimator.start();
+
+        if(allDataModel != null){
+            SettingsModel settings = allDataModel.getSettings();
+            prefixValue.setText(settings.getPrefix());
+
+
+            //setup the RV
+            if(settings.getRequiredRoleIds().isEmpty()){
+                requiredNone.setVisibility(View.VISIBLE);
+                requiredRolesRV.setVisibility(View.GONE);
+            }else{
+                //setup the RV
+                layoutManagerRequired = new FlexboxLayoutManager(ctx);
+                layoutManagerRequired.setFlexDirection(FlexDirection.ROW);
+                layoutManagerRequired.setJustifyContent(JustifyContent.SPACE_EVENLY);
+                layoutManagerRequired.setAlignItems(AlignItems.FLEX_START);
+
+                requiredRolesRV.setLayoutManager(layoutManagerRequired);
+                requiredNone.setVisibility(View.GONE);
+                requiredRolesRV.setVisibility(View.VISIBLE);
+                TransparentRoleInfoAdapter adapter1 = new TransparentRoleInfoAdapter(ctx,
+                        settings.getRequiredRoleIds());
+                requiredRolesRV.setAdapter(adapter1);
+            }
+
+            if(settings.getIgnoredRoleIds().isEmpty()){
+                ignoredNone.setVisibility(View.VISIBLE);
+                ignoredRolesRV.setVisibility(View.GONE);
+            }else{
+                //setup the RV
+                layoutManagerIgnored = new FlexboxLayoutManager(ctx);
+                layoutManagerIgnored.setFlexDirection(FlexDirection.ROW);
+                layoutManagerIgnored.setJustifyContent(JustifyContent.SPACE_EVENLY);
+                layoutManagerIgnored.setAlignItems(AlignItems.FLEX_START);
+                ignoredRolesRV.setLayoutManager(layoutManagerIgnored);
+                ignoredNone.setVisibility(View.GONE);
+                ignoredRolesRV.setVisibility(View.VISIBLE);
+                TransparentRoleInfoAdapter adapter2 = new TransparentRoleInfoAdapter(ctx,
+                        settings.getIgnoredRoleIds());
+                ignoredRolesRV.setAdapter(adapter2);
+            }
+
+        }
 
     }
 

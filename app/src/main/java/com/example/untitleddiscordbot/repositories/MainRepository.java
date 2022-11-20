@@ -3,16 +3,19 @@ package com.example.untitleddiscordbot.repositories;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.untitleddiscordbot.Models.AllModel.AllDataModel;
 import com.example.untitleddiscordbot.Models.DefaultResponse;
+import com.example.untitleddiscordbot.Models.DetailedChannels.DetailedChannelItem;
 import com.example.untitleddiscordbot.Models.DetailedGuild.DetailedGuildItem;
+import com.example.untitleddiscordbot.Models.DetailedMembers.DetailedMemberItem;
+import com.example.untitleddiscordbot.Models.SettingsModel;
 import com.example.untitleddiscordbot.Models.UserGuildsModel.UserGuildModelItem;
 import com.example.untitleddiscordbot.Models.UserModel.UserModel;
 import com.example.untitleddiscordbot.Utils.PermissionUtil;
 import com.example.untitleddiscordbot.remote.DiscordApiService;
 import com.example.untitleddiscordbot.remote.MyApiService;
 import com.google.gson.Gson;
-
-import org.json.JSONObject;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +25,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,6 +38,8 @@ public class MainRepository {
     private final MutableLiveData<List<UserGuildModelItem>> mutableUserGuildModel;
     private final MutableLiveData<UserGuildModelItem> selectedServer;
     private final MutableLiveData<DetailedGuildItem> mutableDetailedGuildItemModel;
+
+    private final MutableLiveData<AllDataModel> mutableAllDataModel;
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
@@ -54,6 +58,7 @@ public class MainRepository {
         mutableUserGuildModel = new MutableLiveData<>(null);
         selectedServer = new MutableLiveData<>(null);
         mutableDetailedGuildItemModel = new MutableLiveData<>(null);
+        mutableAllDataModel = new MutableLiveData<>(null);
     }
 
 
@@ -137,25 +142,37 @@ public class MainRepository {
 
     }
 
-    public LiveData<DetailedGuildItem> getDetailedGuild(String id){
+    public void getDetailedGuild(String id){
+        mutableDetailedGuildItemModel.setValue(new DetailedGuildItem());
+        AllDataModel.resetInstance();
         Map<String, Object> body = new HashMap<>();
-        body.put("id", id);
-        Call<DefaultResponse<DetailedGuildItem>> call = myApiService.getDetailedGuild(body);
-        call.enqueue(new Callback<DefaultResponse<DetailedGuildItem>>() {
+        body.put("guildId", id);
+        Call<DefaultResponse<List<String>>> call = myApiService.getDetailedGuild(body);
+        call.enqueue(new Callback<DefaultResponse<List<String>>>() {
             @Override
-            public void onResponse(Call<DefaultResponse<DetailedGuildItem>> call, Response<DefaultResponse<DetailedGuildItem>> response) {
+            public void onResponse(Call<DefaultResponse<List<String>>> call, Response<DefaultResponse<List<String>>> response) {
                 if(response.isSuccessful()){
-                    DetailedGuildItem detailedGuildItem = response.body().getData();
+                    List<String> data = response.body().getData();
+                    Gson gson = new Gson();
+                    DetailedGuildItem detailedGuildItem = gson.fromJson(data.get(0), DetailedGuildItem.class);
+                    List<DetailedChannelItem> channels = gson.fromJson(data.get(1), new TypeToken<List<DetailedChannelItem>>(){}.getType());
+                    List<DetailedMemberItem> members = gson.fromJson(data.get(2), new TypeToken<List<DetailedMemberItem>>(){}.getType());
+
+                    /*TODO: Also get settings and check if is available*/
+
+                    AllDataModel allDataModel = AllDataModel.createInstance(detailedGuildItem, channels, members);
+                    mutableAllDataModel.setValue(allDataModel);
                     mutableDetailedGuildItemModel.postValue(detailedGuildItem);
+                    //testing
+                    //mutableDetailedGuildItemModel.setValue(DetailedGuildItem.createError());
                 }
             }
 
             @Override
-            public void onFailure(Call<DefaultResponse<DetailedGuildItem>> call, Throwable t) {
-                mutableDetailedGuildItemModel.setValue(new DetailedGuildItem());
+            public void onFailure(Call<DefaultResponse<List<String>>> call, Throwable t) {
+                mutableDetailedGuildItemModel.setValue(DetailedGuildItem.createError());
             }
         });
-        return mutableDetailedGuildItemModel;
     }
 
     public LiveData<DetailedGuildItem> getDetailedGuildModel(){
@@ -182,5 +199,15 @@ public class MainRepository {
 
     public void setSelectedServer(UserGuildModelItem userGuildModelItem) {
         selectedServer.setValue(userGuildModelItem);
+    }
+
+    public LiveData<AllDataModel> getAllDataModel(){
+        return mutableAllDataModel;
+    }
+
+    public void updateSettings(SettingsModel settings){
+        AllDataModel ADL = mutableAllDataModel.getValue();
+        ADL.setSettings(settings);
+        mutableAllDataModel.setValue(ADL);
     }
 }
