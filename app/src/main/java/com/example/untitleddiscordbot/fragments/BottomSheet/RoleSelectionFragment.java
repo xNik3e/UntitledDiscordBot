@@ -47,6 +47,7 @@ import java.util.stream.Collectors;
 
 import me.xdrop.fuzzywuzzy.FuzzySearch;
 import me.xdrop.fuzzywuzzy.model.BoundExtractedResult;
+import xyz.danoz.recyclerviewfastscroller.vertical.VerticalRecyclerViewFastScroller;
 
 
 public class RoleSelectionFragment extends BottomSheetDialogFragment {
@@ -123,6 +124,7 @@ public class RoleSelectionFragment extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
         selectedRV = view.findViewById(R.id.rv_selected_roles);
         availableRV = view.findViewById(R.id.rv_available_roles);
         search_layout = view.findViewById(R.id.role_search_input_layout);
@@ -137,14 +139,21 @@ public class RoleSelectionFragment extends BottomSheetDialogFragment {
         availableRV.setFocusable(true);
         availableRV.setFocusableInTouchMode(true);
 
-        selectedRV.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
-        selectedRV.setFocusable(true);
-        selectedRV.setFocusableInTouchMode(true);
 
 
         updateUI();
 
-
+        selectedRV.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    //enable scrolling
+                    selectedRV.setNestedScrollingEnabled(true);
+                }else{
+                    selectedRV.setNestedScrollingEnabled(false);
+                }
+            }
+        });
 
         OnRoleChipClickInterface onRoleChipClickInterface = new OnRoleChipClickInterface() {
             @Override
@@ -187,7 +196,7 @@ public class RoleSelectionFragment extends BottomSheetDialogFragment {
                 updateUI();
                 selectRoleAdapter.notifyItemRemoved(position);
                 includedRoleAdapter.notifyDataSetChanged();
-                selectedRV.scrollToPosition(includedRoles.size()-1);
+                selectedRV.scrollToPosition(0);
             }
         };
 
@@ -211,9 +220,6 @@ public class RoleSelectionFragment extends BottomSheetDialogFragment {
         flm.setAlignItems(AlignItems.FLEX_START);
         selectedRV.setLayoutManager(flm);
         selectedRV.setAdapter(includedRoleAdapter);
-
-
-
 
 
         search_edit_text.setOnFocusChangeListener(new View.OnFocusChangeListener() {
