@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:counterEnabled="true"
-            app:counterMaxLength="5">
+            app:counterMaxLength="10">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/prefix_input_edit_text"
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/prefix"
                 android:inputType="text"
-                android:maxLength="5"
+                android:maxLength="10"
                 android:maxLines="1"
                 android:text="-"
                 android:textColor="@color/active_color"
@@ -66,22 +66,21 @@
             android:layout_marginTop="@dimen/dp_12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-           android:weightSum="2"
+            android:weightSum="2"
             android:orientation="horizontal">
 
             <TextView
                 style="@style/myFontStyle.Regular"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/example_command_usage"
                 android:textSize="@dimen/text_very_small"
-
                 android:layout_weight="1"
                 android:textStyle="bold" />
 
             <TextView
                 style="@style/myFontStyle.Regular"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/rolemenu_create_name_nodm"
                 android:textSize="@dimen/text_very_small"

@@ -11,11 +11,15 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.untitleddiscordbot.Models.AllModel.AllDataModel;
 import com.example.untitleddiscordbot.Models.SettingsModel;
@@ -31,6 +35,7 @@ import com.google.android.flexbox.JustifyContent;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 
 public class CoreSettingsFragment extends Fragment {
@@ -44,6 +49,7 @@ public class CoreSettingsFragment extends Fragment {
 
     //views for prefix
     private TextInputEditText prefixEditText;
+    private TextInputLayout prefixInputLayout;
     private TextView exampleCommand;
 
     //views for require role
@@ -63,6 +69,8 @@ public class CoreSettingsFragment extends Fragment {
     //views for auto delete
     private MaterialSwitch deleteTriggerSwitch, deleteResponseSwitch;
     private TextInputEditText deleteTriggerTime, deleteResponseTime;
+
+
 
 
     public CoreSettingsFragment() {
@@ -103,6 +111,7 @@ public class CoreSettingsFragment extends Fragment {
         //prefix views
         prefixEditText = prefixView.findViewById(R.id.prefix_input_edit_text);
         exampleCommand = prefixView.findViewById(R.id.example_command);
+        prefixInputLayout = prefixView.findViewById(R.id.prefix_input_layer);
 
         //require role views
         emptyRequire = requireRoleView.findViewById(R.id.empty_require);
@@ -140,14 +149,58 @@ public class CoreSettingsFragment extends Fragment {
             }
         });
 
+
+        prefixEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        prefixEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(count == 0){
+                    manageError(true);
+                }else{
+                    manageError(false);
+                    String command = s + "rolemenu create <name> -nodm";
+                    exampleCommand.setText(command);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        
         prefixEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
+                if(!hasFocus){
+
                     hideKeyboard(v);
+                    String p = prefixEditText.getText().toString();
+                    if(p.isEmpty()){
+                        p = "-";
+                    }
+                    settingsModel.setPrefix(p);
+
                 }
+
             }
         });
+
 
         deleteTriggerTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -166,6 +219,21 @@ public class CoreSettingsFragment extends Fragment {
                 }
             }
         });
+
+    }
+
+    private void manageError(boolean isError) {
+        if(isError){
+            String command = "-rolemenu create <name> -nodm";
+            exampleCommand.setText(command);
+            prefixInputLayout.setError("Prefix can't be empty! Default '-'");
+            prefixInputLayout.setErrorEnabled(true);
+            prefixEditText.setHintTextColor(getResources().getColor(R.color.red_flat));
+
+        }else{
+            prefixInputLayout.setErrorEnabled(false);
+            prefixEditText.setHintTextColor(getResources().getColor(R.color.grayish_white));
+        }
 
     }
 
@@ -242,5 +310,9 @@ public class CoreSettingsFragment extends Fragment {
         }
     }
 
-
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        viewModel.updateSettings(settingsModel);
+    }
 }
