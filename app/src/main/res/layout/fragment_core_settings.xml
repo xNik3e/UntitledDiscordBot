@@ -6,12 +6,18 @@
     android:layout_marginStart="@dimen/dp_20"
     android:layout_marginTop="@dimen/dp_12"
     android:layout_marginEnd="@dimen/dp_20"
+    android:focusableInTouchMode="true"
+    android:clickable="true"
+    android:focusable="true"
     android:background="@android:color/transparent"
     tools:context=".fragments.setting_fragments.CoreSettingsFragment">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:focusableInTouchMode="true"
+        android:clickable="true"
+        android:focusable="true"
         android:overScrollMode="never"
         android:scrollbars="none">
 
@@ -37,20 +43,20 @@
                 android:layout_marginBottom="@dimen/dp_16" />
 
             <include
-                android:id="@+id/require_role_layout"
+                android:id="@+id/require_role_view"
                 layout="@layout/layout_require_role_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/dp_16" />
 
             <include
-                android:id="@+id/ignore_role_layout"
+                android:id="@+id/ignore_role_view"
                 layout="@layout/layout_ignore_role_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/dp_16" />
             <include
-                android:id="@+id/autodelete_layout"
+                android:id="@+id/auto_delete_view"
                 layout="@layout/layout_autodelete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

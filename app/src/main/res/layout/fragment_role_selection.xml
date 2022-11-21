@@ -5,12 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
+    android:focusable="false"
+    android:focusableInTouchMode="false"
     tools:context=".fragments.BottomSheet.RoleSelectionFragment">
 
     <FrameLayout
         android:id="@+id/bottom_sheet"
         style="@style/myBottomModalSheet"
         android:layout_width="match_parent"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,6 +26,8 @@
                 android:id="@+id/drag_handle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -39,19 +45,49 @@
                 app:layout_constraintStart_toStartOf="@id/vg04"
                 app:layout_constraintTop_toBottomOf="@id/drag_handle" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_selected_roles"
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:scaleY="1.5"
+                android:scaleX="1.5"
+                android:id="@+id/clear_selection"
+                app:layout_constraintEnd_toStartOf="@id/vg96"
+                app:layout_constraintTop_toTopOf="@id/title_label"
+                app:layout_constraintBottom_toBottomOf="@id/title_label"
+                app:tint="@color/white_stroke"
+                android:src="@drawable/ic_clear_all"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/rv_selected_roles_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layoutAnimation="@anim/layout_animation"
-                android:maxHeight="@dimen/dp_48"
-                android:scrollbars="none"
-                android:orientation="vertical"
-                android:visibility="gone"
+                android:layout_marginBottom="@dimen/dp_16"
+                app:layout_constraintBottom_toTopOf="@id/role_search_input_layout"
                 app:layout_constraintEnd_toStartOf="@id/vg96"
+                app:layout_constraintHeight_max="128dp"
                 app:layout_constraintStart_toEndOf="@id/vg04"
-                app:layout_constraintTop_toBottomOf="@id/title_label"
-                tools:listitem="@layout/recycler_view_selected_role_chip" />
+                app:layout_constraintTop_toBottomOf="@id/title_label">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_selected_roles"
+                        android:layout_width="match_parent"
+                        android:nestedScrollingEnabled="false"
+                        android:layout_height="wrap_content"
+                        android:layoutAnimation="@anim/layout_animation"
+                        android:orientation="horizontal"
+                        android:scrollbars="none"
+                        android:visibility="gone"
+                        tools:listitem="@layout/recycler_view_selected_role_chip" />
+
+                </RelativeLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/role_search_input_layout"
@@ -59,13 +95,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/dp_16"
-                app:endIconCheckable="false"
-                app:endIconDrawable="@drawable/ic_search"
-                app:endIconMode="custom"
+                app:endIconMode="clear_text"
                 app:endIconTint="@color/white_stroke"
                 app:layout_constraintEnd_toStartOf="@id/vg96"
                 app:layout_constraintStart_toEndOf="@id/vg04"
-                app:layout_constraintTop_toBottomOf="@id/rv_selected_roles">
+                app:layout_constraintTop_toBottomOf="@id/rv_selected_roles_layout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/role_search_edit_text"
@@ -106,10 +140,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/dp_16"
-                    android:layout_marginBottom="@dimen/dp_16"
+                    android:layout_marginBottom="@dimen/dp_64"
                     android:text="@string/nothing_found_search"
                     android:textAlignment="center"
-                    android:textColor="@color/active_color"
+                    android:textColor="@color/white_stroke"
                     android:textSize="@dimen/text_huge"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -142,10 +176,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/dp_16"
-                    android:layout_marginBottom="@dimen/dp_16"
+                    android:layout_marginBottom="@dimen/dp_64"
                     android:text="Booo!\n\nNo role left"
                     android:textAlignment="center"
-                    android:textColor="@color/active_color"
+                    android:textColor="@color/white_stroke"
                     android:textSize="@dimen/text_huge"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -160,23 +194,24 @@
                 app:layout_constraintStart_toEndOf="@id/vg04"
                 app:layout_constraintTop_toBottomOf="@id/role_search_input_layout">
 
-
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_available_roles"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/dp_16"
-                    android:id="@+id/rv_available_roles"
                     android:fadingEdgeLength="@dimen/dp_8"
-                    android:nestedScrollingEnabled="true"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:focusableInTouchMode="true"
                     android:layoutAnimation="@anim/layout_animation"
+                    android:nestedScrollingEnabled="true"
                     android:paddingBottom="@dimen/dp_32"
                     android:requiresFadingEdge="vertical"
                     android:scrollbars="none"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     tools:itemCount="5"
-                    tools:listitem="@layout/recycler_view_select_role"
-                    />
+                    tools:listitem="@layout/recycler_view_select_role" />
             </RelativeLayout>
 
 

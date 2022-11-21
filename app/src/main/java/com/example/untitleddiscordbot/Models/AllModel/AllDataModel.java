@@ -50,9 +50,9 @@ public class AllDataModel {
         this.emojis = guild.getEmojis();
 
         //DEPLOYMENT
-        //this.settings = SettingsModel.getSettingsModel(guild.getId());
+        this.settings = SettingsModel.getSettingsModel(guild.getId());
         //DEVELOPMENT
-        this.settings = SettingsModel.getDummySettingsModel(guild.getId(), roles);
+        //this.settings = SettingsModel.getDummySettingsModel(guild.getId(), roles);
 
         prettify();
     }

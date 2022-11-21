@@ -1,5 +1,6 @@
 package com.example.untitleddiscordbot.fragments.BottomSheet;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -12,9 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.example.untitleddiscordbot.Models.AllModel.AllDataModel;
 import com.example.untitleddiscordbot.Models.DetailedGuild.RolesItem;
@@ -30,6 +36,7 @@ import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -48,13 +55,18 @@ public class RoleSelectionFragment extends BottomSheetDialogFragment {
     private RecyclerView selectedRV, availableRV;
     private TextInputLayout search_layout;
     private TextInputEditText search_edit_text;
-    private LinearLayout nothing_found_layout, empty_layout, rv_layout;
+    private LinearLayout nothing_found_layout, empty_layout;
+    private RelativeLayout rv_layout;
+    private ImageView clearBtn;
+
+    private FrameLayout bottomSheet;
 
     private List<RolesItem> includedRoles, excludedRoles, otherRoles, roleItems, adapterMainList;
     private SettingsModel settingsModel;
     private MainViewModel viewModel;
 
     private boolean required;
+    private boolean isText = false;
 
     private IncludedRoleAdapter includedRoleAdapter;
     private SelectRoleAdapter selectRoleAdapter;
@@ -87,7 +99,7 @@ public class RoleSelectionFragment extends BottomSheetDialogFragment {
 
 
         otherRoles = roles.stream().filter(role -> includedRoles != null && !includedRoles.contains(role)
-                || excludedRoles != null && !excludedRoles.contains(role)).collect(Collectors.toList());
+                && excludedRoles != null && !excludedRoles.contains(role)).collect(Collectors.toList());
 
         adapterMainList.addAll(otherRoles);
     }
@@ -106,6 +118,7 @@ public class RoleSelectionFragment extends BottomSheetDialogFragment {
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -117,19 +130,41 @@ public class RoleSelectionFragment extends BottomSheetDialogFragment {
         nothing_found_layout = view.findViewById(R.id.nothing_found_layout);
         empty_layout = view.findViewById(R.id.no_role_left_layout);
         rv_layout = view.findViewById(R.id.rv_layout);
+        bottomSheet = view.findViewById(R.id.bottom_sheet);
+        clearBtn = view.findViewById(R.id.clear_selection);
+
+        availableRV.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
+        availableRV.setFocusable(true);
+        availableRV.setFocusableInTouchMode(true);
+
+        selectedRV.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
+        selectedRV.setFocusable(true);
+        selectedRV.setFocusableInTouchMode(true);
+
 
         updateUI();
+
 
 
         OnRoleChipClickInterface onRoleChipClickInterface = new OnRoleChipClickInterface() {
             @Override
             public void onRoleChipClick(RolesItem role, int position) {
+
                 includedRoles.remove(role);
                 otherRoles.add(role);
-                adapterMainList.add(role);
+                otherRoles.sort((o1, o2) -> {
+                    return o1.getPosition() - o2.getPosition();
+                });
+                if(!isText){
+                    adapterMainList.clear();
+                    adapterMainList.addAll(otherRoles);
+                }else{
+                    adapterMainList.remove(role);
+                }
                 updateUI();
+                int pos = adapterMainList.indexOf(role);
                 includedRoleAdapter.notifyItemRemoved(position);
-                selectRoleAdapter.notifyDataSetChanged();
+                selectRoleAdapter.notifyItemInserted(pos);
 
             }
         };
@@ -139,11 +174,20 @@ public class RoleSelectionFragment extends BottomSheetDialogFragment {
             public void onRoleSelected(RolesItem role, int position) {
                 includedRoles.add(role);
                 otherRoles.remove(role);
-                adapterMainList.remove(role);
+                otherRoles.sort((o1, o2) -> {
+                    return o1.getPosition() - o2.getPosition();
+                });
+                if(!isText){
+                    adapterMainList.clear();
+                    adapterMainList.addAll(otherRoles);
+                }else{
+                    adapterMainList.remove(role);
+                }
+
                 updateUI();
                 selectRoleAdapter.notifyItemRemoved(position);
-                includedRoleAdapter.notifyItemInserted(includedRoles.size() - 1);
-
+                includedRoleAdapter.notifyDataSetChanged();
+                selectedRV.scrollToPosition(includedRoles.size()-1);
             }
         };
 
@@ -169,6 +213,20 @@ public class RoleSelectionFragment extends BottomSheetDialogFragment {
         selectedRV.setAdapter(includedRoleAdapter);
 
 
+
+
+
+        search_edit_text.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    hideKeyboard(v);
+                }
+
+            }
+        });
+
+
         search_edit_text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -178,6 +236,7 @@ public class RoleSelectionFragment extends BottomSheetDialogFragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(s.length() >= 2){
+                    isText = true;
                     List<BoundExtractedResult<RolesItem>> match = FuzzySearch
                             .extractAll(s.toString(),
                                     otherRoles,
@@ -204,18 +263,39 @@ public class RoleSelectionFragment extends BottomSheetDialogFragment {
 
                     //updateAdapter
                     selectRoleAdapter.notifyDataSetChanged();
+                    updateUI();
                 }else{
+                    isText = false;
                     nothing_found_layout.setVisibility(View.GONE);
                     rv_layout.setVisibility(View.VISIBLE);
                     adapterMainList.clear();
                     adapterMainList.addAll(otherRoles);
                     //updateAdapter
                     selectRoleAdapter.notifyDataSetChanged();
+                    updateUI();
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        clearBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                otherRoles.addAll(includedRoles);
+                includedRoles.clear();
+                otherRoles.sort((o1, o2) -> {
+                    return o1.getPosition() - o2.getPosition();
+                });
+                adapterMainList.clear();
+                adapterMainList.addAll(otherRoles);
+
+                updateUI();
+                includedRoleAdapter.notifyDataSetChanged();
+                selectRoleAdapter.notifyDataSetChanged();
 
             }
         });
@@ -227,14 +307,24 @@ public class RoleSelectionFragment extends BottomSheetDialogFragment {
     private void updateUI() {
 
         nothing_found_layout.setVisibility(View.GONE);
+        selectedRV.setVisibility(View.GONE);
         empty_layout.setVisibility(View.GONE);
         rv_layout.setVisibility(View.GONE);
 
-        if(includedRoles.isEmpty()){
+        if(!includedRoles.isEmpty()){
+            selectedRV.setVisibility(View.VISIBLE);
+        }else{
             selectedRV.setVisibility(View.GONE);
         }
         if(adapterMainList.isEmpty()){
-            empty_layout.setVisibility(View.VISIBLE);
+            if(isText){
+                nothing_found_layout.setVisibility(View.VISIBLE);
+            }else{
+                empty_layout.setVisibility(View.VISIBLE);
+            }
+            rv_layout.setVisibility(View.GONE);
+        }else{
+            rv_layout.setVisibility(View.VISIBLE);
         }
 
     }
@@ -250,5 +340,19 @@ public class RoleSelectionFragment extends BottomSheetDialogFragment {
             settingsModel.setIgnoredRoleIds(ids);
         }
         viewModel.updateSettings(settingsModel);
+    }
+
+    private void hideKeyboard(View v) {
+        InputMethodManager imm = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        if(v instanceof TextInputEditText){
+            TextInputEditText editText = (TextInputEditText) v;
+            editText.clearFocus();
+        }
+        if(v instanceof TextInputLayout){
+            TextInputLayout editText = (TextInputLayout) v;
+            editText.clearFocus();
+        }
+
     }
 }
