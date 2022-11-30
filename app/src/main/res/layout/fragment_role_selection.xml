@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:focusable="false"
+    android:focusableInTouchMode="false"
+    tools:context=".fragments.BottomSheet.RoleSelectionFragment">
+
+    <FrameLayout
+        android:id="@+id/bottom_sheet"
+        style="@style/myBottomModalSheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="false"
+        android:focusableInTouchMode="false">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+                android:id="@+id/drag_handle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/title_label"
+                style="@style/myFontStyle.Headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/dp_16"
+                android:paddingBottom="@dimen/dp_16"
+                android:text="@string/choose_roles"
+                android:textSize="@dimen/text_huge"
+                app:layout_constraintStart_toStartOf="@id/vg04"
+                app:layout_constraintTop_toBottomOf="@id/drag_handle" />
+
+            <ImageView
+                android:id="@+id/clear_selection"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:scaleX="1.5"
+                android:scaleY="1.5"
+                android:src="@drawable/ic_clear_all"
+                app:layout_constraintBottom_toBottomOf="@id/title_label"
+                app:layout_constraintEnd_toStartOf="@id/vg96"
+                app:layout_constraintTop_toTopOf="@id/title_label"
+                app:tint="@color/white_stroke" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/role_search_input_layout"
+                style="@style/inputLayer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_16"
+                app:endIconMode="clear_text"
+                app:endIconTint="@color/white_stroke"
+                app:layout_constraintEnd_toStartOf="@id/vg96"
+                app:layout_constraintStart_toEndOf="@id/vg04"
+                app:layout_constraintTop_toBottomOf="@id/title_label">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/role_search_edit_text"
+                    style="@style/myFontStyle.Regular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Search your roles"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textColor="@color/active_color"
+                    android:textSize="@dimen/text_medium"
+                    tools:ignore="TouchTargetSizeCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                app:layout_constraintEnd_toStartOf="@id/vg96"
+                app:layout_constraintStart_toEndOf="@id/vg04"
+                app:layout_constraintTop_toBottomOf="@id/role_search_input_layout">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_selected_roles"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layoutAnimation="@anim/layout_animation"
+                            android:nestedScrollingEnabled="false"
+                            android:visibility="visible"
+                            tools:listitem="@layout/recycler_view_selected_role_chip" />
+
+
+                        <LinearLayout
+                            android:id="@+id/other_layouts"
+                            android:layout_below="@id/rv_selected_roles"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:id="@+id/nothing_found_layout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:visibility="gone">
+
+                                <com.airbnb.lottie.LottieAnimationView
+                                    android:layout_width="256dp"
+                                    android:layout_height="256dp"
+                                    android:layout_gravity="center"
+
+                                    android:layout_marginTop="@dimen/dp_16"
+                                    android:layout_marginBottom="@dimen/dp_16"
+                                    app:lottie_autoPlay="true"
+                                    app:lottie_loop="true"
+                                    app:lottie_rawRes="@raw/empty_state" />
+
+                                <TextView
+                                    style="@style/myFontStyle.Headline"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="@dimen/dp_16"
+                                    android:layout_marginBottom="@dimen/dp_64"
+                                    android:text="@string/nothing_found_search"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/white_stroke"
+                                    android:textSize="@dimen/text_huge"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:id="@+id/no_role_left_layout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:visibility="gone">
+
+                                <com.airbnb.lottie.LottieAnimationView
+                                    android:layout_width="256dp"
+                                    android:layout_height="256dp"
+                                    android:layout_gravity="center"
+
+                                    android:layout_marginTop="@dimen/dp_16"
+                                    android:layout_marginBottom="@dimen/dp_16"
+                                    app:lottie_autoPlay="true"
+                                    app:lottie_loop="true"
+                                    app:lottie_rawRes="@raw/empty_ghost" />
+
+                                <TextView
+                                    style="@style/myFontStyle.Headline"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="@dimen/dp_16"
+                                    android:layout_marginBottom="@dimen/dp_64"
+                                    android:text="Booo!\n\nNo role left"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/white_stroke"
+                                    android:textSize="@dimen/text_huge"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <RelativeLayout
+                                android:id="@+id/rv_layout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:layout_constrainedHeight="true">
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/rv_available_roles"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="@dimen/dp_16"
+                                    android:clickable="true"
+                                    android:fadingEdgeLength="@dimen/dp_8"
+                                    android:focusable="true"
+                                    android:focusableInTouchMode="true"
+                                    android:layoutAnimation="@anim/layout_animation"
+                                    android:nestedScrollingEnabled="true"
+                                    android:paddingBottom="@dimen/dp_32"
+                                    android:requiresFadingEdge="vertical"
+                                    android:scrollbars="none"
+                                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                                    tools:itemCount="5"
+                                    tools:listitem="@layout/recycler_view_select_role" />
+                            </RelativeLayout>
+
+                        </LinearLayout>
+                    </RelativeLayout>
+
+
+            </androidx.core.widget.NestedScrollView>
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/vg04"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.04" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/vg96"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.96" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
