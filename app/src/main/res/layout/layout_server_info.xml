@@ -50,9 +50,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/dp_16"
-            tools:text="Level 1 Server"
             android:textSize="@dimen/text_very_small"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="Level 1 Server" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -70,22 +70,31 @@
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:layout_width="@dimen/dp_48"
+                android:layout_width="wrap_content"
                 android:layout_height="@dimen/dp_24"
                 android:layout_alignParentEnd="true"
-                android:gravity="center"
                 android:background="@drawable/add_button"
                 android:backgroundTint="@color/white_stroke_transparent_25"
+                android:gravity="center"
+                android:minWidth="@dimen/dp_48"
                 android:orientation="vertical">
 
-                <TextView
+                <com.example.untitleddiscordbot.Utils.AlwaysMarqueeTextView
                     android:id="@+id/prefix_value"
                     style="@style/myFontStyle.Regular"
                     android:layout_width="wrap_content"
+                    android:scrollHorizontally="true"
                     android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:maxEms="5"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:paddingStart="@dimen/dp_4"
+                    android:paddingEnd="@dimen/dp_4"
                     android:textSize="@dimen/text_medium"
                     android:textStyle="bold"
-                    tools:text="-" />
+                    tools:text="-jjjjjjjjjjjjjjjddddddddddjjjj" />
 
             </LinearLayout>
 
@@ -93,9 +102,9 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_marginTop="@dimen/dp_4"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_4">
 
             <TextView
                 android:id="@+id/members_label"
@@ -111,26 +120,29 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dp_24"
-                android:minWidth="@dimen/dp_48"
                 android:layout_alignParentEnd="true"
-                android:gravity="center"
                 android:background="@drawable/add_button"
                 android:backgroundTint="@color/white_stroke_transparent_25"
+                android:gravity="center"
+                android:minWidth="@dimen/dp_48"
                 android:orientation="vertical">
 
-                <TextView
+                <com.example.untitleddiscordbot.Utils.AlwaysMarqueeTextView
                     android:id="@+id/members_value"
                     style="@style/myFontStyle.Regular"
                     android:layout_width="wrap_content"
+                    android:scrollHorizontally="true"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_medium"
-                    android:textStyle="bold"
                     android:ellipsize="marquee"
-                    android:maxLines="1"
+                    android:marqueeRepeatLimit="marquee_forever"
                     android:maxEms="5"
+                    android:maxLines="1"
+                    android:singleLine="true"
                     android:paddingStart="@dimen/dp_4"
                     android:paddingEnd="@dimen/dp_4"
-                    tools:text="46" />
+                    android:textSize="@dimen/text_medium"
+                    android:textStyle="bold"
+                    tools:text="46ddddddddddddddd" />
 
             </LinearLayout>
 
