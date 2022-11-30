@@ -169,7 +169,7 @@ public class CoreSettingsFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(count == 0){
+                if(s.length() == 0){
                     manageError(true);
                 }else{
                     manageError(false);
