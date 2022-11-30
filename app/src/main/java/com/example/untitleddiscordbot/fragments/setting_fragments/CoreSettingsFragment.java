@@ -180,7 +180,13 @@ public class CoreSettingsFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                String result = s.toString().replaceAll("\\s+", "");
+                if(!s.toString().equals(result)){
+                    prefixEditText.setText(result);
+                    prefixEditText.setSelection(result.length());
+                    // alert the user
+                    Toast.makeText(ctx, "Prefix shouldn't contain any whitespace characters!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         
