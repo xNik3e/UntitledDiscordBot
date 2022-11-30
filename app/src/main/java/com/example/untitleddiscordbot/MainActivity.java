@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     private MaterialButton retryButton, exitAppButton;
 
     private ExpandableBottomBar bottomBar;
+    private NavController navController;
 
     private UserGuildModelItem selectedServer;
 
@@ -127,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         UserModel userModel = viewModel.getStoredUserModel();
         selectedServer = viewModel.getSelectedServer();
 
-        NavController navController = Navigation.findNavController(this, R.id.container);
+        navController = Navigation.findNavController(this, R.id.container);
 
         ExpandableBottomBarNavigationUI.setupWithNavController(bottomBar, navController);
 
@@ -320,9 +321,10 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (bottomBar.getMenu().getSelectedItem().getId() != R.id.homeFragment) {
             bottomBar.getMenu().select(R.id.homeFragment);
+            navController.navigate(R.id.homeFragment);
         } else {
             //kill app
-            finishAndRemoveTask();
+            finishAffinity();
         }
     }
 
