@@ -1,241 +1,258 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_background_gradient"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    tools:openDrawer="start">
 
-
-    <View
-        android:id="@+id/darken_view"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="1"
-        android:background="@color/transparent_dark"
-        android:elevation="20dp"
-        android:visibility="visible" />
+        android:fitsSystemWindows="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="@dimen/dp_12"
-            android:background="@android:color/transparent"
-            app:contentInsetEnd="0dp"
-            app:contentInsetStart="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/main_background_gradient">
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
+            <View
+                android:id="@+id/darken_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="1"
+                android:background="@color/transparent_dark"
+                android:elevation="20dp"
+                android:visibility="visible" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <FrameLayout
-                    android:id="@+id/toolbar_icon_container"
-                    android:layout_width="@dimen/control_container_size"
-                    android:layout_height="@dimen/control_container_size"
-                    android:layout_centerVertical="true"
-                    android:visibility="visible">
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="@dimen/dp_12"
+                    android:background="@android:color/transparent"
+                    app:contentInsetEnd="0dp"
+                    app:contentInsetStart="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <ImageView
-                        android:id="@+id/ic_menu"
-                        android:layout_width="@dimen/control_icon_size"
-                        android:layout_height="@dimen/control_icon_size"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_menu"
-                        app:tint="@color/white" />
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
 
-                </FrameLayout>
+                        <FrameLayout
+                            android:id="@+id/toolbar_icon_container"
+                            android:layout_width="@dimen/control_container_size"
+                            android:layout_height="@dimen/control_container_size"
+                            android:layout_centerVertical="true"
+                            android:visibility="visible">
 
-                <Space
-                    android:id="@+id/spacing"
-                    android:layout_width="@dimen/dp_12"
-                    android:layout_height="match_parent"
-                    android:layout_toEndOf="@id/toolbar_icon_container"
-                    android:visibility="gone" />
+                            <ImageView
+                                android:id="@+id/ic_menu"
+                                android:layout_width="@dimen/control_icon_size"
+                                android:layout_height="@dimen/control_icon_size"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_menu"
+                                app:tint="@color/white" />
 
-                <TextView
-                    android:id="@+id/toolbar_title"
-                    style="@style/myFontStyle.Regular.FontPadding"
-                    android:layout_width="wrap_content"
+                        </FrameLayout>
+
+                        <Space
+                            android:id="@+id/spacing"
+                            android:layout_width="@dimen/dp_12"
+                            android:layout_height="match_parent"
+                            android:layout_toEndOf="@id/toolbar_icon_container"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/toolbar_title"
+                            style="@style/myFontStyle.Regular.FontPadding"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@id/spacing"
+                            android:text="@string/home"
+                            android:textSize="@dimen/text_huge" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/toolbar_menu_items"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/control_image_size"
+                        android:layout_gravity="end"
+                        android:orientation="horizontal">
+
+                        <FrameLayout
+                            android:id="@+id/icon_server"
+                            android:layout_width="@dimen/control_image_size"
+                            android:layout_height="@dimen/control_image_size"
+                            android:visibility="visible">
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                app:cardCornerRadius="@dimen/control_icon_size">
+
+                                <ImageView
+                                    android:id="@+id/server_picture"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/pawel" />
+
+                            </androidx.cardview.widget.CardView>
+                        </FrameLayout>
+
+                        <Space
+                            android:id="@+id/title_spacing"
+                            android:layout_width="14dp"
+                            android:layout_height="match_parent"
+                            android:visibility="visible" />
+
+                        <FrameLayout
+                            android:id="@+id/icon_profile"
+                            android:layout_width="@dimen/control_image_size"
+                            android:layout_height="@dimen/control_image_size">
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                app:cardCornerRadius="@dimen/control_icon_size">
+
+                                <ImageView
+                                    android:id="@+id/profile_picture"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/profile" />
+
+                            </androidx.cardview.widget.CardView>
+                        </FrameLayout>
+                    </LinearLayout>
+
+                </com.google.android.material.appbar.MaterialToolbar>
+
+                <fragment
+                    android:id="@+id/container"
+                    android:name="androidx.navigation.fragment.NavHostFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:defaultNavHost="true"
+                    app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+                    app:layout_constraintTop_toBottomOf="@id/toolbar"
+                    app:navGraph="@navigation/app_navigation_graph" />
+
+
+                <github.com.st235.lib_expandablebottombar.ExpandableBottomBar
+                    android:id="@+id/bottom_navigation"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@id/spacing"
-                    android:text="@string/home"
-                    android:textSize="@dimen/text_huge" />
+                    app:exb_backgroundColor="@color/surface_dark"
+                    app:exb_itemBackgroundOpacity="0.2"
+                    app:exb_itemInactiveColor="@color/white"
+                    app:exb_item_vertical_margin="@dimen/dp_16"
+                    app:exb_items="@menu/bottom_menu"
 
-            </RelativeLayout>
+                    app:exb_transitionDuration="250"
+                    app:layout_behavior="github.com.st235.lib_expandablebottombar.behavior.ExpandableBottomBarScrollableBehavior"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
-                android:id="@+id/toolbar_menu_items"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/control_image_size"
-                android:layout_gravity="end"
-                android:orientation="horizontal">
+                android:id="@+id/loading_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:elevation="21dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="visible">
 
-                <FrameLayout
-                    android:id="@+id/icon_server"
-                    android:layout_width="@dimen/control_image_size"
-                    android:layout_height="@dimen/control_image_size"
+
+                <ProgressBar
+                    android:id="@+id/loading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true"
+                    android:indeterminateDrawable="@drawable/progress_bar_color" />
+
+                <LinearLayout
+                    android:id="@+id/error_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
                     android:visibility="visible">
 
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:cardCornerRadius="@dimen/control_icon_size">
+                    <TextView
+                        android:id="@+id/text_error"
+                        style="@style/myFontStyle.Headline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_16"
+                        android:text="@string/an_unexpected_error_occurred"
+                        android:textSize="@dimen/text_large" />
 
-                        <ImageView
-                            android:id="@+id/server_picture"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/pawel" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_retry"
+                        style="@style/buttonChoose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_8"
+                        android:text="Retry" />
 
-                    </androidx.cardview.widget.CardView>
-                </FrameLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_exit"
+                        style="@style/buttonChoose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_8"
+                        android:text="Exit App"
+                        android:textStyle="bold"
+                        app:strokeColor="@color/active_color" />
 
-                <Space
-                    android:id="@+id/title_spacing"
-                    android:layout_width="14dp"
-                    android:layout_height="match_parent"
-                    android:visibility="visible" />
+                    <TextView
+                        style="@style/myFontStyle.Regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_24"
+                        android:text="@string/auto_retry_in"
+                        android:textSize="@dimen/text_tiny" />
 
-                <FrameLayout
-                    android:id="@+id/icon_profile"
-                    android:layout_width="@dimen/control_image_size"
-                    android:layout_height="@dimen/control_image_size">
+                    <TextView
+                        android:id="@+id/retry_text"
+                        style="@style/myFontStyle.Headline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_4"
+                        android:text="4"
+                        android:textColor="@color/active_color"
+                        android:textSize="@dimen/text_tiny"
+                        android:textStyle="bold" />
 
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:cardCornerRadius="@dimen/control_icon_size">
+                </LinearLayout>
 
-                        <ImageView
-                            android:id="@+id/profile_picture"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/profile" />
-
-                    </androidx.cardview.widget.CardView>
-                </FrameLayout>
             </LinearLayout>
 
-        </com.google.android.material.appbar.MaterialToolbar>
+        </RelativeLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-        <fragment
-            android:id="@+id/container"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:defaultNavHost="true"
-            app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
-            app:navGraph="@navigation/app_navigation_graph" />
-
-
-        <github.com.st235.lib_expandablebottombar.ExpandableBottomBar
-            android:id="@+id/bottom_navigation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:exb_backgroundColor="@color/surface_dark"
-            app:exb_itemBackgroundOpacity="0.2"
-            app:exb_itemInactiveColor="@color/white"
-            app:exb_item_vertical_margin="@dimen/dp_16"
-            app:exb_items="@menu/bottom_menu"
-
-            app:exb_transitionDuration="250"
-            app:layout_behavior="github.com.st235.lib_expandablebottombar.behavior.ExpandableBottomBarScrollableBehavior"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <LinearLayout
-        android:id="@+id/loading_container"
-        android:layout_width="match_parent"
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:elevation="21dp"
-        android:gravity="center"
-        android:visibility="visible"
-        android:orientation="vertical">
+        android:layout_gravity="start" />
 
-
-        <ProgressBar
-            android:id="@+id/loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:indeterminateDrawable="@drawable/progress_bar_color" />
-
-        <LinearLayout
-            android:id="@+id/error_container"
-            android:visibility="visible"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/text_error"
-                style="@style/myFontStyle.Headline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_16"
-                android:text="@string/an_unexpected_error_occurred"
-                android:textSize="@dimen/text_large" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_retry"
-                style="@style/buttonChoose"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_8"
-                android:text="Retry" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_exit"
-                style="@style/buttonChoose"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_8"
-                android:text="Exit App"
-                android:textStyle="bold"
-                app:strokeColor="@color/active_color" />
-
-            <TextView
-                style="@style/myFontStyle.Regular"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_24"
-                android:text="@string/auto_retry_in"
-                android:textSize="@dimen/text_tiny" />
-
-            <TextView
-                style="@style/myFontStyle.Headline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_4"
-                android:text="4"
-                android:textColor="@color/active_color"
-                android:textStyle="bold"
-                android:id="@+id/retry_text"
-                android:textSize="@dimen/text_tiny" />
-
-
-        </LinearLayout>
+</androidx.drawerlayout.widget.DrawerLayout>
 
 
 
-    </LinearLayout>
-
-
-</RelativeLayout>
