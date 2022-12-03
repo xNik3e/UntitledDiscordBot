@@ -1,10 +1,12 @@
 package com.example.untitleddiscordbot.fragments.BottomSheet;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -25,9 +27,11 @@ import android.widget.TextView;
 import com.example.untitleddiscordbot.Models.AllModel.AllDataModel;
 import com.example.untitleddiscordbot.Models.DetailedChannels.DetailedChannelItem;
 import com.example.untitleddiscordbot.Models.DetailedGuild.RolesItem;
+import com.example.untitleddiscordbot.Models.DetailedMembers.DetailedMemberItem;
 import com.example.untitleddiscordbot.Models.Permissions.ChannelPermissionsModel;
 import com.example.untitleddiscordbot.R;
 import com.example.untitleddiscordbot.Utils.AlwaysMarqueeTextView;
+import com.example.untitleddiscordbot.adapters.IncludedMemberAdapter;
 import com.example.untitleddiscordbot.adapters.IncludedRoleAdapter;
 import com.example.untitleddiscordbot.adapters.SelectRoleAdapter;
 import com.example.untitleddiscordbot.interfaces.OnChannelSettingsClickInterface;
@@ -103,6 +107,11 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
     private SelectRoleAdapter selectRoleAdapter;
 
     //TODO: MEMBERS ADAPTERS AND LISTS
+
+    private List<DetailedMemberItem> adapterMainListMembers, includedMembers, membersItems, otherMembers;
+
+    //Upper RV Member Chip - includedMembers
+    private IncludedMemberAdapter includedMemberAdapter;
 
 
 
@@ -332,7 +341,6 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
         nothingFoundLayoutRoles.setVisibility(View.GONE);
         noRoleLeftLayout.setVisibility(View.GONE);
         RVLayoutRoles.setVisibility(View.GONE);
-        availableRolesRV.setVisibility(View.GONE);
         selectedRolesRV.setVisibility(View.GONE);
 
         selectedMembersRV.setVisibility(View.GONE);
@@ -340,6 +348,30 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
         noMemberLeftLayout.setVisibility(View.GONE);
         RVLayoutMembers.setVisibility(View.GONE);
         availableMembersRV.setVisibility(View.GONE);
+
+        Drawable imageResourceId;
+        switch (item.getType()) {
+            case 2:
+                //Voice channel
+                imageResourceId = ResourcesCompat.getDrawable(ctx.getResources(), R.drawable.ic_voice, null);
+                break;
+            case 4:
+                //Category
+                welcomeChannelLayout.setVisibility(View.INVISIBLE);
+                imageResourceId = ResourcesCompat.getDrawable(ctx.getResources(), R.drawable.ic_folder, null);
+                break;
+            case 13:
+                //Stage channel
+                imageResourceId = ResourcesCompat.getDrawable(ctx.getResources(), R.drawable.ic_stage, null);
+                break;
+            default:
+                //Unknown
+                imageResourceId = ResourcesCompat.getDrawable(ctx.getResources(), R.drawable.ic_hash, null);
+                break;
+        }
+
+        channelIcon.setImageDrawable(imageResourceId);
+        channelName.setText(item.getName());
 
         if(!includedRoles.isEmpty()){
             selectedRolesRV.setVisibility(View.VISIBLE);
@@ -350,9 +382,9 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
             }else{
                 noRoleLeftLayout.setVisibility(View.VISIBLE);
             }
-            availableRolesRV.setVisibility(View.GONE);
+            RVLayoutRoles.setVisibility(View.GONE);
         }else{
-            availableRolesRV.setVisibility(View.VISIBLE);
+            RVLayoutRoles.setVisibility(View.VISIBLE);
         }
     }
 
