@@ -46,4 +46,5 @@
     <string name="trigger_info">Sets whether trigger/response should be deleted after certain period of time</string>
     <string name="choose_roles">Choose roles</string>
     <string name="nothing_found_search">Nothing found\nChange search query</string>
+    <string name="select_settings">Select settings</string>
 </resources>
