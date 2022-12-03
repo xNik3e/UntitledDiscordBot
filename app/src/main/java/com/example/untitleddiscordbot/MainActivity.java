@@ -3,6 +3,8 @@ package com.example.untitleddiscordbot;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
@@ -44,6 +46,7 @@ import com.example.untitleddiscordbot.fragments.SettingsFragment;
 import com.example.untitleddiscordbot.viewModels.MainViewModel;
 import com.example.untitleddiscordbot.viewModels.ViewModelFactory;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.navigation.NavigationView;
 
 import net.openid.appauth.AuthorizationException;
 import net.openid.appauth.AuthorizationResponse;
@@ -71,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
     private MaterialButton retryButton, exitAppButton;
 
     private ExpandableBottomBar bottomBar;
+    public static DrawerLayout drawerLayout;
+    public static NavigationView drawerNavigationView;
     private NavController navController;
 
     private UserGuildModelItem selectedServer;
@@ -119,6 +124,9 @@ public class MainActivity extends AppCompatActivity {
         errorContainer.setVisibility(View.GONE);
         errorContainer.setAlpha(0f);
 
+        drawerLayout = findViewById(R.id.drawer_layout);
+        drawerNavigationView = findViewById(R.id.drawerNavigation);
+
 
         homeFragment = new HomeFragment();
         settingsFragment = new SettingsFragment();
@@ -135,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
             public void onDestinationChanged(@NonNull NavController navController, @NonNull NavDestination navDestination, @Nullable Bundle bundle) {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
                 if (navDestination.getId() == R.id.homeFragment) {
                     toolbarTitle.setText("Home");
                     space.setVisibility(View.VISIBLE);
@@ -146,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                         menuContainer.setVisibility(View.VISIBLE);
                         serverContainer.setVisibility(View.VISIBLE);
                         space.setVisibility(View.GONE);
-
+                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                     }else{
                         Toast.makeText(MainActivity.this, "You haven't selected a server!", Toast.LENGTH_SHORT).show();
                         navController.navigate(R.id.homeFragment);
@@ -223,6 +232,14 @@ public class MainActivity extends AppCompatActivity {
                         setLoaded();
                     }
                 }
+            }
+        });
+
+
+        menuContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(GravityCompat.START);
             }
         });
 
@@ -319,12 +336,16 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (bottomBar.getMenu().getSelectedItem().getId() != R.id.homeFragment) {
-            bottomBar.getMenu().select(R.id.homeFragment);
-            navController.navigate(R.id.homeFragment);
-        } else {
-            //kill app
-            finishAffinity();
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else{
+            if (bottomBar.getMenu().getSelectedItem().getId() != R.id.homeFragment) {
+                bottomBar.getMenu().select(R.id.homeFragment);
+                navController.navigate(R.id.homeFragment);
+            } else {
+                //kill app
+                finishAffinity();
+            }
         }
     }
 

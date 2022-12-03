@@ -92,4 +92,6 @@ dependencies {
     //fuzzy wuzzy search https://github.com/xdrop/fuzzywuzzy
     implementation 'me.xdrop:fuzzywuzzy:1.4.0'
 
+    //DrawerLayout
+    implementation "androidx.drawerlayout:drawerlayout:1.1.1"
 }

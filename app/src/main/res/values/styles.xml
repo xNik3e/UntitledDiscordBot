@@ -58,7 +58,6 @@
     </style>
 
 
-
     <style name="myBottomModalSheet" parent="@style/Widget.Material3.BottomSheet">
         <item name="android:background">@drawable/modal_drawable</item>
         <item name="shapeAppearance">@style/modalShapeAppearance</item>
@@ -91,12 +90,24 @@
         <item name="trackTint">@color/track_tint_color</item>
         <item name="thumbIconTint">@color/white</item>
 
+    </style>
 
-
+    <style name="myNavDrawer" parent="Widget.Material3.NavigationView">
+        <item name="materialThemeOverlay">@style/drawerThemeOverlay</item>
+        <item name="itemRippleColor">@color/drawer_item_ripple</item>
 
     </style>
 
+    <style name="drawerThemeOverlay" parent="">
+        <item name="colorOnSecondaryContainer">@color/active_color</item>
+        <item name="colorSecondaryContainer">@color/active_color_25</item>
+        <item name="colorOnSurfaceVariant">@color/white</item>
+        <item name="colorSurface">@color/surface_dark</item>
+        <item name="colorOnSurface">@color/white</item>
+        <item name="colorPrimary">@color/black</item>
 
+
+    </style>
 
 
 </resources>
