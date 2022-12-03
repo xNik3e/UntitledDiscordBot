@@ -6,13 +6,17 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.untitleddiscordbot.Models.AllModel.AllDataModel;
 import com.example.untitleddiscordbot.R;
 import com.example.untitleddiscordbot.viewModels.MainViewModel;
+import com.example.untitleddiscordbot.viewModels.ViewModelFactory;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 
@@ -20,7 +24,7 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
 
     private Context ctx;
     private MainViewModel mainViewModel;
-
+    private AllDataModel ADL;
 
     public ChannelSettingsFragment() {
         // Required empty public constructor
@@ -29,6 +33,11 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+        this.ctx = context;
+        this.mainViewModel = new ViewModelProvider((ViewModelStoreOwner) ctx,
+                (ViewModelProvider.Factory) new ViewModelFactory())
+                .get(MainViewModel.class);
+        this.ADL = mainViewModel.getAllDataModel().getValue();
     }
 
     @Override

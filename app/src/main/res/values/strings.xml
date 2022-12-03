@@ -51,4 +51,7 @@
     <string name="channels_with_configured_permissions">Channels with configured permissions</string>
     <string name="edit_channels">Edit channels</string>
     <string name="save">SAVE</string>
+    <string name="toggle_welcome_channel">Toggle welcome\nchannel</string>
+    <string name="roles">Roles</string>
+    <string name="members">Members</string>
 </resources>
