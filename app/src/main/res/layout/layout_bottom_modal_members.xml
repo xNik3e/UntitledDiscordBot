@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/role_search_input_layout"
+        android:id="@+id/members_search_input_layout"
         style="@style/inputLayer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -18,11 +18,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/role_search_edit_text"
+            android:id="@+id/members_search_edit_text"
             style="@style/myFontStyle.Regular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Search your roles"
+            android:hint="Search members"
             android:inputType="text"
             android:maxLines="1"
             android:textColor="@color/active_color"
@@ -36,7 +36,7 @@
         android:layout_marginTop="@dimen/dp_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/role_search_input_layout">
+        app:layout_constraintTop_toBottomOf="@id/members_search_input_layout">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -48,10 +48,10 @@
                 android:id="@+id/rv_selected_roles"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layoutAnimation="@anim/layout_animation"
                 android:nestedScrollingEnabled="false"
+                android:layoutAnimation="@anim/layout_animation"
                 android:visibility="visible"
-                tools:listitem="@layout/recycler_view_selected_role_chip" />
+                tools:listitem="@layout/recycler_view_selected_member_chip" />
 
 
             <LinearLayout
@@ -72,7 +72,6 @@
                         android:layout_width="256dp"
                         android:layout_height="256dp"
                         android:layout_gravity="center"
-
                         android:layout_marginTop="@dimen/dp_16"
                         android:layout_marginBottom="@dimen/dp_16"
                         app:lottie_autoPlay="true"
@@ -95,7 +94,7 @@
 
 
                 <LinearLayout
-                    android:id="@+id/no_role_left_layout"
+                    android:id="@+id/no_member_left_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -119,7 +118,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/dp_16"
                         android:layout_marginBottom="@dimen/dp_64"
-                        android:text="Booo!\n\nNo role left"
+                        android:text="Booo!\n\nNo member left"
                         android:textAlignment="center"
                         android:textColor="@color/white_stroke"
                         android:textSize="@dimen/text_huge"
@@ -133,7 +132,7 @@
                     app:layout_constrainedHeight="true">
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_available_roles"
+                        android:id="@+id/rv_available_members"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="@dimen/dp_16"
@@ -149,7 +148,7 @@
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_behavior="@string/appbar_scrolling_view_behavior"
                         tools:itemCount="5"
-                        tools:listitem="@layout/recycler_view_select_role" />
+                        tools:listitem="@layout/recycler_view_select_member" />
                 </RelativeLayout>
 
             </LinearLayout>

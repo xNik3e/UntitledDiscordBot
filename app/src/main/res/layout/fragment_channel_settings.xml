@@ -177,11 +177,22 @@
 
             <include
                 android:id="@+id/roles_container"
-                layout="@layout/info_card_layout"
+                layout="@layout/layout_bottom_modal_roles"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_16"
                 android:visibility="visible"
+                app:layout_constraintEnd_toStartOf="@id/vg96"
+                app:layout_constraintStart_toEndOf="@id/vg04"
+                app:layout_constraintTop_toBottomOf="@id/selection_layout" />
+
+            <include
+                android:id="@+id/members_container"
+                layout="@layout/layout_bottom_modal_members"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@id/vg96"
                 app:layout_constraintStart_toEndOf="@id/vg04"
                 app:layout_constraintTop_toBottomOf="@id/selection_layout" />
