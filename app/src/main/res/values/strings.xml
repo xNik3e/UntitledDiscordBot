@@ -54,4 +54,6 @@
     <string name="toggle_welcome_channel">Toggle welcome\nchannel</string>
     <string name="roles">Roles</string>
     <string name="members">Members</string>
+    <string name="channel_info">Channel info</string>
+    <string name="this_channel_is_set_to_be_a_default_one_for_sending_messages">This channel is set to be a default one for sending messages</string>
 </resources>
