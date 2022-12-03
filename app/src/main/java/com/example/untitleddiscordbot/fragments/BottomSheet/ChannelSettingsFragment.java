@@ -368,7 +368,7 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
         selectedMembersRV.setLayoutManager(flm2);
         selectedMembersRV.setAdapter(includedMemberAdapter);
 
-        roleSearchEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+       /* roleSearchEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus)
@@ -382,7 +382,7 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
                 if (!hasFocus)
                     hideKeyboard(v);
             }
-        });
+        });*/
 
         roleSearchEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -517,16 +517,21 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
     }
 
     private void updateUI() {
+        rolesContainer.setVisibility(View.GONE);
+        roleSearchInputLayout.setVisibility(View.GONE);
         nothingFoundLayoutRoles.setVisibility(View.GONE);
         noRoleLeftLayout.setVisibility(View.GONE);
         RVLayoutRoles.setVisibility(View.GONE);
         selectedRolesRV.setVisibility(View.GONE);
 
+        membersContainer.setVisibility(View.GONE);
+        memberSearchInputLayout.setVisibility(View.GONE);
         selectedMembersRV.setVisibility(View.GONE);
         nothingFoundLayoutMembers.setVisibility(View.GONE);
         noMemberLeftLayout.setVisibility(View.GONE);
         RVLayoutMembers.setVisibility(View.GONE);
-        availableMembersRV.setVisibility(View.GONE);
+
+        welcomeChannelLayout.setVisibility(View.VISIBLE);
 
         Drawable imageResourceId;
         switch (item.getType()) {
@@ -553,6 +558,8 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
         channelName.setText(item.getName());
 
         if (roleSelected) {
+            roleSearchInputLayout.setVisibility(View.VISIBLE);
+            rolesContainer.setVisibility(View.VISIBLE);
             if (!includedRoles.isEmpty()) {
                 selectedRolesRV.setVisibility(View.VISIBLE);
             }
@@ -567,6 +574,8 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
                 RVLayoutRoles.setVisibility(View.VISIBLE);
             }
         } else {
+            memberSearchInputLayout.setVisibility(View.VISIBLE);
+            membersContainer.setVisibility(View.VISIBLE);
             if (!includedMembers.isEmpty()) {
                 selectedMembersRV.setVisibility(View.VISIBLE);
             }

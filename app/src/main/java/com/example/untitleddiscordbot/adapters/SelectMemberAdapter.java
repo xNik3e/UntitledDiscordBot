@@ -66,6 +66,7 @@ public class SelectMemberAdapter extends RecyclerView.Adapter<SelectMemberAdapte
                             String hexColor = String.format("#%06X", (0xFFFFFF & 0xfca41c));
                             holder.memberChip.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(hexColor)));
                         }
+                        notifyItemChanged(holder.getAdapterPosition());
                     }
                 });
             } catch (Exception e) {
