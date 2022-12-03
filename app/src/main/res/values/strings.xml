@@ -47,4 +47,7 @@
     <string name="choose_roles">Choose roles</string>
     <string name="nothing_found_search">Nothing found\nChange search query</string>
     <string name="select_settings">Select settings</string>
+    <string name="channel_permission">Channel permission</string>
+    <string name="channels_with_configured_permissions">Channels with configured permissions</string>
+    <string name="edit_channels">Edit channels</string>
 </resources>

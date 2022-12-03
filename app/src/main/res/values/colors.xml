@@ -25,4 +25,5 @@
     <color name="surface_darkest_grey">#18191C</color>
     <color name="transparent_dark">#CC000000</color>
     <color name="white_stroke_transparent_25">#40EDF2F4</color>
+    <color name="channel_chip_background">#2677D3</color>
 </resources>
