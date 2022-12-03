@@ -51,27 +51,9 @@ public class SelectMemberAdapter extends RecyclerView.Adapter<SelectMemberAdapte
         holder.memberName.setText(item.getUser().getUsername());
         if (item.getUser().getAvatar() != null) {
             String url = "https://cdn.discordapp.com/avatars/" + item.getUser().getId() + "/" + item.getUser().getAvatar() + ".png";
-            Glide.with(ctx).load(url).placeholder(R.drawable.discord_placeholder).into(holder.memberAvatar);
-            try {
-                URL url_value = new URL(url);
-                Bitmap mIcon1 =
-                        BitmapFactory.decodeStream(url_value.openConnection().getInputStream());
-                Palette.from(mIcon1).generate(new Palette.PaletteAsyncListener() {
-                    @Override
-                    public void onGenerated(@Nullable Palette palette) {
-                        Palette.Swatch swatch = palette.getDominantSwatch();
-                        if (swatch != null) {
-                            holder.memberChip.setBackgroundTintList(ColorStateList.valueOf(swatch.getRgb()));
-                        }else{
-                            String hexColor = String.format("#%06X", (0xFFFFFF & 0xfca41c));
-                            holder.memberChip.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(hexColor)));
-                        }
-                        notifyItemChanged(holder.getAdapterPosition());
-                    }
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Glide.with(ctx).load(url).placeholder(R.drawable.discord_placeholder).into(holder.memberAvatar)
+                    .onResourceReady();
+
         } else {
             Glide.with(ctx).load(R.drawable.discord_placeholder).into(holder.memberAvatar);
             String hexColor = String.format("#%06X", (0xFFFFFF & 0xfca41c));
