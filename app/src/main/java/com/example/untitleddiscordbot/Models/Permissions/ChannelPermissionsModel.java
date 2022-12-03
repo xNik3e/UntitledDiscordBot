@@ -5,10 +5,13 @@ import java.util.List;
 
 public class ChannelPermissionsModel {
     private String channelId;
+    private String channelName;
     private boolean isGroup;
+    private int type;
     private List<String> requiredRoleIds;
     private List<String> memberIds;
     private boolean isDefault;
+    private boolean checked;
 
     public ChannelPermissionsModel() {
         this.channelId = "";
@@ -16,6 +19,33 @@ public class ChannelPermissionsModel {
         this.requiredRoleIds = new ArrayList<>();
         this.memberIds = new ArrayList<>();
         this.isDefault = false;
+        this.checked = false;
+        this.channelName = "";
+        this.type = 0;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getChannelName() {
+        return channelName;
+    }
+
+    public void setChannelName(String channelName) {
+        this.channelName = channelName;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 
     public String getChannelId() {

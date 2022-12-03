@@ -61,7 +61,6 @@ public class SettingsModel {
         }
         settingsModel.setIgnoredRoleIds(ignoredDummyRoleId);
 
-
         settingsModel.setAutoDeleteTrigger(0);
         settingsModel.setAutoDeleteResponse(0);
         settingsModel.setAutoDeleteTriggerEnabled(false);
@@ -70,8 +69,6 @@ public class SettingsModel {
         settingsModel.setChannelPermissions(new ArrayList<>());
         settingsModel.setDefaultChannelId("0");
         settingsModel.setDefaultChannelEnabled(false);
-
-
 
         return settingsModel;
     }

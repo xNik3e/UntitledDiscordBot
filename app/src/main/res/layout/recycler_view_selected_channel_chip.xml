@@ -86,7 +86,7 @@
                     app:strokeWidth="@dimen/dp_1">
 
                     <com.example.untitleddiscordbot.Utils.AlwaysMarqueeTextView
-                        android:id="@+id/members_roles"
+                        android:id="@+id/roles_count"
                         style="@style/myFontStyle.Regular.FontPadding"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

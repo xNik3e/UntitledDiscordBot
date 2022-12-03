@@ -41,6 +41,7 @@
             android:id="@+id/selected_channels"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layoutAnimation="@anim/layout_animation"
             android:orientation="horizontal"
             android:paddingBottom="@dimen/dp_8"
             android:scrollbars="none"
