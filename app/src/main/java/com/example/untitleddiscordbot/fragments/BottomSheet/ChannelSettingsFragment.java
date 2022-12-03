@@ -1,6 +1,7 @@
 package com.example.untitleddiscordbot.fragments.BottomSheet;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -33,8 +34,11 @@ import com.example.untitleddiscordbot.R;
 import com.example.untitleddiscordbot.Utils.AlwaysMarqueeTextView;
 import com.example.untitleddiscordbot.adapters.IncludedMemberAdapter;
 import com.example.untitleddiscordbot.adapters.IncludedRoleAdapter;
+import com.example.untitleddiscordbot.adapters.SelectMemberAdapter;
 import com.example.untitleddiscordbot.adapters.SelectRoleAdapter;
 import com.example.untitleddiscordbot.interfaces.OnChannelSettingsClickInterface;
+import com.example.untitleddiscordbot.interfaces.OnMemberChipClickInterface;
+import com.example.untitleddiscordbot.interfaces.OnMemberSelectedInterface;
 import com.example.untitleddiscordbot.interfaces.OnRoleChipClickInterface;
 import com.example.untitleddiscordbot.interfaces.OnRoleSelectedInterface;
 import com.example.untitleddiscordbot.viewModels.MainViewModel;
@@ -76,6 +80,7 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
     private View selectionRole, selectionMember;
 
     boolean isText = false;
+    boolean roleSelected = true;
 
     //INCLUDE ROLES
     private View rolesContainer;
@@ -113,6 +118,8 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
     //Upper RV Member Chip - includedMembers
     private IncludedMemberAdapter includedMemberAdapter;
 
+    //Lower RV Member Full - adapterMainList
+    private SelectMemberAdapter selectMemberAdapter;
 
 
     public ChannelSettingsFragment() {
@@ -134,10 +141,18 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
         this.includedRoles = new ArrayList<>();
         this.otherRoles = new ArrayList<>();
 
+        this.adapterMainListMembers = new ArrayList<>();
+        this.includedMembers = new ArrayList<>();
+        this.otherMembers = new ArrayList<>();
+
+        this.membersItems = ADL.getMembers();
         this.rolesItems = ADL.getRoles();
 
         adapterMainListRoles.addAll(rolesItems);
         otherRoles.addAll(rolesItems);
+
+        adapterMainListMembers.addAll(membersItems);
+        otherMembers.addAll(membersItems);
     }
 
     @Override
@@ -194,17 +209,34 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
         availableRolesRV.setFocusable(true);
         availableRolesRV.setFocusableInTouchMode(true);
 
+        availableMembersRV.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
+        availableMembersRV.setFocusable(true);
+        availableMembersRV.setFocusableInTouchMode(true);
+
         updateUI();
 
         selectedRolesRV.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     //enable scrolling
                     selectedRolesRV.setNestedScrollingEnabled(true);
-                }else{
+                } else {
                     //disable scrolling
                     selectedRolesRV.setNestedScrollingEnabled(false);
+                }
+            }
+        });
+
+        selectedMembersRV.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    //enable scrolling
+                    selectedMembersRV.setNestedScrollingEnabled(true);
+                } else {
+                    //disable scrolling
+                    selectedMembersRV.setNestedScrollingEnabled(false);
                 }
             }
         });
@@ -217,16 +249,37 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
                 otherRoles.sort((o1, o2) -> {
                     return o1.getPosition() - o2.getPosition();
                 });
-                if(!isText){
+                if (!isText) {
                     adapterMainListRoles.clear();
                     adapterMainListRoles.addAll(otherRoles);
-                }else{
+                } else {
                     adapterMainListRoles.clear();
                 }
                 updateUI();
                 int pos = adapterMainListRoles.indexOf(role);
                 includedRoleAdapter.notifyItemRemoved(position);
                 selectRoleAdapter.notifyItemInserted(pos);
+            }
+        };
+
+        OnMemberChipClickInterface onMemberChipClickInterface = new OnMemberChipClickInterface() {
+            @Override
+            public void onMemberChipClick(DetailedMemberItem member, int position) {
+                includedMembers.remove(member);
+                otherMembers.add(member);
+                otherMembers.sort((o1, o2) -> {
+                    return o1.getUser().getUsername().compareTo(o2.getUser().getUsername());
+                });
+                if (!isText) {
+                    adapterMainListMembers.clear();
+                    adapterMainListMembers.addAll(otherMembers);
+                } else {
+                    adapterMainListMembers.clear();
+                }
+                updateUI();
+                int pos = adapterMainListMembers.indexOf(member);
+                includedMemberAdapter.notifyItemRemoved(position);
+                selectMemberAdapter.notifyItemInserted(pos);
             }
         };
 
@@ -238,10 +291,10 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
                 otherRoles.sort((o1, o2) -> {
                     return o1.getPosition() - o2.getPosition();
                 });
-                if(!isText){
+                if (!isText) {
                     adapterMainListRoles.clear();
                     adapterMainListRoles.addAll(otherRoles);
-                }else{
+                } else {
                     adapterMainListRoles.remove(role);
                 }
 
@@ -252,31 +305,81 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
             }
         };
 
+        OnMemberSelectedInterface onMemberSelectedInterface = new OnMemberSelectedInterface() {
+            @Override
+            public void onMemberSelected(DetailedMemberItem member, int position) {
+                includedMembers.add(member);
+                otherMembers.remove(member);
+                otherMembers.sort((o1, o2) -> {
+                    return o1.getUser().getUsername().compareTo(o2.getUser().getUsername());
+                });
+                if (!isText) {
+                    adapterMainListMembers.clear();
+                    adapterMainListMembers.addAll(otherMembers);
+                } else {
+                    adapterMainListMembers.remove(member);
+                }
+
+                updateUI();
+                selectMemberAdapter.notifyItemRemoved(position);
+                includedMemberAdapter.notifyDataSetChanged();
+                selectedMembersRV.scrollToPosition(0);
+            }
+        };
+
         includedRoleAdapter = new IncludedRoleAdapter(ctx,
                 includedRoles,
                 onRoleChipClickInterface);
+
+        includedMemberAdapter = new IncludedMemberAdapter(ctx,
+                includedMembers,
+                onMemberChipClickInterface);
 
         selectRoleAdapter = new SelectRoleAdapter(ctx,
                 adapterMainListRoles,
                 onRoleSelectedInterface);
 
+        selectMemberAdapter = new SelectMemberAdapter(ctx,
+                adapterMainListMembers,
+                onMemberSelectedInterface);
+
         LinearLayoutManager llm = new LinearLayoutManager(ctx);
+        LinearLayoutManager llm2 = new LinearLayoutManager(ctx);
 
         availableRolesRV.setLayoutManager(llm);
         availableRolesRV.setAdapter(selectRoleAdapter);
+
+        availableMembersRV.setLayoutManager(llm2);
+        availableMembersRV.setAdapter(selectMemberAdapter);
 
         FlexboxLayoutManager flm = new FlexboxLayoutManager(ctx);
         flm.setFlexDirection(FlexDirection.ROW);
         flm.setJustifyContent(JustifyContent.SPACE_EVENLY);
         flm.setAlignItems(AlignItems.FLEX_START);
 
+        FlexboxLayoutManager flm2 = new FlexboxLayoutManager(ctx);
+        flm2.setFlexDirection(FlexDirection.ROW);
+        flm2.setJustifyContent(JustifyContent.SPACE_EVENLY);
+        flm2.setAlignItems(AlignItems.FLEX_START);
+
         selectedRolesRV.setLayoutManager(flm);
         selectedRolesRV.setAdapter(includedRoleAdapter);
+
+        selectedMembersRV.setLayoutManager(flm2);
+        selectedMembersRV.setAdapter(includedMemberAdapter);
 
         roleSearchEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus)
+                if (!hasFocus)
+                    hideKeyboard(v);
+            }
+        });
+
+        memberSearchEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus)
                     hideKeyboard(v);
             }
         });
@@ -289,28 +392,28 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() >= 2){
+                if (s.length() >= 2) {
                     isText = true;
                     List<BoundExtractedResult<RolesItem>> match = FuzzySearch
                             .extractAll(s.toString(),
-                                   otherRoles,
+                                    otherRoles,
                                     RolesItem::getName,
                                     80);
                     List<Integer> indexes = match.stream().map(
                             BoundExtractedResult::getIndex).collect(Collectors.toList());
 
                     List<RolesItem> tempRoles = new ArrayList<>();
-                    indexes.forEach(tempI ->{
+                    indexes.forEach(tempI -> {
                         tempRoles.add(otherRoles.get(tempI));
                     });
 
                     adapterMainListRoles.clear();
                     adapterMainListRoles.addAll(tempRoles);
 
-                    if(tempRoles.isEmpty()){
+                    if (tempRoles.isEmpty()) {
                         nothingFoundLayoutRoles.setVisibility(View.VISIBLE);
                         RVLayoutRoles.setVisibility(View.GONE);
-                    }else{
+                    } else {
                         nothingFoundLayoutRoles.setVisibility(View.GONE);
                         RVLayoutRoles.setVisibility(View.VISIBLE);
                     }
@@ -318,7 +421,7 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
                     //updateAdapter
                     selectRoleAdapter.notifyDataSetChanged();
                     updateUI();
-                }else{
+                } else {
                     isText = false;
                     nothingFoundLayoutRoles.setVisibility(View.GONE);
                     RVLayoutRoles.setVisibility(View.VISIBLE);
@@ -333,6 +436,82 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+
+        memberSearchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() >= 2){
+                    isText = true;
+                    List<BoundExtractedResult<DetailedMemberItem>> match = FuzzySearch
+                            .extractAll(s.toString(),
+                                    otherMembers,
+                                    x -> x.getUser().getUsername(),
+                                    80);
+                    List<Integer> indexes = match.stream().map(
+                            BoundExtractedResult::getIndex).collect(Collectors.toList());
+                    List<DetailedMemberItem> tempMembers = new ArrayList<>();
+                    indexes.forEach(tempI -> {
+                        tempMembers.add(otherMembers.get(tempI));
+                    });
+
+                    adapterMainListMembers.clear();
+                    adapterMainListMembers.addAll(tempMembers);
+
+                    if(tempMembers.isEmpty()){
+                        nothingFoundLayoutMembers.setVisibility(View.VISIBLE);
+                        RVLayoutMembers.setVisibility(View.GONE);
+                    } else {
+                        nothingFoundLayoutMembers.setVisibility(View.GONE);
+                        RVLayoutMembers.setVisibility(View.VISIBLE);
+                    }
+
+                    //updateAdapter
+                    selectMemberAdapter.notifyDataSetChanged();
+                    updateUI();
+                }else{
+                    isText = false;
+                    nothingFoundLayoutMembers.setVisibility(View.GONE);
+                    RVLayoutMembers.setVisibility(View.VISIBLE);
+                    adapterMainListMembers.clear();
+                    adapterMainListMembers.addAll(otherMembers);
+                    //updateAdapter
+                    selectMemberAdapter.notifyDataSetChanged();
+                    updateUI();
+                }
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        rolesLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!roleSelected) {
+                    roleSelected = true;
+                    switchView();
+                }
+            }
+        });
+
+        membersLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (roleSelected) {
+                    roleSelected = false;
+                    switchView();
+                }
             }
         });
     }
@@ -373,32 +552,66 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
         channelIcon.setImageDrawable(imageResourceId);
         channelName.setText(item.getName());
 
-        if(!includedRoles.isEmpty()){
-            selectedRolesRV.setVisibility(View.VISIBLE);
-        }
-        if(adapterMainListRoles.isEmpty()){
-            if(isText){
-                nothingFoundLayoutRoles.setVisibility(View.VISIBLE);
-            }else{
-                noRoleLeftLayout.setVisibility(View.VISIBLE);
+        if (roleSelected) {
+            if (!includedRoles.isEmpty()) {
+                selectedRolesRV.setVisibility(View.VISIBLE);
             }
-            RVLayoutRoles.setVisibility(View.GONE);
-        }else{
-            RVLayoutRoles.setVisibility(View.VISIBLE);
+            if (adapterMainListRoles.isEmpty()) {
+                if (isText) {
+                    nothingFoundLayoutRoles.setVisibility(View.VISIBLE);
+                } else {
+                    noRoleLeftLayout.setVisibility(View.VISIBLE);
+                }
+                RVLayoutRoles.setVisibility(View.GONE);
+            } else {
+                RVLayoutRoles.setVisibility(View.VISIBLE);
+            }
+        } else {
+            if (!includedMembers.isEmpty()) {
+                selectedMembersRV.setVisibility(View.VISIBLE);
+            }
+            if (adapterMainListMembers.isEmpty()) {
+                if (isText) {
+                    nothingFoundLayoutMembers.setVisibility(View.VISIBLE);
+                } else {
+                    noMemberLeftLayout.setVisibility(View.VISIBLE);
+                }
+                RVLayoutMembers.setVisibility(View.GONE);
+            } else {
+                RVLayoutMembers.setVisibility(View.VISIBLE);
+            }
         }
     }
 
     private void hideKeyboard(View v) {
         InputMethodManager imm = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-        if(v instanceof TextInputEditText){
+        if (v instanceof TextInputEditText) {
             TextInputEditText editText = (TextInputEditText) v;
             editText.clearFocus();
         }
-        if(v instanceof TextInputLayout){
+        if (v instanceof TextInputLayout) {
             TextInputLayout editText = (TextInputLayout) v;
             editText.clearFocus();
         }
 
+    }
+
+    private void switchView() {
+        roleSearchEditText.setText("");
+        memberSearchEditText.setText("");
+        isText = false;
+        if (roleSelected) {
+            rolesTitle.setTypeface(rolesTitle.getTypeface(), Typeface.BOLD);
+            selectionRole.setVisibility(View.VISIBLE);
+            membersTitle.setTypeface(membersTitle.getTypeface(), Typeface.NORMAL);
+            selectionMember.setVisibility(View.GONE);
+        } else {
+            rolesTitle.setTypeface(rolesTitle.getTypeface(), Typeface.NORMAL);
+            selectionRole.setVisibility(View.GONE);
+            membersTitle.setTypeface(membersTitle.getTypeface(), Typeface.BOLD);
+            selectionMember.setVisibility(View.VISIBLE);
+        }
+        updateUI();
     }
 }
