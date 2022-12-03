@@ -299,15 +299,15 @@ public class SelectChannelTreeAdapter extends RecyclerView.Adapter<SelectChannel
             folderSettings.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(ctx, "TEST", Toast.LENGTH_SHORT).show();
+                    onChannelSettingsClickInterface.onChannelSettingsClick(channels.get(getAdapterPosition()));
                 }
             });
 
             channelSettings.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(ctx, "TEST", Toast.LENGTH_SHORT).show();
-                }
+                    onChannelSettingsClickInterface.onChannelSettingsClick(channels.get(getAdapterPosition()));
+                    }
             });
 
 

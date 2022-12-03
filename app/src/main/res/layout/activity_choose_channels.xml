@@ -84,7 +84,7 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:nestedScrollingEnabled="false"
-                android:paddingBottom="@dimen/dp_64"
+                android:paddingBottom="@dimen/dp_144"
                 android:scrollbars="none"
                 android:visibility="visible"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

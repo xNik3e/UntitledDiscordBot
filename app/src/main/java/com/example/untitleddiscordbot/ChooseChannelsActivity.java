@@ -12,12 +12,17 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.example.untitleddiscordbot.Models.AllModel.AllDataModel;
+import com.example.untitleddiscordbot.Models.DetailedChannels.DetailedChannelItem;
 import com.example.untitleddiscordbot.Models.Permissions.ChannelPermissionsModel;
 import com.example.untitleddiscordbot.adapters.SelectChannelTreeAdapter;
+import com.example.untitleddiscordbot.fragments.BottomSheet.ChannelSettingsFragment;
 import com.example.untitleddiscordbot.interfaces.OnChannelSettingsClickInterface;
 import com.example.untitleddiscordbot.viewModels.MainViewModel;
 import com.example.untitleddiscordbot.viewModels.ViewModelFactory;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+
+import java.nio.channels.Channel;
+import java.util.List;
 
 public class ChooseChannelsActivity extends AppCompatActivity {
 
@@ -27,6 +32,8 @@ public class ChooseChannelsActivity extends AppCompatActivity {
     private RecyclerView RVChannels;
     private ExtendedFloatingActionButton EXTFab;
     private SelectChannelTreeAdapter channelAdapter;
+    private List<DetailedChannelItem> channels;
+    private List<ChannelPermissionsModel> channelPermissions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +51,16 @@ public class ChooseChannelsActivity extends AppCompatActivity {
 
         OnChannelSettingsClickInterface onChannelSettingsClickInterface = new OnChannelSettingsClickInterface() {
             @Override
-            public void onChannelSettingsClick(ChannelPermissionsModel channelPermissions) {
-
+            public void onChannelSettingsClick(DetailedChannelItem item) {
+                //TODO: implement
+                openShelf(item);
             }
         };
 
-        channelAdapter = new SelectChannelTreeAdapter(this, ADL.getChannels(), ADL.getSettings().getChannelPermissions(), onChannelSettingsClickInterface);
+        channels = ADL.getChannels();
+        channelPermissions = ADL.getSettings().getChannelPermissions();
+
+        channelAdapter = new SelectChannelTreeAdapter(this, channels, channelPermissions, onChannelSettingsClickInterface);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         RVChannels.setAdapter(channelAdapter);
         RVChannels.setLayoutManager(linearLayoutManager);
@@ -61,5 +72,21 @@ public class ChooseChannelsActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+
+    private void openShelf(DetailedChannelItem item) {
+        ChannelSettingsFragment channelSettingsFragment = new ChannelSettingsFragment(
+                new OnChannelSettingsClickInterface() {
+                    @Override
+                    public void onChannelSettingsClick(DetailedChannelItem item) {
+                        //TODO: implement
+                    }
+                },
+                channelPermissions,
+                item,
+                mainViewModel
+        );
+        channelSettingsFragment.show(getSupportFragmentManager(), "channelSettingsFragment");
     }
 }

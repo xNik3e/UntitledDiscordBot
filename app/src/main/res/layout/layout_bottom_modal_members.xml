@@ -45,7 +45,7 @@
             android:focusableInTouchMode="true">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_selected_roles"
+                android:id="@+id/rv_selected_members"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:nestedScrollingEnabled="false"
@@ -58,7 +58,7 @@
                 android:id="@+id/other_layouts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/rv_selected_roles"
+                android:layout_below="@id/rv_selected_members"
                 android:orientation="vertical">
 
                 <LinearLayout
