@@ -84,12 +84,12 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:nestedScrollingEnabled="false"
-                android:paddingBottom="@dimen/dp_32"
+                android:paddingBottom="@dimen/dp_64"
                 android:scrollbars="none"
                 android:visibility="visible"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                tools:itemCount="50"
+                tools:itemCount="14"
                 tools:listitem="@layout/recycler_view_channel_main_chip" />
 
         </RelativeLayout>
@@ -104,6 +104,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        style="@style/myFAB"
+        android:elevation="@dimen/dp_6"
         />
 
 
