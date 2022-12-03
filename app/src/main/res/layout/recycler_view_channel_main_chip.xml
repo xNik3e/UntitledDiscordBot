@@ -21,7 +21,9 @@
         android:id="@+id/folder_card"
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_42"
-        android:visibility="gone"
+        app:itemRippleColor="@color/button_discord_ripple"
+
+        android:visibility="visible"
         android:elevation="0dp"
         app:cardBackgroundColor="@android:color/transparent"
         app:cardCornerRadius="@dimen/dp_4"
@@ -53,7 +55,7 @@
                     android:layout_marginEnd="@dimen/dp_8"
                     android:scaleType="centerCrop"
                     app:tint="@color/white_stroke"
-                    tools:src="@drawable/ic_folder" />
+                    android:src="@drawable/ic_folder" />
 
                 <com.example.untitleddiscordbot.Utils.AlwaysMarqueeTextView
                     android:id="@+id/folder_name"
@@ -169,21 +171,20 @@
 
                     </com.google.android.material.card.MaterialCardView>
 
-                    <FrameLayout
-                        android:id="@+id/settings_container"
-                        android:layout_width="@dimen/dp_24"
-                        android:layout_height="@dimen/dp_24"
-                        android:layout_marginStart="@dimen/dp_4">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/ic_more_vertical"
-                            app:tint="@color/white" />
-
-                    </FrameLayout>
-
                 </LinearLayout>
+                <FrameLayout
+                    android:id="@+id/folder_settings_container"
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
+                    android:layout_marginStart="@dimen/dp_4">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_more_vertical"
+                        app:tint="@color/white" />
+
+                </FrameLayout>
 
             </LinearLayout>
         </LinearLayout>
@@ -196,9 +197,11 @@
         android:id="@+id/channel_card"
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_42"
+        app:itemRippleColor="@color/button_discord_ripple"
         android:elevation="0dp"
         app:cardBackgroundColor="@android:color/transparent"
         app:cardCornerRadius="@dimen/dp_4"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/vg05"
@@ -354,21 +357,23 @@
                         android:visibility="visible"
                         app:tint="@color/white" />
 
-                    <FrameLayout
-                        android:id="@+id/channel_settings_container"
-                        android:layout_width="@dimen/dp_24"
-                        android:layout_height="@dimen/dp_24"
-                        android:layout_marginStart="@dimen/dp_4">
 
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/ic_more_vertical"
-                            app:tint="@color/white" />
-
-                    </FrameLayout>
 
                 </LinearLayout>
+
+                <FrameLayout
+                    android:id="@+id/channel_settings_container"
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
+                    android:layout_marginStart="@dimen/dp_4">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_more_vertical"
+                        app:tint="@color/white" />
+
+                </FrameLayout>
 
             </LinearLayout>
         </LinearLayout>

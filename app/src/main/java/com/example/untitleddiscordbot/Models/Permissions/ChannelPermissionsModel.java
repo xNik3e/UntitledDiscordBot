@@ -5,6 +5,7 @@ import java.util.List;
 
 public class ChannelPermissionsModel {
     private String channelId;
+    private String parentId;
     private String channelName;
     private boolean isGroup;
     private int type;
@@ -22,6 +23,15 @@ public class ChannelPermissionsModel {
         this.checked = false;
         this.channelName = "";
         this.type = 0;
+        this.parentId = "";
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 
     public int getType() {

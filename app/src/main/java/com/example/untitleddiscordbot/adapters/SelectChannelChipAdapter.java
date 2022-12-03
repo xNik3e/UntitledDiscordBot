@@ -42,48 +42,46 @@ public class SelectChannelChipAdapter extends RecyclerView.Adapter<SelectChannel
     @Override
     public void onBindViewHolder(@NonNull SelectChannelChipAdapter.ViewHolder holder, int position) {
         ChannelPermissionsModel model = models.get(position);
-        if(model.isChecked()){
-            holder.channelName.setText(model.getChannelName());
-            Drawable imageResourceId;
-            switch (model.getType()) {
-                case 2:
-                    //Voice channel
-                    imageResourceId = ResourcesCompat.getDrawable(ctx.getResources(), R.drawable.ic_voice, null);
-                    break;
-                case 4:
-                    //Category
-                    imageResourceId = ResourcesCompat.getDrawable(ctx.getResources(), R.drawable.ic_folder, null);
-                    break;
-                case 13:
-                    //Stage channel
-                    imageResourceId = ResourcesCompat.getDrawable(ctx.getResources(), R.drawable.ic_stage, null);
-                    break;
-                default:
-                    //Unknown
-                    imageResourceId = ResourcesCompat.getDrawable(ctx.getResources(), R.drawable.ic_hash, null);
-                    break;
-            }
+        holder.channelName.setText(model.getChannelName());
+        Drawable imageResourceId;
+        switch (model.getType()) {
+            case 2:
+                //Voice channel
+                imageResourceId = ResourcesCompat.getDrawable(ctx.getResources(), R.drawable.ic_voice, null);
+                break;
+            case 4:
+                //Category
+                imageResourceId = ResourcesCompat.getDrawable(ctx.getResources(), R.drawable.ic_folder, null);
+                break;
+            case 13:
+                //Stage channel
+                imageResourceId = ResourcesCompat.getDrawable(ctx.getResources(), R.drawable.ic_stage, null);
+                break;
+            default:
+                //Unknown
+                imageResourceId = ResourcesCompat.getDrawable(ctx.getResources(), R.drawable.ic_hash, null);
+                break;
+        }
 
-            holder.channelIcon.setImageDrawable(imageResourceId);
-            if(model.getRequiredRoleIds().size() == 0){
-                holder.rolesLayout.setVisibility(View.GONE);
-            }else{
-                holder.rolesLayout.setVisibility(View.VISIBLE);
-                holder.roleCount.setText(String.valueOf(model.getRequiredRoleIds().size()));
-            }
+        holder.channelIcon.setImageDrawable(imageResourceId);
+        if (model.getRequiredRoleIds().size() == 0) {
+            holder.rolesLayout.setVisibility(View.GONE);
+        } else {
+            holder.rolesLayout.setVisibility(View.VISIBLE);
+            holder.roleCount.setText(String.valueOf(model.getRequiredRoleIds().size()));
+        }
 
-            if(model.getMemberIds().size() == 0){
-                holder.membersLayout.setVisibility(View.GONE);
-            }else{
-                holder.membersLayout.setVisibility(View.VISIBLE);
-                holder.membersCount.setText(String.valueOf(model.getMemberIds().size()));
-            }
+        if (model.getMemberIds().size() == 0) {
+            holder.membersLayout.setVisibility(View.GONE);
+        } else {
+            holder.membersLayout.setVisibility(View.VISIBLE);
+            holder.membersCount.setText(String.valueOf(model.getMemberIds().size()));
+        }
 
-            if(model.isDefault()){
-                holder.welcomeIcon.setVisibility(View.VISIBLE);
-            }else{
-                holder.welcomeIcon.setVisibility(View.GONE);
-            }
+        if (model.isDefault()) {
+            holder.welcomeIcon.setVisibility(View.VISIBLE);
+        } else {
+            holder.welcomeIcon.setVisibility(View.GONE);
         }
 
     }
