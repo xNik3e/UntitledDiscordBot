@@ -50,4 +50,5 @@
     <string name="channel_permission">Channel permission</string>
     <string name="channels_with_configured_permissions">Channels with configured permissions</string>
     <string name="edit_channels">Edit channels</string>
+    <string name="save">SAVE</string>
 </resources>
