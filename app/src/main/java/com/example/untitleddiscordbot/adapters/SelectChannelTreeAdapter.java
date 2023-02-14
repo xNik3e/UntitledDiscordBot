@@ -52,7 +52,7 @@ public class SelectChannelTreeAdapter extends RecyclerView.Adapter<SelectChannel
         DetailedChannelItem item = channels.get(position);
         String channelId = item.getId();
         holder.selector.setVisibility(View.GONE);
-        holder.channelWelcomeIcon.setVisibility(View.GONE);
+        //holder.channelWelcomeIcon.setVisibility(View.GONE);
 
         Drawable imageResourceId;
         switch (item.getType()) {
@@ -78,6 +78,7 @@ public class SelectChannelTreeAdapter extends RecyclerView.Adapter<SelectChannel
         if(item.getType() == 4){
             holder.channelCard.setVisibility(View.GONE);
             holder.folderCard.setVisibility(View.VISIBLE);
+            holder.channelWelcomeIcon.setVisibility(View.GONE);
             holder.folderName.setText(item.getName());
             holder.folderCard.setCardBackgroundColor(ctx.getResources().getColor(R.color.transparent));
             ChannelPermissionsModel model = channelPermissions.stream().filter(x->x.getChannelId().equals(channelId)).findFirst().orElse(null);
@@ -123,10 +124,12 @@ public class SelectChannelTreeAdapter extends RecyclerView.Adapter<SelectChannel
 
                 if(model.isDefault()){
                     holder.channelWelcomeIcon.setVisibility(View.VISIBLE);
-                }
+                }else
+                    holder.channelWelcomeIcon.setVisibility(View.GONE);
             }else{
                 holder.channelMembersLayout.setVisibility(View.GONE);
                 holder.channelRolesLayout.setVisibility(View.GONE);
+                holder.channelWelcomeIcon.setVisibility(View.GONE);
             }
         }
     }
@@ -175,6 +178,8 @@ public class SelectChannelTreeAdapter extends RecyclerView.Adapter<SelectChannel
                             channelPermissionsModel.setMemberIds(new ArrayList<>());
                             channelPermissionsModel.setRequiredRoleIds(new ArrayList<>());
                             channelPermissionsModel.setDefault(false);
+                            channelPermissionsModel.setChannelName(child.getName());
+
                             channelPermissions.add(channelPermissionsModel);
                         }
                         notifyItemChanged(pos);
@@ -202,6 +207,7 @@ public class SelectChannelTreeAdapter extends RecyclerView.Adapter<SelectChannel
                 channelModel.setMemberIds(new ArrayList<>());
                 channelModel.setRequiredRoleIds(new ArrayList<>());
                 channelModel.setDefault(false);
+                channelModel.setChannelName(item.getName());
                 channelPermissions.add(channelModel);
 
                 for(String id: childrenChannelIds){
@@ -220,6 +226,7 @@ public class SelectChannelTreeAdapter extends RecyclerView.Adapter<SelectChannel
                         channelPermissionsModel.setMemberIds(new ArrayList<>());
                         channelPermissionsModel.setRequiredRoleIds(new ArrayList<>());
                         channelPermissionsModel.setDefault(false);
+                        channelPermissionsModel.setChannelName(child.getName());
                         channelPermissions.add(channelPermissionsModel);
                     }
                     notifyItemChanged(pos);
@@ -244,6 +251,7 @@ public class SelectChannelTreeAdapter extends RecyclerView.Adapter<SelectChannel
                 model.setMemberIds(new ArrayList<>());
                 model.setRequiredRoleIds(new ArrayList<>());
                 model.setDefault(false);
+                model.setChannelName(item.getName());
                 channelPermissions.add(model);
             }
             notifyItemChanged(position);

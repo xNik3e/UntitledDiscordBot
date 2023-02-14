@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -63,7 +65,7 @@ public class LoadingActivity extends AppCompatActivity {
         propertiesSignal.setConnectionCallback(new ConnectionCallback() {
             @Override
             public void hasActiveConnection(boolean b) {
-                if(b)
+                if(b && !isLoading)
                     tryAgain();
             }
         });
@@ -115,36 +117,60 @@ public class LoadingActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<UserGuildModelItem> userGuildModel) {
                 if(userGuildModel != null && isUserGuildsUpdatedValue){
-                    if(selectedServer != null){
-                        boolean isServerFound = userGuildModel.stream().anyMatch(guild ->{
-                            if(guild.getId().equals(selectedServer.getId())){
-                                return guild.isBotAdded();
+                    if(!userGuildModel.isEmpty() && userGuildModel.get(0).getId().equals("error"))
+                    {
+                        infoView.setText("Server not responding");
+                        progressBarHorizontal.setProgressTintList(ColorStateList.valueOf(getResources().getColor(R.color.check_red)));
+                        isLoading = false;
+                        //animate the value for 5 seconds
+                        CountDownTimer timer = new CountDownTimer(5000, 1000){
+                            @Override
+                            public void onTick(long millisUntilFinished) {
+                                String value = (int) (millisUntilFinished / 1000) + 1 + "";
+                                infoDetail.setText("Retrying in " + value + " seconds...");
                             }
-                            return false;
-                        });
-                        if(isServerFound){
-                            selectedServer.setBotAdded(true);
-                            mainViewModel.setSelectedServer(selectedServer);
+
+                            @Override
+                            public void onFinish() {
+                                infoView.setText("Please wait...");
+                                progressBarHorizontal.setProgressTintList(ColorStateList.valueOf(getResources().getColor(R.color.active_color)));
+                                mainViewModel.clearAllData();
+                                tryAgain();
+                            }
+                        }.start();
+                    }else{
+                        if(selectedServer != null){
+                            boolean isServerFound = userGuildModel.stream().anyMatch(guild ->{
+                                if(guild.getId().equals(selectedServer.getId())){
+                                    return guild.isBotAdded();
+                                }
+                                return false;
+                            });
+                            if(isServerFound){
+                                selectedServer.setBotAdded(true);
+                                mainViewModel.setSelectedServer(selectedServer);
+                            }
                         }
+                        infoView.setText("Loading Complete");
+                        progressBarHorizontal.setProgress(100);
+                        infoDetail.setVisibility(TextView.GONE);
+                        infoView.setTextColor(getResources().getColor(R.color.active_color));
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                startActivity(new Intent(LoadingActivity.this, MainActivity.class));
+                                finish();
+                            }
+                        },1000);
                     }
-                    infoView.setText("Loading Complete");
-                    progressBarHorizontal.setProgress(100);
-                    infoDetail.setVisibility(TextView.GONE);
-                    infoView.setTextColor(getResources().getColor(R.color.active_color));
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            startActivity(new Intent(LoadingActivity.this, MainActivity.class));
-                            finish();
-                        }
-                    },1000);
                 }else if(userGuildModel != null){
                     mainViewModel.updateUserGuilds();
                 }
             }
         });
 
+        tryAgain();
 
     }
 
@@ -158,4 +184,8 @@ public class LoadingActivity extends AppCompatActivity {
     //TODO ADD INTERNET CHECK
 
 
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+    }
 }

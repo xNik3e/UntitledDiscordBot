@@ -1,5 +1,7 @@
 package com.example.untitleddiscordbot.Models.Permissions;
 
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,14 @@ public class ChannelPermissionsModel {
         this.parentId = "";
     }
 
+    public static ChannelPermissionsModel getDummyChannelPermissionsModel(){
+        ChannelPermissionsModel temp = new ChannelPermissionsModel();
+        List<String> tempRoleIds = List.of("123", "456", "789");
+        List<String> tempMemberIds = List.of("123", "456", "789");
+        temp.setRequiredRoleIds(tempRoleIds);
+        temp.setMemberIds(tempMemberIds);
+        return temp;
+    }
     public String getParentId() {
         return parentId;
     }
@@ -97,4 +107,39 @@ public class ChannelPermissionsModel {
     public void setDefault(boolean aDefault) {
         isDefault = aDefault;
     }
+
+    @Override
+    public boolean equals(@Nullable Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChannelPermissionsModel that = (ChannelPermissionsModel) o;
+
+        if(requiredRoleIds.size() == that.requiredRoleIds.size())
+            for (int i = 0; i < requiredRoleIds.size(); i++) {
+                if(!requiredRoleIds.get(i).equals(that.requiredRoleIds.get(i)))
+                    return false;
+            }
+        else {
+            return false;
+        }
+
+        if(memberIds.size() == that.memberIds.size())
+            for (int i = 0; i < memberIds.size(); i++) {
+                if(!memberIds.get(i).equals(that.memberIds.get(i)))
+                    return false;
+            }
+        else {
+            return false;
+        }
+
+        return channelId.equals(that.channelId) &&
+                parentId.equals(that.parentId) &&
+                channelName.equals(that.channelName) &&
+                isGroup == that.isGroup &&
+                type == that.type &&
+                isDefault == that.isDefault &&
+                checked == that.checked;
+    }
 }
+
+

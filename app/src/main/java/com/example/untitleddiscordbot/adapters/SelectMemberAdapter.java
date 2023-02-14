@@ -51,8 +51,7 @@ public class SelectMemberAdapter extends RecyclerView.Adapter<SelectMemberAdapte
         holder.memberName.setText(item.getUser().getUsername());
         if (item.getUser().getAvatar() != null) {
             String url = "https://cdn.discordapp.com/avatars/" + item.getUser().getId() + "/" + item.getUser().getAvatar() + ".png";
-            Glide.with(ctx).load(url).placeholder(R.drawable.discord_placeholder).into(holder.memberAvatar)
-                    .onResourceReady();
+            Glide.with(ctx).load(url).placeholder(R.drawable.discord_placeholder).into(holder.memberAvatar);
 
         } else {
             Glide.with(ctx).load(R.drawable.discord_placeholder).into(holder.memberAvatar);

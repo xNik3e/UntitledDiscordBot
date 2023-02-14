@@ -43,6 +43,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import me.xdrop.fuzzywuzzy.FuzzySearch;
@@ -83,6 +84,7 @@ public class RoleSelectionFragment extends BottomSheetDialogFragment {
         this.required = required;
 
         AllDataModel adl = viewModel.getAllDataModel().getValue();
+
 
         includedRoles = new ArrayList<>();
         excludedRoles = new ArrayList<>();
@@ -340,12 +342,13 @@ public class RoleSelectionFragment extends BottomSheetDialogFragment {
         super.onDismiss(dialog);
 
         List<String> ids = includedRoles.stream().map(RolesItem::getId).collect(Collectors.toList());
+        SettingsModel newSettingsModel = new SettingsModel(settingsModel);
         if(required){
-            settingsModel.setRequiredRoleIds(ids);
+            newSettingsModel.setRequiredRoleIds(ids);
         }else {
-            settingsModel.setIgnoredRoleIds(ids);
+            newSettingsModel.setIgnoredRoleIds(ids);
         }
-        viewModel.updateSettings(settingsModel);
+        viewModel.updateSettings(newSettingsModel);
     }
 
     private void hideKeyboard(View v) {

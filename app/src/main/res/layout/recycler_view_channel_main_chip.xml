@@ -23,7 +23,7 @@
         android:layout_height="@dimen/dp_42"
         app:itemRippleColor="@color/button_discord_ripple"
 
-        android:visibility="visible"
+        android:visibility="gone"
         android:elevation="0dp"
         app:cardBackgroundColor="@android:color/transparent"
         app:cardCornerRadius="@dimen/dp_4"
@@ -201,7 +201,7 @@
         android:elevation="0dp"
         app:cardBackgroundColor="@android:color/transparent"
         app:cardCornerRadius="@dimen/dp_4"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/vg05"
@@ -347,19 +347,19 @@
 
                     </com.google.android.material.card.MaterialCardView>
 
-                    <ImageView
-                        android:id="@+id/welcome_channel_icon"
-                        android:layout_width="@dimen/dp_24"
-                        android:layout_height="@dimen/dp_24"
-                        android:layout_gravity="end"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:src="@drawable/ic_confetti"
-                        android:visibility="visible"
-                        app:tint="@color/white" />
 
 
 
                 </LinearLayout>
+                <ImageView
+                    android:id="@+id/welcome_channel_icon"
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
+                    android:layout_gravity="end"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:src="@drawable/ic_confetti"
+                    android:visibility="visible"
+                    app:tint="@color/white" />
 
                 <FrameLayout
                     android:id="@+id/channel_settings_container"

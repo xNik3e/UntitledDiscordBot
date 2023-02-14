@@ -1,6 +1,7 @@
 package com.example.untitleddiscordbot.fragments.BottomSheet;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -8,9 +9,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,20 +27,21 @@ import com.example.untitleddiscordbot.Models.AllModel.AllDataModel;
 import com.example.untitleddiscordbot.Models.DetailedChannels.DetailedChannelItem;
 import com.example.untitleddiscordbot.Models.DetailedGuild.RolesItem;
 import com.example.untitleddiscordbot.Models.DetailedMembers.DetailedMemberItem;
+import com.example.untitleddiscordbot.Models.DetailedMembers.User;
 import com.example.untitleddiscordbot.Models.Permissions.ChannelPermissionsModel;
+import com.example.untitleddiscordbot.Models.SettingsModel;
 import com.example.untitleddiscordbot.R;
 import com.example.untitleddiscordbot.Utils.AlwaysMarqueeTextView;
 import com.example.untitleddiscordbot.adapters.IncludedMemberAdapter;
 import com.example.untitleddiscordbot.adapters.IncludedRoleAdapter;
 import com.example.untitleddiscordbot.adapters.SelectMemberAdapter;
 import com.example.untitleddiscordbot.adapters.SelectRoleAdapter;
-import com.example.untitleddiscordbot.interfaces.OnChannelSettingsClickInterface;
+import com.example.untitleddiscordbot.interfaces.OnDialogDismissNewPermissionsListener;
 import com.example.untitleddiscordbot.interfaces.OnMemberChipClickInterface;
 import com.example.untitleddiscordbot.interfaces.OnMemberSelectedInterface;
 import com.example.untitleddiscordbot.interfaces.OnRoleChipClickInterface;
 import com.example.untitleddiscordbot.interfaces.OnRoleSelectedInterface;
 import com.example.untitleddiscordbot.viewModels.MainViewModel;
-import com.example.untitleddiscordbot.viewModels.ViewModelFactory;
 import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
@@ -55,6 +54,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import me.xdrop.fuzzywuzzy.FuzzySearch;
 import me.xdrop.fuzzywuzzy.model.BoundExtractedResult;
@@ -66,7 +66,7 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
     private MainViewModel mainViewModel;
     private AllDataModel ADL;
 
-    private OnChannelSettingsClickInterface onChannelSettingsClickInterface;
+    private OnDialogDismissNewPermissionsListener onDialogDismissNewPermissionsListener;
     private List<ChannelPermissionsModel> channelPermissionsModel;
     private DetailedChannelItem item;
 
@@ -126,11 +126,11 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
         // Required empty public constructor
     }
 
-    public ChannelSettingsFragment(OnChannelSettingsClickInterface onCSCL,
+    public ChannelSettingsFragment(OnDialogDismissNewPermissionsListener onDDNPL,
                                    List<ChannelPermissionsModel> permissionsModels,
                                    DetailedChannelItem detailedChannelItem,
                                    MainViewModel mainViewModel) {
-        this.onChannelSettingsClickInterface = onCSCL;
+        this.onDialogDismissNewPermissionsListener = onDDNPL;
         this.channelPermissionsModel = permissionsModels;
         this.mainViewModel = mainViewModel;
         this.item = detailedChannelItem;
@@ -148,11 +148,60 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
         this.membersItems = ADL.getMembers();
         this.rolesItems = ADL.getRoles();
 
-        adapterMainListRoles.addAll(rolesItems);
-        otherRoles.addAll(rolesItems);
+        ChannelPermissionsModel model = channelPermissionsModel.stream()
+                .filter(x -> x.getChannelId().equals(item.getId()))
+                .findFirst().orElse(null);
+        if (model != null) {
+            includedRoles = rolesItems.stream().filter(
+                    x->{
+                        for(String s : model.getRequiredRoleIds()){
+                            if(s.equals(x.getId())){
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+            ).collect(Collectors.toList());
+            otherRoles = rolesItems.stream().filter(
+                    x->{
+                        for(String s : model.getRequiredRoleIds()){
+                            if(s.equals(x.getId())){
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
+            ).collect(Collectors.toList());
 
-        adapterMainListMembers.addAll(membersItems);
-        otherMembers.addAll(membersItems);
+            includedMembers = membersItems.stream().filter(
+                    x->{
+                        for(String s : model.getMemberIds()){
+                            if(s.equals(x.getUser().getId())){
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+            ).collect(Collectors.toList());
+
+            otherMembers = membersItems.stream().filter(
+                    x->{
+                        for(String s : model.getMemberIds()){
+                            if(s.equals(x.getUser().getId())){
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
+            ).collect(Collectors.toList());
+
+        }else{
+            otherRoles.addAll(rolesItems);
+            otherMembers.addAll(membersItems);
+        }
+        adapterMainListRoles.addAll(otherRoles);
+        adapterMainListMembers.addAll(otherMembers);
+
     }
 
     @Override
@@ -447,7 +496,7 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() >= 2){
+                if (s.length() >= 2) {
                     isText = true;
                     List<BoundExtractedResult<DetailedMemberItem>> match = FuzzySearch
                             .extractAll(s.toString(),
@@ -464,7 +513,7 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
                     adapterMainListMembers.clear();
                     adapterMainListMembers.addAll(tempMembers);
 
-                    if(tempMembers.isEmpty()){
+                    if (tempMembers.isEmpty()) {
                         nothingFoundLayoutMembers.setVisibility(View.VISIBLE);
                         RVLayoutMembers.setVisibility(View.GONE);
                     } else {
@@ -475,7 +524,7 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
                     //updateAdapter
                     selectMemberAdapter.notifyDataSetChanged();
                     updateUI();
-                }else{
+                } else {
                     isText = false;
                     nothingFoundLayoutMembers.setVisibility(View.GONE);
                     RVLayoutMembers.setVisibility(View.VISIBLE);
@@ -523,15 +572,13 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
         noRoleLeftLayout.setVisibility(View.GONE);
         RVLayoutRoles.setVisibility(View.GONE);
         selectedRolesRV.setVisibility(View.GONE);
-
+        welcomeChannelLayout.setVisibility(View.INVISIBLE);
         membersContainer.setVisibility(View.GONE);
         memberSearchInputLayout.setVisibility(View.GONE);
         selectedMembersRV.setVisibility(View.GONE);
         nothingFoundLayoutMembers.setVisibility(View.GONE);
         noMemberLeftLayout.setVisibility(View.GONE);
         RVLayoutMembers.setVisibility(View.GONE);
-
-        welcomeChannelLayout.setVisibility(View.VISIBLE);
 
         Drawable imageResourceId;
         switch (item.getType()) {
@@ -541,7 +588,7 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
                 break;
             case 4:
                 //Category
-                welcomeChannelLayout.setVisibility(View.INVISIBLE);
+
                 imageResourceId = ResourcesCompat.getDrawable(ctx.getResources(), R.drawable.ic_folder, null);
                 break;
             case 13:
@@ -550,6 +597,7 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
                 break;
             default:
                 //Unknown
+                welcomeChannelLayout.setVisibility(View.VISIBLE);
                 imageResourceId = ResourcesCompat.getDrawable(ctx.getResources(), R.drawable.ic_hash, null);
                 break;
         }
@@ -622,5 +670,62 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
             selectionMember.setVisibility(View.VISIBLE);
         }
         updateUI();
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+
+        List<String> includedRoleIds = includedRoles.stream().map(RolesItem::getId).collect(Collectors.toList());
+        List<String> includedMemberIds = includedMembers.stream().map(DetailedMemberItem::getUser).map(User::getId).collect(Collectors.toList());
+
+        boolean isCreated = false;
+
+        ChannelPermissionsModel foundChannelPermissions = channelPermissionsModel.stream()
+                .filter(channel -> channel.getChannelId()
+                        .equals(item.getId()))
+                .findFirst()
+                .orElse(null);
+
+
+        if (foundChannelPermissions == null) {
+            isCreated = true;
+            foundChannelPermissions = new ChannelPermissionsModel();
+            foundChannelPermissions.setChannelId(item.getId());
+            foundChannelPermissions.setGroup(item.getType() == 4);
+            foundChannelPermissions.setChannelName(item.getName());
+            foundChannelPermissions.setParentId(item.getParentId());
+            foundChannelPermissions.setType(item.getType());
+        }
+
+        if (!includedRoleIds.isEmpty() || !includedMemberIds.isEmpty()) {
+
+            foundChannelPermissions.setRequiredRoleIds(includedRoleIds);
+            foundChannelPermissions.setMemberIds(includedMemberIds);
+
+            if (welcomeChannelToggle.isChecked()) {
+                for (ChannelPermissionsModel CPM : channelPermissionsModel) {
+                    CPM.setDefault(false);
+                }
+                foundChannelPermissions.setDefault(true);
+            }
+            if (isCreated) {
+                channelPermissionsModel.add(foundChannelPermissions);
+            }
+            onDialogDismissNewPermissionsListener.onClick(channelPermissionsModel);
+        }else{
+            if (welcomeChannelToggle.isChecked()) {
+                for (ChannelPermissionsModel CPM : channelPermissionsModel) {
+                    CPM.setDefault(false);
+                }
+                foundChannelPermissions.setDefault(true);
+                if (isCreated) {
+                    channelPermissionsModel.add(foundChannelPermissions);
+                }
+            }
+            onDialogDismissNewPermissionsListener.onClick(channelPermissionsModel);
+
+        }
+
     }
 }

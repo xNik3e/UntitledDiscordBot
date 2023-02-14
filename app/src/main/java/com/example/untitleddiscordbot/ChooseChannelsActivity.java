@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import com.example.untitleddiscordbot.Models.AllModel.AllDataModel;
 import com.example.untitleddiscordbot.Models.DetailedChannels.DetailedChannelItem;
@@ -17,11 +16,11 @@ import com.example.untitleddiscordbot.Models.Permissions.ChannelPermissionsModel
 import com.example.untitleddiscordbot.adapters.SelectChannelTreeAdapter;
 import com.example.untitleddiscordbot.fragments.BottomSheet.ChannelSettingsFragment;
 import com.example.untitleddiscordbot.interfaces.OnChannelSettingsClickInterface;
+import com.example.untitleddiscordbot.interfaces.OnDialogDismissNewPermissionsListener;
 import com.example.untitleddiscordbot.viewModels.MainViewModel;
 import com.example.untitleddiscordbot.viewModels.ViewModelFactory;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
-import java.nio.channels.Channel;
 import java.util.List;
 
 public class ChooseChannelsActivity extends AppCompatActivity {
@@ -30,7 +29,7 @@ public class ChooseChannelsActivity extends AppCompatActivity {
     private AllDataModel ADL;
     private FrameLayout backButton;
     private RecyclerView RVChannels;
-    private ExtendedFloatingActionButton EXTFab;
+    private ExtendedFloatingActionButton saveFAB;
     private SelectChannelTreeAdapter channelAdapter;
     private List<DetailedChannelItem> channels;
     private List<ChannelPermissionsModel> channelPermissions;
@@ -47,12 +46,11 @@ public class ChooseChannelsActivity extends AppCompatActivity {
 
         backButton = findViewById(R.id.toolbar_icon_container);
         RVChannels = findViewById(R.id.rv_channels);
-        EXTFab = findViewById(R.id.save_fab);
+        saveFAB = findViewById(R.id.save_fab);
 
         OnChannelSettingsClickInterface onChannelSettingsClickInterface = new OnChannelSettingsClickInterface() {
             @Override
             public void onChannelSettingsClick(DetailedChannelItem item) {
-                //TODO: implement
                 openShelf(item);
             }
         };
@@ -77,10 +75,10 @@ public class ChooseChannelsActivity extends AppCompatActivity {
 
     private void openShelf(DetailedChannelItem item) {
         ChannelSettingsFragment channelSettingsFragment = new ChannelSettingsFragment(
-                new OnChannelSettingsClickInterface() {
+                new OnDialogDismissNewPermissionsListener() {
                     @Override
-                    public void onChannelSettingsClick(DetailedChannelItem item) {
-                        //TODO: implement
+                    public void onClick(List<ChannelPermissionsModel> permissionsModels) {
+                            channelAdapter.notifyDataSetChanged();
                     }
                 },
                 channelPermissions,
