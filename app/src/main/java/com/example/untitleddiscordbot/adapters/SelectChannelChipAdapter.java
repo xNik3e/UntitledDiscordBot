@@ -1,6 +1,7 @@
 package com.example.untitleddiscordbot.adapters;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.load.engine.Resource;
 import com.example.untitleddiscordbot.Models.Permissions.ChannelPermissionsModel;
 import com.example.untitleddiscordbot.R;
 import com.example.untitleddiscordbot.Utils.AlwaysMarqueeTextView;
 import com.example.untitleddiscordbot.interfaces.OnSelectChannelChipClickInterface;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
 
@@ -78,10 +79,18 @@ public class SelectChannelChipAdapter extends RecyclerView.Adapter<SelectChannel
             holder.membersCount.setText(String.valueOf(model.getMemberIds().size()));
         }
 
-        if (model.isDefault()) {
+        if (model.isDefaultChannel()) {
             holder.welcomeIcon.setVisibility(View.VISIBLE);
         } else {
             holder.welcomeIcon.setVisibility(View.GONE);
+        }
+
+        if(model.isGrouped()){
+
+            holder.channelChip.setBackgroundTintList(ColorStateList.valueOf(ctx.getResources().getColor(R.color.channel_chip_background_darker)));
+        }else{
+            holder.channelChip.setBackgroundTintList(ColorStateList.valueOf(ctx.getResources().getColor(R.color.channel_chip_background)));
+
         }
 
     }
@@ -93,6 +102,7 @@ public class SelectChannelChipAdapter extends RecyclerView.Adapter<SelectChannel
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        MaterialCardView channelChip;
         ImageView channelIcon, welcomeIcon;
         AlwaysMarqueeTextView channelName, membersCount, roleCount;
         LinearLayout rolesLayout, membersLayout;
@@ -107,7 +117,7 @@ public class SelectChannelChipAdapter extends RecyclerView.Adapter<SelectChannel
             roleCount = v.findViewById(R.id.roles_count);
             rolesLayout = v.findViewById(R.id.roles_layout);
             membersLayout = v.findViewById(R.id.members_layout);
-
+            channelChip = v.findViewById(R.id.channel_chip);
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override

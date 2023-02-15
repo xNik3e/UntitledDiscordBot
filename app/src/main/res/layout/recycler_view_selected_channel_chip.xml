@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/dp_4"
+    android:id="@+id/channel_chip"
     android:elevation="0dp"
     app:cardBackgroundColor="@color/channel_chip_background"
     app:cardCornerRadius="@dimen/dp_4"

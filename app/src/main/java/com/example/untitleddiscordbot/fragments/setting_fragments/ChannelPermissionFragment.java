@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,6 +30,7 @@ import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class ChannelPermissionFragment extends Fragment {
@@ -94,15 +96,39 @@ public class ChannelPermissionFragment extends Fragment {
                 "\n" +
                 "If no specific role selected, permission would be granted to users with roles defined in the core settings.");
 
+
+
         OnSelectChannelChipClickInterface onChannelInterface = new OnSelectChannelChipClickInterface() {
             @Override
             public void onCLick(ChannelPermissionsModel model) {
 
             }
         };
-
-        channelPermissions.addAll(ADL.getSettings().getChannelPermissions());
         selectChannelChipAdapter = new SelectChannelChipAdapter(ctx, channelPermissions, onChannelInterface);
+
+        mainViewModel.getAllDataModel().observe(getViewLifecycleOwner(), new Observer<AllDataModel>() {
+            @Override
+            public void onChanged(AllDataModel allDataModel) {
+                ADL = allDataModel;
+                List<ChannelPermissionsModel> CP = ADL.getSettings().getChannelPermissions();
+                if (CP != null){
+                    channelPermissions.clear();
+                    channelPermissions.addAll(CP.stream().filter(x -> {
+                        return x.isChecked() || x.isGrouped();
+                    }).collect(Collectors.toList()));
+                }
+                selectChannelChipAdapter.notifyDataSetChanged();
+                updateUI();
+            }
+        });
+
+        List<ChannelPermissionsModel> CP = ADL.getSettings().getChannelPermissions();
+        if (CP != null){
+            this.channelPermissions.addAll(CP.stream().filter(x -> {
+                return x.isChecked() || x.isGrouped();
+            }).collect(Collectors.toList()));
+        }
+
         LinearLayoutManager LLM = new LinearLayoutManager(ctx);
         RVSelectedChannels.setAdapter(selectChannelChipAdapter);
         RVSelectedChannels.setLayoutManager(LLM);
@@ -113,6 +139,7 @@ public class ChannelPermissionFragment extends Fragment {
                 startActivity(new Intent(ctx, ChooseChannelsActivity.class));
             }
         });
+
 
         updateUI();
     }

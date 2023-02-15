@@ -2,26 +2,45 @@ package com.example.untitleddiscordbot.Models.Permissions;
 
 import androidx.annotation.Nullable;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ChannelPermissionsModel {
-    private String channelId;
-    private String parentId;
-    private String channelName;
-    private boolean isGroup;
-    private int type;
-    private List<String> requiredRoleIds;
-    private List<String> memberIds;
-    private boolean isDefault;
+    @SerializedName("defaultChannel")
+    private boolean defaultChannel;
+
+    @SerializedName("checked")
     private boolean checked;
+
+    @SerializedName("channelName")
+    private String channelName;
+
+    @SerializedName("grouped")
+    private boolean grouped;
+
+    @SerializedName("type")
+    private int type;
+
+    @SerializedName("channelId")
+    private String channelId;
+
+    @SerializedName("memberIds")
+    private List<String> memberIds;
+
+    @SerializedName("parentId")
+    private String parentId;
+
+    @SerializedName("requiredRoleIds")
+    private List<String> requiredRoleIds;
 
     public ChannelPermissionsModel() {
         this.channelId = "";
-        this.isGroup = false;
+        this.grouped = false;
         this.requiredRoleIds = new ArrayList<>();
         this.memberIds = new ArrayList<>();
-        this.isDefault = false;
+        this.defaultChannel = false;
         this.checked = false;
         this.channelName = "";
         this.type = 0;
@@ -76,12 +95,12 @@ public class ChannelPermissionsModel {
         this.channelId = channelId;
     }
 
-    public boolean isGroup() {
-        return isGroup;
+    public boolean isGrouped() {
+        return grouped;
     }
 
-    public void setGroup(boolean group) {
-        isGroup = group;
+    public void setGrouped(boolean grouped) {
+        this.grouped = grouped;
     }
 
     public List<String> getRequiredRoleIds() {
@@ -100,12 +119,12 @@ public class ChannelPermissionsModel {
         this.memberIds = memberIds;
     }
 
-    public boolean isDefault() {
-        return isDefault;
+    public boolean isDefaultChannel() {
+        return defaultChannel;
     }
 
-    public void setDefault(boolean aDefault) {
-        isDefault = aDefault;
+    public void setDefaultChannel(boolean defaultChannel) {
+        this.defaultChannel = defaultChannel;
     }
 
     @Override
@@ -135,9 +154,9 @@ public class ChannelPermissionsModel {
         return channelId.equals(that.channelId) &&
                 parentId.equals(that.parentId) &&
                 channelName.equals(that.channelName) &&
-                isGroup == that.isGroup &&
+                grouped == that.grouped &&
                 type == that.type &&
-                isDefault == that.isDefault &&
+                defaultChannel == that.defaultChannel &&
                 checked == that.checked;
     }
 }

@@ -192,7 +192,7 @@ public class MainRepository {
     }
 
     public void saveSettings(SettingsModel settingsModel) {
-        //dummy data
+
         Call<DefaultResponse<String>> call = myApiService.saveSettings(settingsModel);
         call.enqueue(new Callback<DefaultResponse<String>>() {
             @Override

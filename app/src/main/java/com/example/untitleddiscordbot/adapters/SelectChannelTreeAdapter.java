@@ -1,7 +1,6 @@
 package com.example.untitleddiscordbot.adapters;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
@@ -107,7 +105,7 @@ public class SelectChannelTreeAdapter extends RecyclerView.Adapter<SelectChannel
             holder.channelCard.setCardBackgroundColor(ctx.getResources().getColor(R.color.transparent));
             ChannelPermissionsModel model = channelPermissions.stream().filter(x->x.getChannelId().equals(channelId)).findFirst().orElse(null);
             if(model != null){
-                if(model.isGroup()){
+                if(model.isGrouped()){
                     holder.selector.setVisibility(View.VISIBLE);
                 }
                 if(model.isChecked()){
@@ -122,7 +120,7 @@ public class SelectChannelTreeAdapter extends RecyclerView.Adapter<SelectChannel
                 holder.channelMembersCount.setText(String.valueOf(model.getMemberIds().size()));
                 holder.channelRolesCount.setText(String.valueOf(model.getRequiredRoleIds().size()));
 
-                if(model.isDefault()){
+                if(model.isDefaultChannel()){
                     holder.channelWelcomeIcon.setVisibility(View.VISIBLE);
                 }else
                     holder.channelWelcomeIcon.setVisibility(View.GONE);
@@ -167,17 +165,17 @@ public class SelectChannelTreeAdapter extends RecyclerView.Adapter<SelectChannel
                         ChannelPermissionsModel channelPermissionsModel = channelPermissions.stream().filter(x->x.getChannelId().equals(id)).findFirst().orElse(null);
                         DetailedChannelItem child = childrenChannels.stream().filter(x->x.getId().equals(id)).findFirst().orElse(null);
                         if(channelPermissionsModel != null){
-                            channelPermissionsModel.setGroup(true);
+                            channelPermissionsModel.setGrouped(true);
                         }else{
                             channelPermissionsModel = new ChannelPermissionsModel();
                             channelPermissionsModel.setChecked(false);
                             channelPermissionsModel.setParentId(channelId);
                             channelPermissionsModel.setChannelId(id);
-                            channelPermissionsModel.setGroup(true);
+                            channelPermissionsModel.setGrouped(true);
                             channelPermissionsModel.setType(child.getType());
                             channelPermissionsModel.setMemberIds(new ArrayList<>());
                             channelPermissionsModel.setRequiredRoleIds(new ArrayList<>());
-                            channelPermissionsModel.setDefault(false);
+                            channelPermissionsModel.setDefaultChannel(false);
                             channelPermissionsModel.setChannelName(child.getName());
 
                             channelPermissions.add(channelPermissionsModel);
@@ -192,7 +190,7 @@ public class SelectChannelTreeAdapter extends RecyclerView.Adapter<SelectChannel
                         int pos = channels.indexOf(childrenChannels.stream().filter(x->x.getId().equals(id)).findFirst().orElse(null));
                         ChannelPermissionsModel channelPermissionsModel = channelPermissions.stream().filter(x->x.getChannelId().equals(id)).findFirst().orElse(null);
                         if(channelPermissionsModel != null){
-                            channelPermissionsModel.setGroup(false);
+                            channelPermissionsModel.setGrouped(false);
                         }
                         notifyItemChanged(pos);
                     }
@@ -202,11 +200,11 @@ public class SelectChannelTreeAdapter extends RecyclerView.Adapter<SelectChannel
                 channelModel.setChecked(true);
                 channelModel.setParentId(null);
                 channelModel.setChannelId(channelId);
-                channelModel.setGroup(false);
+                channelModel.setGrouped(false);
                 channelModel.setType(item.getType());
                 channelModel.setMemberIds(new ArrayList<>());
                 channelModel.setRequiredRoleIds(new ArrayList<>());
-                channelModel.setDefault(false);
+                channelModel.setDefaultChannel(false);
                 channelModel.setChannelName(item.getName());
                 channelPermissions.add(channelModel);
 
@@ -215,17 +213,17 @@ public class SelectChannelTreeAdapter extends RecyclerView.Adapter<SelectChannel
                     ChannelPermissionsModel channelPermissionsModel = channelPermissions.stream().filter(x->x.getChannelId().equals(id)).findFirst().orElse(null);
                     DetailedChannelItem child = childrenChannels.stream().filter(x->x.getId().equals(id)).findFirst().orElse(null);
                     if(channelPermissionsModel != null){
-                        channelPermissionsModel.setGroup(true);
+                        channelPermissionsModel.setGrouped(true);
                     }else{
                         channelPermissionsModel = new ChannelPermissionsModel();
                         channelPermissionsModel.setChecked(false);
                         channelPermissionsModel.setParentId(channelId);
                         channelPermissionsModel.setChannelId(id);
-                        channelPermissionsModel.setGroup(true);
+                        channelPermissionsModel.setGrouped(true);
                         channelPermissionsModel.setType(child.getType());
                         channelPermissionsModel.setMemberIds(new ArrayList<>());
                         channelPermissionsModel.setRequiredRoleIds(new ArrayList<>());
-                        channelPermissionsModel.setDefault(false);
+                        channelPermissionsModel.setDefaultChannel(false);
                         channelPermissionsModel.setChannelName(child.getName());
                         channelPermissions.add(channelPermissionsModel);
                     }
@@ -246,11 +244,11 @@ public class SelectChannelTreeAdapter extends RecyclerView.Adapter<SelectChannel
                 model.setChecked(true);
                 model.setParentId(item.getParentId());
                 model.setChannelId(channelId);
-                model.setGroup(false);
+                model.setGrouped(false);
                 model.setType(item.getType());
                 model.setMemberIds(new ArrayList<>());
                 model.setRequiredRoleIds(new ArrayList<>());
-                model.setDefault(false);
+                model.setDefaultChannel(false);
                 model.setChannelName(item.getName());
                 channelPermissions.add(model);
             }

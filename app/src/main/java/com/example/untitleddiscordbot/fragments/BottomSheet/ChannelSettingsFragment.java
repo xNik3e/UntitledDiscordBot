@@ -29,7 +29,6 @@ import com.example.untitleddiscordbot.Models.DetailedGuild.RolesItem;
 import com.example.untitleddiscordbot.Models.DetailedMembers.DetailedMemberItem;
 import com.example.untitleddiscordbot.Models.DetailedMembers.User;
 import com.example.untitleddiscordbot.Models.Permissions.ChannelPermissionsModel;
-import com.example.untitleddiscordbot.Models.SettingsModel;
 import com.example.untitleddiscordbot.R;
 import com.example.untitleddiscordbot.Utils.AlwaysMarqueeTextView;
 import com.example.untitleddiscordbot.adapters.IncludedMemberAdapter;
@@ -54,7 +53,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import me.xdrop.fuzzywuzzy.FuzzySearch;
 import me.xdrop.fuzzywuzzy.model.BoundExtractedResult;
@@ -692,7 +690,7 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
             isCreated = true;
             foundChannelPermissions = new ChannelPermissionsModel();
             foundChannelPermissions.setChannelId(item.getId());
-            foundChannelPermissions.setGroup(item.getType() == 4);
+            foundChannelPermissions.setGrouped(item.getType() == 4);
             foundChannelPermissions.setChannelName(item.getName());
             foundChannelPermissions.setParentId(item.getParentId());
             foundChannelPermissions.setType(item.getType());
@@ -705,9 +703,9 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
 
             if (welcomeChannelToggle.isChecked()) {
                 for (ChannelPermissionsModel CPM : channelPermissionsModel) {
-                    CPM.setDefault(false);
+                    CPM.setDefaultChannel(false);
                 }
-                foundChannelPermissions.setDefault(true);
+                foundChannelPermissions.setDefaultChannel(true);
             }
             if (isCreated) {
                 channelPermissionsModel.add(foundChannelPermissions);
@@ -716,12 +714,14 @@ public class ChannelSettingsFragment extends BottomSheetDialogFragment {
         }else{
             if (welcomeChannelToggle.isChecked()) {
                 for (ChannelPermissionsModel CPM : channelPermissionsModel) {
-                    CPM.setDefault(false);
+                    CPM.setDefaultChannel(false);
                 }
-                foundChannelPermissions.setDefault(true);
-                if (isCreated) {
-                    channelPermissionsModel.add(foundChannelPermissions);
-                }
+                foundChannelPermissions.setDefaultChannel(true);
+            }
+            foundChannelPermissions.setMemberIds(includedMemberIds);
+            foundChannelPermissions.setRequiredRoleIds(includedRoleIds);
+            if (isCreated) {
+                channelPermissionsModel.add(foundChannelPermissions);
             }
             onDialogDismissNewPermissionsListener.onClick(channelPermissionsModel);
 

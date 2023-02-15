@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 import com.example.untitleddiscordbot.Models.AllModel.AllDataModel;
 import com.example.untitleddiscordbot.Models.DetailedChannels.DetailedChannelItem;
 import com.example.untitleddiscordbot.Models.Permissions.ChannelPermissionsModel;
+import com.example.untitleddiscordbot.Models.SettingsModel;
 import com.example.untitleddiscordbot.adapters.SelectChannelTreeAdapter;
 import com.example.untitleddiscordbot.fragments.BottomSheet.ChannelSettingsFragment;
 import com.example.untitleddiscordbot.interfaces.OnChannelSettingsClickInterface;
@@ -70,6 +71,18 @@ public class ChooseChannelsActivity extends AppCompatActivity {
             }
         });
 
+
+        saveFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingsModel tempSettings = new SettingsModel(ADL.getSettings());
+                tempSettings.setChannelPermissions(channelPermissions);
+                mainViewModel.saveSettings(tempSettings);
+
+                onBackPressed();
+            }
+        });
+
     }
 
 
@@ -86,5 +99,12 @@ public class ChooseChannelsActivity extends AppCompatActivity {
                 mainViewModel
         );
         channelSettingsFragment.show(getSupportFragmentManager(), "channelSettingsFragment");
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        //finish affinity and remove task
+        finish();
     }
 }

@@ -4,24 +4,44 @@ import androidx.annotation.Nullable;
 
 import com.example.untitleddiscordbot.Models.DetailedGuild.RolesItem;
 import com.example.untitleddiscordbot.Models.Permissions.ChannelPermissionsModel;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SettingsModel {
-    private String guildId;
-    private String prefix;
-    private List<String> requiredRoleIds;
+    @SerializedName("ignoredRoleIds")
     private List<String> ignoredRoleIds;
-    private int autoDeleteTrigger;
-    private int autoDeleteResponse;
-    private boolean autoDeleteTriggerEnabled;
-    private boolean autoDeleteResponseEnabled;
 
+    @SerializedName("autoDeleteTrigger")
+    private int autoDeleteTrigger;
+
+    @SerializedName("isDefaultChannelEnabled")
     private boolean isDefaultChannelEnabled;
+
+    @SerializedName("channelPermissions")
+    private List<ChannelPermissionsModel> channelPermissions;
+
+    @SerializedName("autoDeleteTriggerEnabled")
+    private boolean autoDeleteTriggerEnabled;
+
+    @SerializedName("prefix")
+    private String prefix;
+
+    @SerializedName("defaultChannelId")
     private String defaultChannelId;
 
-    private List<ChannelPermissionsModel> channelPermissions;
+    @SerializedName("guildId")
+    private String guildId;
+
+    @SerializedName("requiredRoleIds")
+    private List<String> requiredRoleIds;
+
+    @SerializedName("autoDeleteResponse")
+    private int autoDeleteResponse;
+
+    @SerializedName("autoDeleteResponseEnabled")
+    private boolean autoDeleteResponseEnabled;
 
 
     public static SettingsModel getSettingsModel(String guildId) {
@@ -38,8 +58,8 @@ public class SettingsModel {
         this.prefix = "";
         this.requiredRoleIds = new ArrayList<>();
         this.ignoredRoleIds = new ArrayList<>();
-        this.autoDeleteTrigger = 0;
-        this.autoDeleteResponse = 0;
+        this.autoDeleteTrigger = 5;
+        this.autoDeleteResponse = 5;
         this.autoDeleteTriggerEnabled = false;
         this.autoDeleteResponseEnabled = false;
         this.isDefaultChannelEnabled = false;
@@ -77,8 +97,8 @@ public class SettingsModel {
         }
         settingsModel.setIgnoredRoleIds(ignoredDummyRoleId);
 
-        settingsModel.setAutoDeleteTrigger(0);
-        settingsModel.setAutoDeleteResponse(0);
+        settingsModel.setAutoDeleteTrigger(5);
+        settingsModel.setAutoDeleteResponse(5);
         settingsModel.setAutoDeleteTriggerEnabled(false);
         settingsModel.setAutoDeleteResponseEnabled(false);
 
@@ -97,8 +117,8 @@ public class SettingsModel {
         settingsModel.setPrefix("!");
         settingsModel.setRequiredRoleIds(new ArrayList<>());
         settingsModel.setIgnoredRoleIds(new ArrayList<>());
-        settingsModel.setAutoDeleteTrigger(0);
-        settingsModel.setAutoDeleteResponse(0);
+        settingsModel.setAutoDeleteTrigger(5);
+        settingsModel.setAutoDeleteResponse(5);
         settingsModel.setAutoDeleteTriggerEnabled(false);
         settingsModel.setAutoDeleteResponseEnabled(false);
         settingsModel.setDefaultChannelId("");
