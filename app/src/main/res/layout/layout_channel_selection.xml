@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:elevation="@dimen/dp_8"
+    app:cardBackgroundColor="@color/surface_dark_grey"
+    app:cardCornerRadius="@dimen/dp_16"
+    app:strokeWidth="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dp_24"
+        android:paddingRight="@dimen/dp_24"
+        android:paddingTop="@dimen/dp_16"
+        android:paddingBottom="@dimen/dp_16">
+
+        <TextView
+            style="@style/myFontStyle.Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/dp_8"
+            android:text="Selected channels"
+            android:textSize="@dimen/text_medium"
+
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/myFontStyle.Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/channels_with_configured_permissions"
+            android:textSize="@dimen/text_tiny"
+            android:paddingBottom="@dimen/dp_8"
+            android:textStyle="italic" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/selected_channels"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layoutAnimation="@anim/layout_animation"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/dp_8"
+            android:scrollbars="none"
+            tools:listitem="@layout/recycler_view_selected_channel_chip"
+            android:visibility="visible" />
+
+
+        <TextView
+            android:id="@+id/empty_require"
+            style="@style/myFontStyle.Regular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/dp_16"
+            android:text="@string/none_selected"
+            android:textSize="@dimen/text_tiny"
+            android:textStyle="italic"
+            android:visibility="gone" />
+
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/edit_channels_button"
+            style="@style/buttonChoose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_8"
+            android:text="@string/edit_channels"
+            />
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

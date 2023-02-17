@@ -47,4 +47,13 @@
     <string name="choose_roles">Choose roles</string>
     <string name="nothing_found_search">Nothing found\nChange search query</string>
     <string name="select_settings">Select settings</string>
+    <string name="channel_permission">Channel permission</string>
+    <string name="channels_with_configured_permissions">Channels with configured permissions</string>
+    <string name="edit_channels">Edit channels</string>
+    <string name="save">SAVE</string>
+    <string name="toggle_welcome_channel">Toggle welcome\nchannel</string>
+    <string name="roles">Roles</string>
+    <string name="members">Members</string>
+    <string name="channel_info">Channel info</string>
+    <string name="this_channel_is_set_to_be_a_default_one_for_sending_messages">This channel is set to be a default one for sending messages</string>
 </resources>

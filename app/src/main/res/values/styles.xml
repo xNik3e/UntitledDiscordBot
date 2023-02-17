@@ -109,5 +109,16 @@
 
     </style>
 
+    <style name="myFAB" parent="Widget.Material3.ExtendedFloatingActionButton.Primary">
+        <item name="materialThemeOverlay">@style/extendedFabThemeOverlay</item>
+
+
+    </style>
+
+
+    <style name="extendedFabThemeOverlay" parent="">
+        <item name="colorContainer">@color/channel_chip_background</item>
+        <item name="colorOnContainer">@color/white</item>
+    </style>
 
 </resources>

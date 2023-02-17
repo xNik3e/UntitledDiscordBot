@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:focusable="false"
+    android:focusableInTouchMode="false"
+    tools:context=".fragments.BottomSheet.ChannelInfoFragment">
+
+    <FrameLayout
+        android:id="@+id/bottom_sheet"
+        style="@style/myBottomModalSheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="false"
+        android:focusableInTouchMode="false">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+                android:id="@+id/drag_handle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/channel_label"
+                style="@style/myFontStyle.Headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:maxEms="6"
+                android:maxLines="1"
+                android:paddingTop="@dimen/dp_16"
+                android:paddingBottom="@dimen/dp_16"
+                android:singleLine="true"
+                android:text="@string/channel_info"
+                android:textSize="@dimen/text_huge"
+                app:layout_constraintStart_toEndOf="@id/vg04"
+                app:layout_constraintTop_toBottomOf="@id/drag_handle" />
+
+            <ImageView
+                android:id="@+id/channel_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                android:src="@drawable/ic_hash"
+                app:layout_constraintBottom_toBottomOf="@id/channel_name"
+                app:layout_constraintStart_toEndOf="@id/vg04"
+                app:layout_constraintTop_toTopOf="@id/channel_name"
+                app:tint="@color/white" />
+
+            <com.example.untitleddiscordbot.Utils.AlwaysMarqueeTextView
+                android:id="@+id/channel_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:maxEms="6"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_medium"
+                app:layout_constraintEnd_toStartOf="@id/vg5"
+                app:layout_constraintStart_toEndOf="@id/channel_icon"
+                app:layout_constraintTop_toBottomOf="@id/channel_label"
+                tools:text="generalniesdfghjhgfdsdfghgfdsdfghfdfg" />
+
+            <ImageView
+                android:id="@+id/welcome_channel_icon"
+                android:layout_width="@dimen/dp_36"
+                android:layout_height="0dp"
+                android:visibility="visible"
+                android:src="@drawable/ic_confetti"
+                app:layout_constraintBottom_toBottomOf="@id/channel_label"
+                app:layout_constraintEnd_toStartOf="@id/vg96"
+                app:layout_constraintTop_toTopOf="@id/channel_label"
+                app:tint="@color/white" />
+
+            <TextView
+                android:id="@+id/welcome_channel_label"
+                android:layout_width="0dp"
+                android:visibility="visible"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_24"
+                android:text="@string/this_channel_is_set_to_be_a_default_one_for_sending_messages"
+                android:textAlignment="viewEnd"
+                android:textSize="@dimen/text_tiny"
+                app:layout_constraintEnd_toStartOf="@id/vg96"
+                app:layout_constraintStart_toEndOf="@id/vg5"
+                app:layout_constraintTop_toBottomOf="@id/welcome_channel_icon" />
+
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_32"
+                app:layout_constraintEnd_toStartOf="@id/vg96"
+                app:layout_constraintStart_toEndOf="@id/vg04"
+                app:layout_constraintTop_toBottomOf="@id/channel_name">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/roles_rv_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true">
+
+                        <TextView
+                            android:id="@+id/roles_label"
+                            style="@style/myFontStyle.Headline"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/roles"
+                            android:textSize="@dimen/text_huge" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_available_roles"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_below="@id/roles_label"
+                            android:layout_marginTop="@dimen/dp_8"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:nestedScrollingEnabled="false"
+                            android:paddingBottom="@dimen/dp_16"
+                            android:scrollbars="none"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                            tools:itemCount="5"
+                            tools:listitem="@layout/recycler_view_select_role" />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/members_rv_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true">
+
+                        <TextView
+                            android:id="@+id/members_label"
+                            style="@style/myFontStyle.Headline"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/members"
+                            android:textSize="@dimen/text_huge" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_available_members"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_below="@id/members_label"
+                            android:layout_marginTop="@dimen/dp_8"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:nestedScrollingEnabled="false"
+                            android:paddingBottom="@dimen/dp_16"
+                            android:scrollbars="none"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                            tools:itemCount="5"
+                            tools:listitem="@layout/recycler_view_select_member" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/vg04"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.04" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/vg5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/vg96"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.96" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+</FrameLayout>

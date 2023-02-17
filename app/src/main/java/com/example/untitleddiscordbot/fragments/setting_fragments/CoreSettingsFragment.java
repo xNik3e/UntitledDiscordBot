@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -201,7 +202,7 @@ public class CoreSettingsFragment extends Fragment {
                         p = "-";
                     }
                     settingsModel.setPrefix(p);
-
+                    viewModel.saveSettings(new SettingsModel(settingsModel));
                 }
 
             }
@@ -213,16 +214,69 @@ public class CoreSettingsFragment extends Fragment {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     hideKeyboard(v);
+                    boolean isValid = true;
+                    String text = deleteTriggerTime.getText().toString();
+                    if(text.length() == 0){
+                        Toast.makeText(ctx, "This field should not be empty", Toast.LENGTH_SHORT).show();
+                        isValid = false;
+                    }
+                    if(text.length() > 0 && Integer.parseInt(text.toString()) == 0){
+                        Toast.makeText(ctx, "Trigger should not be 0", Toast.LENGTH_SHORT).show();
+                        isValid = false;
+                    }
+                    if(isValid){
+                        settingsModel.setAutoDeleteTrigger(Integer.parseInt(text));
+                        viewModel.saveSettings(new SettingsModel(settingsModel));
+                    }else{
+                        deleteTriggerTime.setText("5");
+                        deleteTriggerSwitch.setChecked(false);
+                    }
                 }
             }
         });
+
 
         deleteResponseTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     hideKeyboard(v);
+                    boolean isValid = true;
+                    String text = deleteResponseTime.getText().toString();
+                    if(text.length() == 0){
+                        Toast.makeText(ctx, "This field should not be empty", Toast.LENGTH_SHORT).show();
+                        isValid = false;
+                    }
+                    if(text.length() > 0 && Integer.parseInt(text.toString()) == 0){
+                        Toast.makeText(ctx, "Trigger should not be 0", Toast.LENGTH_SHORT).show();
+                        isValid = false;
+                    }
+                    if(isValid){
+                        settingsModel.setAutoDeleteResponse(Integer.parseInt(text));
+                        viewModel.saveSettings(new SettingsModel(settingsModel));
+                    }else{
+                        deleteResponseSwitch.setChecked(false);
+                        deleteResponseTime.setText("5");
+                    }
                 }
+            }
+        });
+
+        deleteTriggerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                settingsModel.setAutoDeleteTriggerEnabled(isChecked);
+                settingsModel.setAutoDeleteTrigger(Integer.parseInt(deleteTriggerTime.getText().toString()));
+                viewModel.saveSettings(new SettingsModel(settingsModel));
+            }
+        });
+
+        deleteResponseSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                settingsModel.setAutoDeleteResponseEnabled(isChecked);
+                settingsModel.setAutoDeleteResponse(Integer.parseInt(deleteResponseTime.getText().toString()));
+                viewModel.saveSettings(new SettingsModel(settingsModel));
             }
         });
 

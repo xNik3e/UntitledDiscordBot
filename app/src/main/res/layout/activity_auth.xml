@@ -40,8 +40,6 @@
         app:autoPlayDelay="10000"
         app:captionMargin="0dp"
         app:showCaption="false"
-
-
         app:carouselType="SHOWCASE"
         app:layout_constraintBottom_toTopOf="@id/login_button"
         app:layout_constraintStart_toEndOf="@id/vg05"
@@ -53,7 +51,6 @@
         app:showIndicator="true"
         app:showNavigationButtons="false"
         app:showTopShadow="false"
-
         />
 
     <com.google.android.material.button.MaterialButton

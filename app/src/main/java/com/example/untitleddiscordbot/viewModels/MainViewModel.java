@@ -15,12 +15,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class MainViewModel extends ViewModel {
+
     private MainRepository mainRepository;
+
     private final LiveData<UserModel> userModel;
     private final LiveData<List<UserGuildModelItem>> userGuildModel;
     private MutableLiveData<Boolean> isUserGuildsUpdated = new MutableLiveData<>(false);
     private final LiveData<AllDataModel> allDataModel;
-
     private LiveData<UserGuildModelItem> selectedServer;
     private final LiveData<DetailedGuildItem> detailedGuildItemModel;
 
@@ -28,12 +29,11 @@ public class MainViewModel extends ViewModel {
         this.mainRepository = mainRepository;
 
         userModel = mainRepository.getUserModel();
-        userGuildModel =  mainRepository.getUserGuildModel();
+        userGuildModel = mainRepository.getUserGuildModel();
         selectedServer = mainRepository.getSelectedServer();
         detailedGuildItemModel = mainRepository.getDetailedGuildModel();
         allDataModel = mainRepository.getAllDataModel();
     }
-
 
     public LiveData<List<UserGuildModelItem>> getUserGuildModel() {
         return userGuildModel;
@@ -43,15 +43,15 @@ public class MainViewModel extends ViewModel {
         return userModel;
     }
 
-    public UserModel getStoredUserModel(){
+    public UserModel getStoredUserModel() {
         return userModel.getValue();
     }
 
-    public List<UserGuildModelItem> getStoredUserGuildModel(){
+    public List<UserGuildModelItem> getStoredUserGuildModel() {
         return userGuildModel.getValue();
     }
 
-    public LiveData<Boolean> isUserGuildsUpdated(){
+    public LiveData<Boolean> isUserGuildsUpdated() {
         return isUserGuildsUpdated;
     }
 
@@ -63,7 +63,7 @@ public class MainViewModel extends ViewModel {
         mainRepository.fetchUserGuilds(auth);
     }
 
-    public void updateUserGuilds(){
+    public void updateUserGuilds() {
         isUserGuildsUpdated.setValue(true);
         List<String> ids = userGuildModel.getValue().stream().map(UserGuildModelItem::getId).collect(Collectors.toList());
         mainRepository.getUpdatedGuilds(ids);
@@ -74,36 +74,45 @@ public class MainViewModel extends ViewModel {
         isUserGuildsUpdated.setValue(false);
     }
 
-    public void setSelectedServer(UserGuildModelItem userGuildModelItem){
+    public void setSelectedServer(UserGuildModelItem userGuildModelItem) {
         mainRepository.setSelectedServer(userGuildModelItem);
     }
 
-    public LiveData<UserGuildModelItem> getSelectedServerLiveData(){
+    public LiveData<UserGuildModelItem> getSelectedServerLiveData() {
         return selectedServer;
     }
 
-    public UserGuildModelItem getSelectedServer(){
+    public UserGuildModelItem getSelectedServer() {
         return selectedServer.getValue();
     }
 
-    public LiveData<DetailedGuildItem> getDetailedGuild(){
+    public LiveData<DetailedGuildItem> getDetailedGuild() {
         return detailedGuildItemModel;
     }
 
-    public void fetchDetailedGuild(String guildId){
+    public void fetchDetailedGuild(String guildId) {
         mainRepository.getDetailedGuild(guildId);
     }
 
-    public LiveData<AllDataModel> getAllDataModel(){
+    public LiveData<AllDataModel> getAllDataModel() {
         return allDataModel;
     }
 
-    public SettingsModel getSettingsModel(){
+    public SettingsModel getSettingsModel() {
         return allDataModel.getValue().getSettings();
     }
 
-    public void updateSettings(SettingsModel settingsModel){
-        mainRepository.updateSettings(settingsModel);
+    public void updateSettings(SettingsModel settingsModel) {
+        SettingsModel temp = getSettingsModel();
+        if(!temp.equals(settingsModel)){
+            saveSettings(settingsModel);
+        }
     }
+
+    public void saveSettings(SettingsModel settingsModel){
+        mainRepository.saveSettings(settingsModel);
+    }
+
+
 
 }

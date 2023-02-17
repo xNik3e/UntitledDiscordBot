@@ -91,6 +91,7 @@
                                 style="@style/myFontStyle.Regular"
                                 android:layout_width="match_parent"
                                 android:maxLength="2"
+                                android:text="5"
                                 android:layout_height="wrap_content"
                                 android:inputType="numberDecimal"
                                 android:textColor="@color/active_color"
@@ -155,6 +156,7 @@
                                 android:layout_height="wrap_content"
                                 android:inputType="numberDecimal"
                                 android:maxLength="2"
+                                android:text="5"
                                 android:textColor="@color/active_color"
                                 android:textSize="@dimen/text_medium" />
 
@@ -171,6 +173,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_4"
             android:text="@string/trigger_info"
+            android:textSize="@dimen/text_tiny"
+            android:textStyle="italic" />
+        <TextView
+            style="@style/myFontStyle.Regular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_4"
+            android:text="Default value is set to 5 seconds"
             android:textSize="@dimen/text_tiny"
             android:textStyle="italic" />
 

@@ -91,4 +91,11 @@ public class UserGuildModelItem{
 	public String getPermissionsNew(){
 		return permissionsNew;
 	}
+
+	public UserGuildModelItem() {
+	}
+
+	public UserGuildModelItem(String id) {
+		this.id = id;
+	}
 }

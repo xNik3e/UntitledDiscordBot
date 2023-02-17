@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dp_4"
+    android:id="@+id/channel_chip"
+    android:elevation="0dp"
+    app:cardBackgroundColor="@color/channel_chip_background"
+    app:cardCornerRadius="@dimen/dp_4"
+    app:strokeWidth="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:orientation="horizontal"
+        android:padding="@dimen/dp_8"
+        android:weightSum="8">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:id="@+id/channel_type_icon"
+                android:layout_width="@dimen/dp_24"
+                android:layout_height="@dimen/dp_24"
+                android:layout_marginEnd="@dimen/dp_8"
+                android:scaleType="centerCrop"
+                app:tint="@color/white_stroke"
+                tools:src="@drawable/ic_folder" />
+
+            <com.example.untitleddiscordbot.Utils.AlwaysMarqueeTextView
+                android:id="@+id/channel_name"
+                style="@style/myFontStyle.Regular.FontPadding"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/dp_8"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textSize="@dimen/text_very_small"
+                android:textStyle="bold"
+                tools:text="MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMmm" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_weight="4"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:id="@+id/roles_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <ImageView
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
+                    android:src="@drawable/ic_permissions"
+                    app:tint="@color/white" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
+                    android:elevation="0dp"
+                    app:cardBackgroundColor="@color/white_stroke_transparent_25"
+                    app:cardCornerRadius="@dimen/dp_8"
+                    app:strokeColor="@color/white_stroke"
+                    app:strokeWidth="@dimen/dp_1">
+
+                    <com.example.untitleddiscordbot.Utils.AlwaysMarqueeTextView
+                        android:id="@+id/roles_count"
+                        style="@style/myFontStyle.Regular.FontPadding"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/dp_2"
+                        android:ellipsize="marquee"
+                        android:gravity="center"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:maxEms="4"
+                        android:maxLines="1"
+                        android:padding="@dimen/dp_2"
+                        android:singleLine="true"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/text_tiny"
+                        tools:text="999" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/members_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <ImageView
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
+                    android:src="@drawable/ic_member"
+                    app:tint="@color/white" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
+                    android:elevation="0dp"
+                    app:cardBackgroundColor="@color/white_stroke_transparent_25"
+                    app:cardCornerRadius="@dimen/dp_8"
+                    app:strokeColor="@color/white_stroke"
+                    app:strokeWidth="@dimen/dp_1">
+
+                    <com.example.untitleddiscordbot.Utils.AlwaysMarqueeTextView
+                        android:id="@+id/members_count"
+                        style="@style/myFontStyle.Regular.FontPadding"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/dp_2"
+                        android:ellipsize="marquee"
+                        android:gravity="center"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:maxEms="4"
+                        android:maxLines="1"
+                        android:padding="@dimen/dp_2"
+                        android:singleLine="true"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/text_tiny"
+                        tools:text="999" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/welcome_channel_icon"
+                android:layout_width="@dimen/dp_24"
+                android:layout_height="@dimen/dp_24"
+                android:layout_gravity="end"
+                android:layout_marginStart="@dimen/dp_4"
+                android:src="@drawable/ic_confetti"
+                android:visibility="visible"
+                app:tint="@color/white" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
