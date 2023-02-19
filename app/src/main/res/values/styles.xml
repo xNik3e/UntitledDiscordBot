@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <style name="myFontStyle">
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:lineSpacingExtra">0dp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="myFontStyle.Headline">
+        <item name="android:layout_marginTop">-1dp</item>
+        <item name="android:fontFamily">@font/avenir_roman</item>
+    </style>
+
+    <style name="myFontStyle.Regular">
+        <item name="android:fontFamily">@font/avenir_book</item>
+    </style>
+
+    <style name="myFontStyle.Regular.FontPadding">
+        <item name="android:includeFontPadding">true</item>
+    </style>
+
+    <style name="ownButton" parent="Widget.Material3.Button">
+        <item name="android:clickable">true</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:paddingLeft">@dimen/padding_24</item>
+        <item name="android:paddingTop">@dimen/padding_8</item>
+        <item name="android:paddingBottom">@dimen/padding_8</item>
+        <item name="android:paddingRight">@dimen/padding_24</item>
+    </style>
+
+    <style name="buttonLogin" parent="ownButton">
+        <item name="backgroundTint">@color/button_color</item>
+        <item name="strokeColor">@color/button_stroke</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="rippleColor">@color/button_discord_ripple</item>
+        <item name="android:fontFamily">@font/avenir_book</item>
+    </style>
+
+    <style name="buttonChoose" parent="@style/Widget.Material3.Button.OutlinedButton">
+        <item name="android:clickable">true</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="iconGravity">end</item>
+        <item name="android:layout_height">@dimen/dp_56</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/avenir_book</item>
+        <item name="iconTint">@color/white</item>
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:maxLines">1</item>
+        <item name="iconSize">@dimen/dp_24</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="strokeColor">@color/white_stroke</item>
+        <item name="android:paddingStart">@dimen/dp_24</item>
+        <item name="rippleColor">@color/button_white_ripple</item>
+    </style>
+
+
+    <style name="myBottomModalSheet" parent="@style/Widget.Material3.BottomSheet">
+        <item name="android:background">@drawable/modal_drawable</item>
+        <item name="shapeAppearance">@style/modalShapeAppearance</item>
+
+    </style>
+
+    <style name="modalShapeAppearance" parent="ShapeAppearance.Material3.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/dp_16</item>
+    </style>
+
+    <style name="inputLayer" parent="Widget.Material3.TextInputLayout.OutlinedBox.Dense">
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="hintTextColor">@color/white_stroke</item>
+        <item name="android:textColorHint">@color/grayish_white</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/corner_radius_button_12</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/corner_radius_button_12</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/corner_radius_button_12</item>
+        <item name="boxCornerRadiusTopStart">@dimen/corner_radius_button_12</item>
+        <item name="endIconTint">@color/white</item>
+        <item name="boxStrokeColor">@color/text_input_stroke_color</item>
+        <item name="errorIconDrawable">@null</item>
+        <item name="errorTextColor">@color/check_red</item>
+        <item name="boxStrokeErrorColor">@color/text_input_error_stroke_color</item>
+    </style>
+
+    <style name="mySwitch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+        <item name="thumbIcon">@drawable/switch_icon</item>
+        <item name="thumbTint">@color/thumb_tint_color</item>
+        <item name="trackTint">@color/track_tint_color</item>
+        <item name="thumbIconTint">@color/white</item>
+
+    </style>
+
+    <style name="myNavDrawer" parent="Widget.Material3.NavigationView">
+        <item name="materialThemeOverlay">@style/drawerThemeOverlay</item>
+        <item name="itemRippleColor">@color/drawer_item_ripple</item>
+
+    </style>
+
+    <style name="drawerThemeOverlay" parent="">
+        <item name="colorOnSecondaryContainer">@color/active_color</item>
+        <item name="colorSecondaryContainer">@color/active_color_25</item>
+        <item name="colorOnSurfaceVariant">@color/white</item>
+        <item name="colorSurface">@color/surface_dark</item>
+        <item name="colorOnSurface">@color/white</item>
+        <item name="colorPrimary">@color/black</item>
+
+
+    </style>
+
+    <style name="myFAB" parent="Widget.Material3.ExtendedFloatingActionButton.Primary">
+        <item name="materialThemeOverlay">@style/extendedFabThemeOverlay</item>
+
+
+    </style>
+
+
+    <style name="extendedFabThemeOverlay" parent="">
+        <item name="colorContainer">@color/channel_chip_background</item>
+        <item name="colorOnContainer">@color/white</item>
+    </style>
+
+</resources>

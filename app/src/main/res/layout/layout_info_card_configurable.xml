@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="@dimen/dp_8"
+    app:cardBackgroundColor="@color/surface_dark_grey"
+    app:cardCornerRadius="@dimen/dp_16"
+    app:strokeWidth="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dp_24"
+        android:paddingTop="@dimen/dp_16"
+        android:paddingRight="@dimen/dp_24"
+        android:paddingBottom="@dimen/dp_16">
+
+        <TextView
+            android:id="@+id/info_card_title"
+            style="@style/myFontStyle.Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/dp_12"
+            android:textSize="@dimen/text_medium"
+            android:textStyle="bold"
+            tools:text="Role Info" />
+
+        <TextView
+            android:id="@+id/info_card_content"
+            style="@style/myFontStyle.Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_tiny"
+            android:textStyle="italic"
+            tools:text="@string/require_one_of_roles_info" />
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

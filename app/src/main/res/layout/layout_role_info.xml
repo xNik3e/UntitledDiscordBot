@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:elevation="@dimen/padding_8"
+    app:cardBackgroundColor="@color/surface_dark_grey"
+    app:cardCornerRadius="@dimen/dp_16"
+    app:strokeWidth="0dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dp_24"
+        android:paddingTop="@dimen/dp_16"
+        android:paddingRight="@dimen/dp_24"
+        android:paddingBottom="@dimen/dp_16">
+
+
+        <TextView
+            style="@style/myFontStyle.Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/dp_6"
+            android:text="@string/role_info"
+            android:textSize="@dimen/text_medium"
+            android:textStyle="bold" />
+
+
+        <TextView
+            style="@style/myFontStyle.Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/require_one_of_roles_info"
+            android:textSize="@dimen/text_very_small"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/myFontStyle.Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/dp_8"
+            android:text="@string/require_one_of_roles_value"
+            android:textSize="@dimen/text_tiny"
+            android:textStyle="italic" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_roles_require"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:scrollbars="none"
+            android:layoutAnimation="@anim/layout_animation"
+            android:visibility="visible"
+            android:paddingBottom="@dimen/dp_8"
+            tools:itemCount="2"
+            tools:listitem="@layout/recycler_view_item_role_chip" />
+
+        <TextView
+            style="@style/myFontStyle.Regular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:id="@+id/empty_require"
+            android:padding="@dimen/dp_16"
+            android:text="@string/none_selected"
+            android:textSize="@dimen/text_tiny"
+            android:textStyle="italic"
+            android:visibility="gone" />
+
+        <TextView
+            style="@style/myFontStyle.Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ignore_users_with_one_of_these_roles"
+            android:textSize="@dimen/text_very_small"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/myFontStyle.Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/dp_8"
+            android:text="@string/role_ignored"
+            android:textSize="@dimen/text_tiny"
+            android:textStyle="italic" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_roles_ignore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layoutAnimation="@anim/layout_animation"
+            android:orientation="horizontal"
+            android:scrollbars="none"
+            android:visibility="gone"
+            tools:itemCount="2"
+            tools:listitem="@layout/recycler_view_item_role_chip" />
+
+        <TextView
+            style="@style/myFontStyle.Regular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:id="@+id/empty_ignore"
+            android:padding="@dimen/dp_16"
+            android:text="@string/none_selected"
+            android:textSize="@dimen/text_tiny"
+            android:textStyle="italic"
+            android:visibility="visible" />
+
+
+    </LinearLayout>
+
+
+</com.google.android.material.card.MaterialCardView>
